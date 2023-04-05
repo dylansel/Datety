@@ -11,13 +11,14 @@ import Notfond from './pages/Notfond';
 import Header from './components/Header';
 
 
-function App({ routes }) {
+function App() {
 
   return (
     <>
+      <Header/>
       <Router>
          <Routes>
-          <Route exact path="/" element={<h1>Home Page</h1>} />
+          <Route exact path="/" element={<About />} />
           <Route exact path="login" element={<Login />} />
           <Route exact path="registrer" element={<Register />} />
           <Route exact path="app" element={<APP />} />
