@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-export default function Notfond() {
+export default function NotFound() {
   return (
     <>
       <div>
