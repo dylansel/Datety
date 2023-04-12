@@ -1,0 +1,31 @@
+/* LINKS_HEADER_ANIMATION */
+
+@keyframes linkHover {
+    0%{
+        transform: translateY(0px);
+    }100%{
+        transform: translateY(-2px);
+    }
+}
+
+/* .link-item:hover {
+     animation: linkHover .6s ease;
+     animation-fill-mode: forwards;
+} */
+
+.link-item::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    background: #ffd;
+    height: 2.5px;
+    top: 25px;
+    transform: scale(0);
+    border-radius: 1px;
+    transition: .4s;
+    cursor: pointer;
+}
+
+.link-item:hover::before{
+    transform: scale(1.2);
+}
