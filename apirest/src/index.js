@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const crud = require('./CRUDs/crud')
 
 const app = express();
 
@@ -14,9 +15,16 @@ app.use(express.json());
 
 // Configure the routes for the application
 app.get('/', (req, res) => {
-    res.json({ "Title": "Hello Hord" })
+    res.json({ 
+        "Title": "datety",
+        "description": "La API se encuentra funcionando exitosamente"
+    })
 })
 
+app.get('/users', async (req, res) => {
+    const respuesta = await crud.getAll("event");
+    res.json(respuesta.results);
+})
 //app.use('/users', require('./routes/users'));
 //app.use('/posts', require('./routes/posts'));
 

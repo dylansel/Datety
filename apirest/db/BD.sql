@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS datety;
 CREATE DATABASE datety;
 USE datety;
-CREATE TABLE IF NOT EXISTS `idUser` (
+CREATE TABLE IF NOT EXISTS `user` (
   `idUser` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `surname` VARCHAR(50) NOT NULL,
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS `idUser` (
   `idEvent` INT NOT NULL,
   `endTime` DATE NOT NULL,
   PRIMARY KEY (`idNotification`),
-    FOREIGN KEY (`idSender`) REFERENCES `idUser` (`idUser`),
-    FOREIGN KEY (`idReceiver`) REFERENCES `idUser` (`idUser`)
+    FOREIGN KEY (`idSender`) REFERENCES `user` (`idUser`),
+    FOREIGN KEY (`idReceiver`) REFERENCES `user` (`idUser`)
     );
     
 CREATE TABLE IF NOT EXISTS `settings` (
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `endSleep` TIME NOT NULL,
   PRIMARY KEY (`idSettings`),
     FOREIGN KEY (`idUser`)
-    REFERENCES `idUser` (`idUser`)
+    REFERENCES `user` (`idUser`)
     );
  
  CREATE TABLE IF NOT EXISTS `event` (
@@ -56,12 +56,12 @@ CREATE TABLE IF NOT EXISTS `userEvent` (
   `idUser` INT NOT NULL,
   `idEvent` INT NOT NULL,
   PRIMARY KEY (`idUserEvent`),
-    FOREIGN KEY (`idUser`) REFERENCES `idUser` (`idUser`),
+    FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`),
     FOREIGN KEY (`idEvent`) REFERENCES `event` (`idEvent`)
     );
     
     
-    INSERT INTO idUser (name, surname, email, userName, password, photo)
+    INSERT INTO user (name, surname, email, userName, password, photo)
 VALUES
 ('John', 'Doe', 'johndoe@example.com', 'johndoe', 'password123', 'johndoe.jpg'),
 ('Jane', 'Doe', 'janedoe@example.com', 'janedoe', 'password456', 'janedoe.jpg'),
