@@ -21,11 +21,8 @@ app.get('/', (req, res) => {
     })
 })
 
-app.get('/users', async (req, res) => {
-    const respuesta = await crud.getAll("event");
-    res.json(respuesta.results);
-})
-//app.use('/users', require('./routes/users'));
+
+app.use('/users', require('./routes/user'));
 //app.use('/posts', require('./routes/posts'));
 
 // Start the application server

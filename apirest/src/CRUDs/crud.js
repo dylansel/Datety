@@ -2,7 +2,31 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../connection'); 
 
+function toUpperChar(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+// Create a new user
+const getAll =  async (table) => {
+  const [results, fields] = await pool.promise().query(`SELECT * FROM ${table}`);
+  return results
+}
+const getById = async (table, id) => {
+  const [results, fields] = await pool.promise().query(`SELECT * FROM ${table} WHERE id${toUpperChar(table)} = ?`, [id]);
+  return results;
+};
+const add = async (table, data) => {
+  const [results, fields] = await pool.promise().query(`INSERT INTO ${table} SET ?`, [data]);
+  return results.insertId;
+};
 
+module.exports = {
+  getAll,
+  getById,
+  add,
+};
+
+
+/*
 // Create a new user
 const getAll =  async (table) => {
 
@@ -19,11 +43,15 @@ const getAll =  async (table) => {
             err:error,
         }
     }
-
 }
 module.exports ={
     getAll
 };
+
+
+*/
+
+
 
 
 /*
