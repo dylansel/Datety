@@ -19,7 +19,7 @@
     width: 100%;
     background: #ffd;
     height: 2.5px;
-    top: 25px;
+    top: 30px;
     transform: scale(0);
     border-radius: 1px;
     transition: .4s;

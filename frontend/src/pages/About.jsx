@@ -63,7 +63,7 @@ export default function About() {
   
   return (
     <>
-      <HeaderAbout />
+      <HeaderAbout firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register"/>
       <div className="about_container" style={aboutContainer}>
         <div className="section_1" style={sectionOne}>
           <img src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>

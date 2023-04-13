@@ -38,18 +38,20 @@ const item= {
     textDecoration: "none",
 }
 
-export default function HeaderAbout() {
+export default function HeaderAbout({firstLink, secondLink, firstRout, secondRoute}) {
     return (
         <>
             <header >
                 <nav style={styleNav}>
                     <h2 style={{color: "#ffd", flexGrow: "2"}}>DateTy</h2>
                     <div className="links-container" style={linksContainer}>
-                        <li className="link-item" style={linkItem}><Link style={item} className="item" to="/login">Login</Link></li>
-                        <li className="link-item" style={linkItem}><Link style={item} className="item" to="/register">Register</Link></li>
+                        <li className="link-item" style={linkItem}><Link style={item} className="item" to={firstRout}>{firstLink}</Link></li>
+                        <li className="link-item" style={linkItem}><Link style={item} className="item" to={secondRoute}>{secondLink}</Link></li>
                     </div>    
                 </nav>
             </header>
         </>
     )
 }
+//"/login"
+///"register"
