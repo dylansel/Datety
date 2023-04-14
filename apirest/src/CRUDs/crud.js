@@ -2,27 +2,53 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../connection'); 
 
-function toUpperChar(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+//function to convert the table name of a id table example user => idUser
+function toId(table) {
+  const t =  table.charAt(0).toUpperCase() + table.slice(1);
+  return `id${t}`
 }
-// Create a new user
+
+/*
+Los valores a las consultas no se concatenan en el query por que es una mala practica y vulnerable a inyeccion SQL, en su lugar se usa ? para datos y ?? para nombre de tablas o de campos 
+*/
+
+// get All generic for any table
 const getAll =  async (table) => {
-  const [results, fields] = await pool.promise().query(`SELECT * FROM ${table}`);
+  const [results, fields] = await pool.promise().query(`SELECT * FROM ?? `,[table]); 
   return results
 }
+
+// get By Id generic for any table 
 const getById = async (table, id) => {
-  const [results, fields] = await pool.promise().query(`SELECT * FROM ${table} WHERE id${toUpperChar(table)} = ?`, [id]);
+  const [results, fields] = await pool.promise().query(`SELECT * FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
   return results;
 };
+
+// add generic for any table 
 const add = async (table, data) => {
-  const [results, fields] = await pool.promise().query(`INSERT INTO ${table} SET ?`, [data]);
+  const [results, fields] = await pool.promise().query(`INSERT INTO ?? SET ?`, [table,data]);
   return results.insertId;
 };
+
+// edit generic for any table 
+const edit = async (table, data, id) => {
+  const [results, fields] = await pool.promise().query(`UPDATE ?? SET ? WHERE ?? = ?`, [table,data,toId(table) ,id]);
+  return results.affectedRows;
+};
+
+// remove generic for any table 
+const remove = async (table, id) => {
+  const [results, fields] = await pool.promise().query(`DELETE FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
+  return results.affectedRows;
+};
+
 
 module.exports = {
   getAll,
   getById,
   add,
+  edit,
+  remove
 };
 
 

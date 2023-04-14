@@ -25,6 +25,11 @@ app.get('/', (req, res) => {
 app.use('/users', require('./routes/user'));
 //app.use('/posts', require('./routes/posts'));
 
+//en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
+app.use(function(req, res, next) {
+    res.status(404).json({ error: 'The requested route does not exist' });
+  });
+  
 // Start the application server
 app.listen(app.get('port'), () => {
     console.log(`Server started on port ${app.get('port')}`);
