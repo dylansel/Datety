@@ -54,7 +54,7 @@ router.put('/editUser/:id', async (req, res) => {
         res.status(404).json({ message: 'User not found' });
         return;
     }
-    res.status(200);
+    res.status(200).json({});
   }catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -70,7 +70,7 @@ router.delete('/deleteUser/:id', async (req, res) => {
         res.status(404).json({ message: 'User not found' });
         return;
     }
-    res.status(200); //confirmo que se guardo correctamente
+    res.status(200).json({}); //confirmo que se guardo correctamente
   }catch(error){
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
