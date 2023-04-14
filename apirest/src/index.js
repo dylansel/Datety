@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/users', require('./routes/user'));
-//app.use('/posts', require('./routes/posts'));
+app.use('/event', require('./routes/event'));
 
 //en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
 app.use(function(req, res, next) {
