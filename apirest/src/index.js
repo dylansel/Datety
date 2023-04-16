@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const crud = require('./CRUDs/crud')
+const crud = require('./services/CRUDs/crud')
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/users', require('./routes/user'));
+app.use('/user', require('./routes/user'));
 app.use('/event', require('./routes/event'));
 
 //en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente

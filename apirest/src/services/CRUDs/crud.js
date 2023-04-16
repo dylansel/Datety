@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../connection'); 
+const pool = require('../../database/connection'); 
 
 //function to convert the table name of a id table example user => idUser
 function toId(table) {
@@ -9,30 +9,35 @@ function toId(table) {
 }
 
 /*
-Los valores a las consultas no se concatenan en el query por que es una mala practica y vulnerable a inyeccion SQL, en su lugar se usa ? para datos y ?? para nombre de tablas o de campos 
+Los valores a las consultas no se concatenan en el query por que es una mala practica 
+y vulnerable a inyeccion SQL, en su lugar se usa ? para datos y ?? para nombre de tablas o de campos 
 */
 
 // get All generic for any table
 const getAll =  async (table) => {
-  const [results, fields] = await pool.promise().query(`SELECT * FROM ?? `,[table]); 
+  const [results, fields] = await pool.promise()
+  .query(`SELECT * FROM ?? `,[table]); 
   return results
 }
 
 // get By Id generic for any table 
 const getById = async (table, id) => {
-  const [results, fields] = await pool.promise().query(`SELECT * FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
+  const [results, fields] = await pool.promise()
+  .query(`SELECT * FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
   return results;
 };
 
 // add generic for any table 
 const add = async (table, data) => {
-  const [results, fields] = await pool.promise().query(`INSERT INTO ?? SET ?`, [table,data]);
+  const [results, fields] = await pool.promise()
+  .query(`INSERT INTO ?? SET ?`, [table,data]);
   return results.insertId;
 };
 
 // edit generic for any table 
 const edit = async (table, data, id) => {
-  const [results, fields] = await pool.promise().query(`UPDATE ?? SET ? WHERE ?? = ?`, [table,data,toId(table) ,id]);
+  const [results, fields] = await pool.promise()
+  .query(`UPDATE ?? SET ? WHERE ?? = ?`, [table,data,toId(table) ,id]);
   return results.affectedRows;
 };
 
@@ -41,14 +46,19 @@ const remove = async (table, id) => {
   const [results, fields] = await pool.promise().query(`DELETE FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
   return results.affectedRows;
 };
-
-
+//get by column generic for any table and any column
+const getByColumn = async (table, column, value) => {
+    const [results, fields] = await pool.promise()
+      .query(`SELECT * FROM ?? WHERE ?? = ?`, [table, column, value]);
+    return results;
+  };
 module.exports = {
   getAll,
   getById,
   add,
   edit,
-  remove
+  remove,
+  getByColumn
 };
 
 
