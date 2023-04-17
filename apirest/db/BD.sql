@@ -1,16 +1,7 @@
 DROP DATABASE IF EXISTS datety;
 CREATE DATABASE datety;
 USE datety;
-CREATE TABLE IF NOT EXISTS `user` (
-  `idUser` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `surname` VARCHAR(50) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
-  `userName` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(50) NOT NULL,
-  `photo` VARCHAR(50),
-  PRIMARY KEY (`idUser`)
-  );
+d
  
    CREATE TABLE IF NOT EXISTS `notification` (
   `idNotification` INT NOT NULL,

@@ -16,7 +16,7 @@ router.get('/getUserById/:id', userController.getUserById);
 router.post('/addUser', userController.addUser);
 
 // Edit an existing user
-router.put('/editUser/:id', userController.editUser);
+router.patch('/editUser/:id', userController.editUser);
 
 // Delete an existing user
 router.delete('/deleteUser/:id', userController.deleteUser);

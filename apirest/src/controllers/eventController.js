@@ -86,11 +86,19 @@ const deleteEvent = async (req,res) => {
   try {
     const id = req.params.id; 
     if(id!= null){
+      //Para borrar definitivamente un evento, hay que eliminar las FK utilizadas en otras tablas. 
+      //consulto todos las relaciones creadas entre event y User para borrarlas antes de borrar el evento.
+      const userEvents = await CRUD.getByColumn('userevent','idEvent',id); //devuelve un array con los eventos
+      console.log(userEvents);
+      let deleteUserEvents = false;
+      userEvents.forEach(async (el) =>  {
+          await CRUD.remove('userevent',el.idUserEvent)
+      });
       const result = await CRUD.remove("event", id); 
       if (result === 0) { // Si el event no existe
           res.status(404).json({ message: 'Event not found' });
           return;
-    }
+      }
     res.status(200).json({}); //confirmo que se guardo correctamente
     }
     
