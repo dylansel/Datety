@@ -8,10 +8,9 @@
     }
 }
 
-/* .link-item:hover {
-     animation: linkHover .6s ease;
-     animation-fill-mode: forwards;
-} */
+body{
+    font-size: 16px;
+}
 
 .link-item::before{
     content: "";
@@ -19,7 +18,7 @@
     width: 100%;
     background: #ffd;
     height: 2.5px;
-    top: 30px;
+    top: 1.87rem;
     transform: scale(0);
     border-radius: 1px;
     transition: .4s;
@@ -28,4 +27,11 @@
 
 .link-item:hover::before{
     transform: scale(1.2);
+}
+
+
+@media screen and (max-width:  1315px) {
+    body {
+        font-size: 14px;
+    }
 }

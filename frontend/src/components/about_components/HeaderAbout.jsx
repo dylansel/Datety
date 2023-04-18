@@ -8,18 +8,18 @@ const styleNav = {
   
     alignItems: "center",
     width: "100%",
-    height: "100px",
+    height: "6.25rem",
     background: "#6C63FF",
-    padding: "50px",
+    padding: "3.125rem",
     boxSizing: "border-box"
 }
 
 const linksContainer= {
-    width: "12%",
+    // width: "300px",
     display: "flex",
     justifyContent: "end",
     alignItems: "center",
-    flexGrow: "1"
+    flexGrow: "1",
 }
 
 const linkItem= {
@@ -27,7 +27,7 @@ const linkItem= {
     fontWeight: "bold",
     transition: ".4s",
     position: "relative",
-    margin: "0 15px"
+    margin: "0 0.93rem"
     // border: "3px solid #ffe",
     // padding: "8px",
     // borderRadius: "8px",
@@ -38,7 +38,9 @@ const item= {
     textDecoration: "none",
 }
 
-export default function HeaderAbout({firstLink, secondLink, firstRout, secondRoute}) {
+
+
+export default function HeaderAbout({firstLink, secondLink, firstRout, secondRoute, isLoged, thirdLink, thirdRoute}) {
     return (
         <>
             <header >
@@ -47,6 +49,7 @@ export default function HeaderAbout({firstLink, secondLink, firstRout, secondRou
                     <div className="links-container" style={linksContainer}>
                         <li className="link-item" style={linkItem}><Link style={item} className="item" to={firstRout}>{firstLink}</Link></li>
                         <li className="link-item" style={linkItem}><Link style={item} className="item" to={secondRoute}>{secondLink}</Link></li>
+                        {isLoged ? <li className="link-item" style={linkItem}><Link style={item} className="item" to={thirdRoute}>{thirdLink}</Link></li> : ""}
                     </div>    
                 </nav>
             </header>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import "../stylesheets/animations.css"
 import HeaderAbout from "../components/about_components/HeaderAbout"
 import SvgOne from "../imgs/about_us-img1.svg"
 import SvgTwo from "../imgs/about_us-img2.svg"
@@ -14,8 +15,8 @@ export default function About() {
 
   const sectionOne= {
     display: "flex",
-    height: "calc(100vh - 100px)",
-    padding: "40px",
+    height: "calc(100vh - 6.25rem)",
+    padding: "2.5rem",
     width: "100%",
     boxSizing: "border-box",
     justifyContent: "space-around",
@@ -24,24 +25,24 @@ export default function About() {
 
   const imgOne= {
     // flexGrow: "1",
-    maxWidth: "50%"
+    maxWidth: "43.75rem"
   }
 
   const sectionOneTextContainer= {
     // flexGrow: "1",
-    maxWidth: "40%"
+    maxWidth: "37.5rem"
   }
 
   const sectionOneText= {
-     fontSize: "18px", 
-     margin: "40px 0 0 0",
+     fontSize: "1.125rem", 
+     margin: "2.5rem 0 0 0",
      fontWeight: "600" 
   }
 
   const sectionTwoContainer= {
     display: "flex",
     height: "100vh",
-    padding: "40px",
+    padding: "2.5rem",
     width: "100%",
     boxSizing: "border-box",
     justifyContent: "space-around",
@@ -51,24 +52,28 @@ export default function About() {
 
   const imgTwo = {
     flexGrow: "1",
-    maxWidth: "40%"
+    maxWidth: "37.5rem"
   }
 
   const buttonGetStarter= {
     border: "none",
-    padding: "6px",
-    borderRadius: "4px",
-    margin: "15px 0 0 0"
-  }
-  
+    padding: "0.375rem",
+    borderRadius: "0.25rem",
+    margin: "0.937rem 0 0 0"
+  } 
+
+  let loged= true
+
   return (
     <>
-      <HeaderAbout firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register"/>
+      {loged ? <HeaderAbout isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
+              < HeaderAbout isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />} 
+     
       <div className="about_container" style={aboutContainer}>
         <div className="section_1" style={sectionOne}>
           <img src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>
           <div className="text_section-one_container" style={sectionOneTextContainer}>
-            <h1 style={{fontSize: "70px"}}>¿Quíenes Somos?</h1>
+            <h1 style={{fontSize: "4.375rem"}}>¿Quíenes Somos?</h1>
             <p style={sectionOneText}>
               Bienvenidos a DateTy, una aplicacion de Xmoon, somos una empresa dedicada al desarrollo de software. Somos un equipo dedicado, profesional y responsable que se enorgullece de ofrecer soluciones tecnológicas de alta calidad.
               Desde el principio, hemos estado comprometidos con nuestros clientes y con nuestros valores. Nos esforzamos por entender sus necesidades y trabajar juntos para crear soluciones personalizadas que satisfagan sus objetivos comerciales.
