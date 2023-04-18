@@ -1,0 +1,21 @@
+En este arhcivo van a tener los posibles endpoints con sus funcionalidades
+
+
+getAllUsers
+getUserById
+addUser
+editUser
+deleteUser
+
+
+
+
+getAllEvent
+getEventById
+addEvent
+editEvent
+deleteEvent
+
+getAllEventForWeek
+getAllEventForMonth
+
