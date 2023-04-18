@@ -1,0 +1,37 @@
+const express = require('express');
+const morgan = require('morgan');
+const crud = require('./services/CRUDs/crud')
+
+const app = express();
+
+// Configure the port for the application
+app.set('port', process.env.PORT || 3000);
+
+// Use morgan to log application requests
+app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
+// Configure the routes for the application
+app.get('/', (req, res) => {
+    res.json({ 
+        "Title": "datety",
+        "description": "La API se encuentra funcionando exitosamente"
+    })
+})
+
+
+app.use('/user', require('./routes/user'));
+app.use('/event', require('./routes/event'));
+
+//en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
+app.use(function(req, res, next) {
+    res.status(404).json({ error: 'The requested route does not exist' });
+  });
+  
+// Start the application server
+app.listen(app.get('port'), () => {
+    console.log(`Server started on port ${app.get('port')}`);
+});
+
