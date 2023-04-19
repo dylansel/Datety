@@ -1,21 +1,32 @@
 En este arhcivo van a tener los posibles endpoints con sus funcionalidades
 
-
+//user
 getAllUsers
-getUserById
-addUser
+getUserById 
+addUser(dataUser + dataSettings) => idUser 
 editUser
-deleteUser
+deleteUser deleteSettings
 
+loginEmail (email, password) => idUser
+loginUsername (Username, password) => idUser
 
+//settings (by user)
 
+getSettings
+editSettings
 
+//event (by user)
 getAllEvent
 getEventById
 addEvent
 editEvent
 deleteEvent
 
+??getAllEventForDay
 getAllEventForWeek
-getAllEventForMonth
+??getAllEventForMonth
+
+getAllEventForDate 1/12/2023 al 31/12/2023
+getEventsByCuantiti
+
 
