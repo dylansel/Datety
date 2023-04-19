@@ -12,18 +12,7 @@ USE datety;
   PRIMARY KEY (`idUser`)
   );
  
-   CREATE TABLE IF NOT EXISTS `notification` (
-  `idNotification` INT NOT NULL AUTO_INCREMENT,
-  `tittle` VARCHAR(50) NOT NULL,
-  `description` VARCHAR(250) NULL,
-  `idSender` INT NOT NULL,
-  `idReceiver` INT NOT NULL,
-  `idEvent` INT NOT NULL,
-  `endTime` DATE NOT NULL,
-  PRIMARY KEY (`idNotification`),
-    FOREIGN KEY (`idSender`) REFERENCES `user` (`idUser`),
-    FOREIGN KEY (`idReceiver`) REFERENCES `user` (`idUser`)
-    );
+   
     
 CREATE TABLE IF NOT EXISTS `settings` (
   `idSettings` INT NOT NULL AUTO_INCREMENT,
@@ -56,6 +45,21 @@ CREATE TABLE IF NOT EXISTS `userEvent` (
   `idEvent` INT NOT NULL,
   PRIMARY KEY (`idUserEvent`),
     FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`),
+    FOREIGN KEY (`idEvent`) REFERENCES `event` (`idEvent`)
+    );
+
+
+CREATE TABLE IF NOT EXISTS `notification` (
+  `idNotification` INT NOT NULL AUTO_INCREMENT,
+  `tittle` VARCHAR(50) NOT NULL,
+  `description` VARCHAR(250) NULL,
+  `idSender` INT NOT NULL,
+  `idReceiver` INT NOT NULL,
+  `idEvent` INT NOT NULL,
+  `endTime` DATE NOT NULL,
+  PRIMARY KEY (`idNotification`),
+    FOREIGN KEY (`idSender`) REFERENCES `user` (`idUser`),
+    FOREIGN KEY (`idReceiver`) REFERENCES `user` (`idUser`),
     FOREIGN KEY (`idEvent`) REFERENCES `event` (`idEvent`)
     );
     
@@ -93,4 +97,16 @@ VALUES
 (2, 0, 'Monday,Wednesday,Friday', '00:00:00', '08:00:00'),
 (3, 1, 'Monday,Wednesday,Friday', '01:30:00', '09:00:00'),
 (4, 0, 'Tuesday,Thursday', '22:00:00', '06:00:00');
+
+INSERT INTO `notification` (`tittle`, `description`, `idSender`, `idReceiver`, `idEvent`, `endTime`)
+VALUES 
+('Recordatorio', 'Reunión mañana a las 10am', 1, 2, 1, '2023-04-20'),
+('Nueva invitación', 'Te invito a mi fiesta de cumpleaños', 2, 1, 2, '2023-04-22'),
+('Actualización de evento', 'Cambio de hora de la reunión', 3, 1, 3, '2023-04-23'),
+('Recordatorio', 'Cita médica a las 3pm', 4, 3, 4, '2023-04-25'),
+('Invitación pendiente', 'Confirma tu asistencia a la cena', 1, 3, 2, '2023-04-21'),
+('Nueva invitación', 'Te invito al partido de fútbol', 4, 2, 4, '2023-04-26'),
+('Actualización de evento', 'Se cambió la fecha de la fiesta', 2, 4, 2, '2023-04-23'),
+('Recordatorio', 'Entrega de proyecto mañana a las 9am', 3, 4, 3, '2023-04-24');
+
 
