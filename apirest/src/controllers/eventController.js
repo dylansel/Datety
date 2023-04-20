@@ -1,9 +1,9 @@
-const CRUD = require('../services/CRUDs/crud')
 
-
+const eventService = require('../services/eventService')
+const usereventService = require('../services/usereventService')
 const getAllEvents = async (req,res) => {
   try {
-    const respuesta = await CRUD.getAll("event");
+    const respuesta = await eventService.getAllEvents();
     res.status(200).json(respuesta);
   }catch (error) {
     console.error(error);
@@ -14,7 +14,7 @@ const getAllEvents = async (req,res) => {
 const getEventById = async (req,res) => {
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    const result = await CRUD.getById("event", id); 
+    const result = await eventService.getEventById(id); 
     if (result === null || Object.keys(result).length === 0) { // Si el usuario no existe
       res.status(404).json({ message: 'Event not found' });
       return;
@@ -39,11 +39,11 @@ const addEvent = async (req, res) => {
     }
     //Enviar la informacion
     const data = { tittle, description, startDate, endDate, startTime, endTime, isDinamic, isAccepted };
-    const rEvet = await CRUD.add("event", data);
+    const rEvet = await eventService.addEvent(data);
     if (!rEvet) {
       return res.status(500).json({ message: 'Internal server error' });
     }
-    await CRUD.add("userevent", {
+    await usereventService.addUserEvent({
       idUser: idUser,
       idEvent: rEvet
     });
@@ -61,7 +61,7 @@ const editEvent = async (req, res) => {
       return res.status(400).json({ message: 'Invalid event ID' });
     }
 
-    const event = await CRUD.getById("event", id);
+    const event = await eventService.getEventById(id);
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
     }
@@ -71,7 +71,7 @@ const editEvent = async (req, res) => {
     for (const prop in req.body) {
         data[prop] = req.body[prop];
     }
-    const result = await CRUD.edit("event", data, id);
+    const result = await eventService.editEvent(data, id);
     if (result === 0) {
       return res.status(500).json({ message: 'Failed to update event' });
     }
@@ -88,13 +88,13 @@ const deleteEvent = async (req,res) => {
     if(id!= null){
       //Para borrar definitivamente un evento, hay que eliminar las FK utilizadas en otras tablas. 
       //consulto todos las relaciones creadas entre event y User para borrarlas antes de borrar el evento.
-      const userEvents = await CRUD.getByColumn('userevent','idEvent',id); //devuelve un array con los eventos
+      const userEvents = await usereventService.getUserEventByColumn('idEvent',id); //devuelve un array con los eventos
       console.log(userEvents);
       let deleteUserEvents = false;
       userEvents.forEach(async (el) =>  {
-          await CRUD.remove('userevent',el.idUserEvent)
+          await usereventService.removeUserEvent(el.idUserEvent)
       });
-      const result = await CRUD.remove("event", id); 
+      const result = await eventService.removeEvent(id); 
       if (result === 0) { // Si el event no existe
           res.status(404).json({ message: 'Event not found' });
           return;

@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const crud = require('./services/CRUDs/crud')
+
 
 const app = express();
 
