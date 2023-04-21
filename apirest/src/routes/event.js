@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database/connection'); 
-const CRUD = require('../services/CRUDs/crud')
 const eventController = require('../controllers/eventController')
 
 // Obtener todos los usuarios

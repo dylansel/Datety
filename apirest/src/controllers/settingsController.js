@@ -1,4 +1,4 @@
-const CRUD = require('../services/CRUDs/crud')
+const CRUD = require('../services/crud')
 
 const getAllsettings = async (req, res) => {
     try {
