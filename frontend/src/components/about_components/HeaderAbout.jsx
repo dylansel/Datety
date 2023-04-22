@@ -5,7 +5,6 @@ import '../../stylesheets/animations.css';
 const styleNav = {
     fontFamily: "'Comfortaa', cursive",
     display: "flex",
-  
     alignItems: "center",
     width: "100%",
     height: "6.25rem",
