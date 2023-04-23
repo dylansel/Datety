@@ -1,7 +1,7 @@
 const CRUD = require('../services/crud')
 const userService = require('../services/userService')
 const utils = require('../controllers/utils')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const getAllUsers = async (req,res) => {
   try {
@@ -104,13 +104,13 @@ const loginUserName = async (req,res) => {
     const password = req.body.password; // Obtener el nombre de usuario desde la ruta
     const user = await userService.getUserByColumn("userName",userName);  
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    const isMatch = await bcrypt.compare(password, user.password);
-
+    
+    const isMatch = await utils.hashCompare(password, user[0].password);
     if (!isMatch) {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-    res.status(200).json(user.idUser);
+    res.status(200).json({"idUser":user[0].idUser});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -123,12 +123,30 @@ const loginUserEmail = async (req,res) => {
     const password = req.body.password; 
     const user = await userService.getUserByColumn("email",userEmail);  
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    res.status(200).json(user); 
+    const isMatch = await utils.hashCompare(password, user[0].password);
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid credentials" });
+      return;
+    }
+    res.status(200).json({"idUser":user[0].idUser});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const encript = async (req,res) => {
+  try {
+    const hash = await utils.encryptText(req.params.text);
+    res.status(200).json(hash); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+  
+
 
 
 
@@ -140,5 +158,6 @@ module.exports = {
   deleteUser,
   loginUserName,
   loginUserEmail,
+  encript
 }
 

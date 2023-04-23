@@ -26,7 +26,7 @@ router.delete('/deleteUser/:id', userController.deleteUser);
 //Login
 router.post('/loginUserName', userController.loginUserName);
 router.post('/loginUserEmail', userController.loginUserEmail);
-
+router.get('/encript/:text', userController.encript);
 module.exports = router;
 
 
