@@ -1,5 +1,7 @@
 const CRUD = require('../services/crud')
 const userService = require('../services/userService')
+const utils = require('../controllers/utils')
+const bcrypt = require('bcrypt');
 
 const getAllUsers = async (req,res) => {
   try {
@@ -15,10 +17,7 @@ const getUserById = async (req,res) => {
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
     const user = await userService.getUserById(id); 
-    if (user === null || Object.keys(user).length === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
   } catch (error) {
     console.error(error);
@@ -97,11 +96,49 @@ const deleteUser = async (req,res) => {
   }
 }
 
+//Funciones especificas
+
+const loginUserName = async (req,res) => {
+  try {
+    const userName = req.body.userName; // Obtener el nombre de usuario desde la ruta
+    const password = req.body.password; // Obtener el nombre de usuario desde la ruta
+    const user = await userService.getUserByColumn("userName",userName);  
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid credentials" });
+      return;
+    }
+    res.status(200).json(user.idUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const loginUserEmail = async (req,res) => {
+  try {
+    const userEmail = req.body.userEmail; // Obtener el nombre de usuario desde el body
+    const password = req.body.password; 
+    const user = await userService.getUserByColumn("email",userEmail);  
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
+    res.status(200).json(user); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
+
 module.exports = {
   getAllUsers,
   getUserById,
   addUser,
   editUser,
   deleteUser,
+  loginUserName,
+  loginUserEmail,
 }
 
