@@ -1,5 +1,5 @@
 import "../stylesheets/animations.css"
-import HeaderAbout from "../components/about_components/HeaderAbout"
+import Header from "../components/utils/Header"
 import SvgOne from "../imgs/about_us-img1.svg"
 import SvgTwo from "../imgs/about_us-img2.svg"
 import SvgThree from "../imgs/about_us-img3.svg"
@@ -77,14 +77,15 @@ export default function About() {
   }
 
   const sectionOneTextContainer= {
-    flexGrow: "2",
-    // maxWidth: "37.5rem"
+    flexGrow: "1",
+    maxWidth: "50%",
+    margin: "0 1rem"
   }
 
   const sectionOneText= {
-     fontSize: "0.95rem", 
+     fontSize: "1.2rem", 
      margin: "2.5rem 0 0 0",
-     fontWeight: "600" 
+     fontWeight: "600",
   }
 
   const sectionTwoContainer= {
@@ -115,8 +116,8 @@ export default function About() {
 
   return (
     <>
-      {loged ? <HeaderAbout isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
-              < HeaderAbout isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />} 
+      {loged ? <Header isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
+              < Header isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />} 
      
       <div className="about_container" style={aboutContainer}>
         <div className="section section_1" style={sectionOne}>

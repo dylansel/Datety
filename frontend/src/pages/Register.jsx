@@ -1,5 +1,5 @@
 import React from "react"
-import HeaderAbout from "../components/about_components/HeaderAbout"
+import HeaderAbout from "../components/utils/Header"
 
 export default function Register(){
   return(

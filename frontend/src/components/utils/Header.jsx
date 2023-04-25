@@ -39,7 +39,7 @@ const item= {
 
 
 
-export default function HeaderAbout({firstLink, secondLink, firstRout, secondRoute, isLoged, thirdLink, thirdRoute}) {
+export default function Header({firstLink, secondLink, firstRout, secondRoute, isLoged, thirdLink, thirdRoute}) {
     return (
         <>
             <header >
