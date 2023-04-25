@@ -136,6 +136,29 @@ const loginUserEmail = async (req,res) => {
   }
 }
 
+const login = async (req, res) => {
+  try {
+    const user = req.body.user; // Obtener el nombre de usuario desde el body
+    const password = req.body.password;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(user)) {
+      const userDB = await userService.getUserByColumn("email", userEmail);
+    } else {
+      const userDB = await userService.getUserByColumn("userName", userEmail);
+    }
+    if (!(utils.isExist(user))) { res.status(404).json({ message: 'User not found' }); return; };
+    const isMatch = await utils.hashCompare(password, user[0].password);
+
+    if (!isMatch) {
+      res.status(401).json({ message: "Invalid credentials" });
+      return;
+    }
+    res.status(200).json({ "idUser": user[0].idUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 const encript = async (req,res) => {
   try {
     const hash = await utils.encryptText(req.params.text);
@@ -156,8 +179,7 @@ module.exports = {
   addUser,
   editUser,
   deleteUser,
-  loginUserName,
-  loginUserEmail,
+  login,
   encript
 }
 
