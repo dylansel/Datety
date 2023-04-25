@@ -16,7 +16,6 @@ function App() {
 
   return (
     <>
-    <div className='feo'>
       <Header/>
       <Switch>
         <Route exact path="/" component={About} />
@@ -27,8 +26,6 @@ function App() {
         <Route path="/about" component={About} />
         <Route component={NotFound} />
       </Switch>
-      <Input type='text' value='gay' name='nombre' placeholder='pone tu nombre...' onChange={()=> console.log("Hola puto")}/>
-      </div>
     </>
   );
 }
