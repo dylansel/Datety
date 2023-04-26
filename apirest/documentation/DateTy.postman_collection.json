@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f3c430c8-b486-439f-b2cd-40d683473a9e",
+		"_postman_id": "0830e29f-ad0d-43c2-884a-73e3377f58e0",
 		"name": "DateTy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -140,6 +140,34 @@
 									"key": "id",
 									"value": "7"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\":\"mariag\",\r\n    \"password\":\"mariag123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
 							]
 						}
 					},
