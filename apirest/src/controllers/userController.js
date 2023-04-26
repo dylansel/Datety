@@ -98,44 +98,6 @@ const deleteUser = async (req,res) => {
 
 //Funciones especificas
 
-const loginUserName = async (req,res) => {
-  try {
-    const userName = req.body.userName; // Obtener el nombre de usuario desde la ruta
-    const password = req.body.password; // Obtener el nombre de usuario desde la ruta
-    const user = await userService.getUserByColumn("userName",userName);  
-    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    
-    const isMatch = await utils.hashCompare(password, user[0].password);
-    if (!isMatch) {
-      res.status(401).json({ message: "Invalid credentials" });
-      return;
-    }
-    res.status(200).json({"idUser":user[0].idUser});
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
-
-const loginUserEmail = async (req,res) => {
-  try {
-    const userEmail = req.body.userEmail; // Obtener el nombre de usuario desde el body
-    const password = req.body.password; 
-    const user = await userService.getUserByColumn("email",userEmail);  
-    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
-    const isMatch = await utils.hashCompare(password, user[0].password);
-
-    if (!isMatch) {
-      res.status(401).json({ message: "Invalid credentials" });
-      return;
-    }
-    res.status(200).json({"idUser":user[0].idUser});
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
-
 const login = async (req, res) => {
   try {
     const user = req.body.user; // Obtener el nombre de usuario desde el body
@@ -147,7 +109,6 @@ const login = async (req, res) => {
     } else {
       userDB = await userService.getUserByColumn("userName", user);
     }
-    console.log(userDB)
     if (!(utils.isExist(userDB))) { res.status(404).json({ message: 'User not found' }); return; };
     const isMatch = await utils.hashCompare(password, userDB[0].password);
 
@@ -161,6 +122,7 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 const encript = async (req,res) => {
   try {
     const hash = await utils.encryptText(req.params.text);
