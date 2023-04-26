@@ -16,7 +16,7 @@ USE datety;
     
 CREATE TABLE IF NOT EXISTS `settings` (
   `idSettings` INT NOT NULL AUTO_INCREMENT,
-  `idUser` INT NOT NULL,
+  `idUser` INT NOT NULL UNIQUE,
   `darkTheme` TINYINT(8) ,
   `availableDays` VARCHAR(50),
   `startSleep` TIME NOT NULL,
