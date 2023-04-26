@@ -7,8 +7,8 @@ addUser(dataUser + dataSettings) => idUser
 editUser
 deleteUser deleteSettings
 
-loginEmail (email, password) => idUser
-loginUsername (Username, password) => idUser
+
+login (Username/email, password) => idUser
 
 //settings (by user)
 
