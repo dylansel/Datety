@@ -41,8 +41,13 @@ const addUser = async (req, res) => {
       return res.status(400).json({ message: 'Username already taken' });
     }
 
+    // encriptar contraseña 
+    const dataE = {
+      ...data,
+      password: await utils.encryptText(data.password) 
+    }
     // Agregar usuario
-    const result = await userService.addUser(data);
+    const result = await userService.addUser(dataE);
     res.status(200).json({ id: result });
 
   } catch (error) {
