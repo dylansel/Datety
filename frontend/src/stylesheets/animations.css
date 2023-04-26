@@ -116,3 +116,20 @@ body{
         max-width: 90% !important;
     }
 }
+
+/* _________REGISTER__STYLE */
+
+/* .submit_buttom-login{
+    background: #958fff !important;
+} */
+
+.submit_buttom-login:hover{
+    background: #6C63FF !important;
+    transition: .5s;
+    color: #fff !important;
+}
+
+.input_register:hover{
+    border: 1.6px solid #6C63FF !important;
+    transition: .5s;
+}
