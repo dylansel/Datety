@@ -73,19 +73,21 @@ export default function About() {
 
   const imgOne= {
     flexGrow: "1",
+    minWidth: "50%"
     // maxWidth: "43.75rem"
   }
 
   const sectionOneTextContainer= {
     flexGrow: "1",
-    maxWidth: "50%",
-    margin: "0 1rem"
+    maxWidth: "40%",
+    margin: "0 1rem 3rem 1.5rem"
   }
 
   const sectionOneText= {
      fontSize: "1.2rem", 
      margin: "2.5rem 0 0 0",
      fontWeight: "600",
+     textAlign: "justify"
   }
 
   const sectionTwoContainer= {
@@ -111,13 +113,14 @@ export default function About() {
     margin: "0.937rem 0 0 0"
   } 
 
- 
-  let loged= true
+  const isLoged = true;
 
   return (
     <>
-      {loged ? <Header isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
-              < Header isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />} 
+
+      <Header  isLoged={isLoged} />
+      {/* {loged ? <Header isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
+              < Header isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />}  */}
      
       <div className="about_container" style={aboutContainer}>
         <div className="section section_1" style={sectionOne}>

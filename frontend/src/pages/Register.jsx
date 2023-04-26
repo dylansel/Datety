@@ -1,10 +1,12 @@
 import React from "react"
-import HeaderAbout from "../components/utils/Header"
+import Header from "../components/utils/Header"
 
+const isLoged= false;
 export default function Register(){
   return(
     <>
-    <HeaderAbout firstLink="About us" secondLink="Login" firstRout="/about" secondRoute="/login" />
+
+      <Header isLoged={isLoged}/>
       <div>
         <h2>Register</h2>
       </div>

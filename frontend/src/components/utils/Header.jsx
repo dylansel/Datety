@@ -37,23 +37,27 @@ const item= {
     textDecoration: "none",
 }
 
-
-
-export default function Header({firstLink, secondLink, firstRout, secondRoute, isLoged, thirdLink, thirdRoute}) {
+export default function Header({isLoged}) {
     return (
         <>
-            <header >
-                <nav style={styleNav}>
-                    <h2 style={{color: "#ffd", flexGrow: "2"}}>DateTy</h2>
-                    <div className="links-container" style={linksContainer}>
-                        <li className="link-item" style={linkItem}><Link style={item} className="item" to={firstRout}>{firstLink}</Link></li>
-                        <li className="link-item" style={linkItem}><Link style={item} className="item" to={secondRoute}>{secondLink}</Link></li>
-                        {isLoged ? <li className="link-item" style={linkItem}><Link style={item} className="item" to={thirdRoute}>{thirdLink}</Link></li> : ""}
-                    </div>    
-                </nav>
+          <header >
+            <nav style={styleNav}>
+              <h2 style={{ color: "#ffd", flexGrow: "2" }}>DateTy</h2>
+                {isLoged ? 
+                <div className="links-container" style={linksContainer}>
+                  <li className="link-item" style={linkItem}><Link style={item} className="item" to="/settings">Settings</Link></li>
+                  <li className="link-item" style={linkItem}><Link style={item} className="item" to="/app">My agenda</Link></li>
+                  <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About</Link></li> 
+                </div>
+                  :
+                <div className="links-container" style={linksContainer}>
+                    <li className="link-item" style={linkItem}><Link style={item} className="item" to="/login">Login</Link></li>
+                    <li className="link-item" style={linkItem}><Link style={item} className="item" to="/app">Register</Link></li>
+                    <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About Us</Link></li>
+                </div>                
+              }
+              </nav>
             </header>
         </>
     )
 }
-//"/login"
-///"register"

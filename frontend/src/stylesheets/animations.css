@@ -55,6 +55,9 @@ body{
     .img-about_2{
         margin: 0 0 0 1rem;
     }
+    .text-section_container{
+        max-width: 80% !important;
+    }
 }
 
 @media screen and (max-width:  1278px) {
@@ -97,15 +100,19 @@ body{
 @media screen and (max-width: 517px) {
     .section{
         margin: 0.1rem 0 !important;
+                text-align: justify;
     }
     .section_tittle{
-        font-size: 37px !important; 
+        font-size: 1.6rem !important; 
     }
     .section_subtittle{
-        font-size: 28px !important;
+        font-size: 1.4rem !important;
     }
     .section_text{
-        font-size: 0.7rem !important;
+        font-size: 0.8rem !important;
         margin: 0.6rem 0 0 0 !important;
+    }
+    .text-section_container{
+        max-width: 90% !important;
     }
 }

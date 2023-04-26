@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
-import HeaderAbout from "../components/utils/Header"
+import Header from "../components/utils/Header"
+
+const isLoged= false;
 
 export default function Login() {
   return (
     <>
-    <HeaderAbout firstLink="About us" secondLink="Register" firstRout="/about" secondRoute="/register"/>
+    <Header isLoged={isLoged} />
       <div>
-        <h2>Login</h2>
       </div>
   </>
   )
