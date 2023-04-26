@@ -7,7 +7,7 @@ USE datety;
   `surname` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   `userName` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(50) NOT NULL,
+  `password` VARCHAR(120) NOT NULL,
   `photo` VARCHAR(50),
   PRIMARY KEY (`idUser`)
   );
@@ -16,7 +16,7 @@ USE datety;
     
 CREATE TABLE IF NOT EXISTS `settings` (
   `idSettings` INT NOT NULL AUTO_INCREMENT,
-  `idUser` INT NOT NULL,
+  `idUser` INT NOT NULL UNIQUE,
   `darkTheme` TINYINT(8) ,
   `availableDays` VARCHAR(50),
   `startSleep` TIME NOT NULL,
@@ -66,10 +66,10 @@ CREATE TABLE IF NOT EXISTS `notification` (
 
 INSERT INTO `user` (`name`, `surname`, `email`, `userName`, `password`, `photo`)
 VALUES
-  ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '123456', 'photo1.jpg'),
-  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', 'abcdef', 'photo2.jpg'),
-  ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'ghijkl', 'photo3.jpg'),
-  ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'mnopqr', 'photo4.jpg');
+  ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2b$10$xKGDaCIQxjYkgMwlaSztH.XOK5oCUiUZxCqbD.rPymxiBwR5/AsjW', 'photo1.jpg'),
+  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'photo2.jpg'),
+  ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'pedros123', 'photo3.jpg'),
+  ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'luciam123', 'photo4.jpg');
 
 
 INSERT INTO `event` (`tittle`, `description`, `startDate`, `endDate`, `startTime`, `endTime`, `isDinamic`, `isAccepted`)

@@ -21,6 +21,11 @@ router.patch('/editUser/:id', userController.editUser);
 // Delete an existing user
 router.delete('/deleteUser/:id', userController.deleteUser);
 
+//especific routes
+
+//Login
+router.post('/login', userController.login);
+router.get('/encript/:text', userController.encript);
 module.exports = router;
 
 
