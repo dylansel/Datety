@@ -1,0 +1,118 @@
+/* LINKS_HEADER_ANIMATION */
+
+@keyframes linkHover {
+    0%{
+        transform: translateY(0px);
+    }100%{
+        transform: translateY(-2px);
+    }
+}
+
+
+.link-item::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    background: #ffd;
+    height: 2.5px;
+    top: 1.67rem;
+    transform: scale(0);
+    border-radius: 1px;
+    transition: .4s;
+    cursor: pointer;
+}
+
+.link-item:hover::before{
+    transform: scale(1.2);
+}
+
+body{
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.violet-text{
+    color: #6C63FF;
+}
+
+.marked-text{
+    color: #090909;
+}
+
+/* _____MEDIA_QUIERIES_ABOUT______ */
+
+@media screen and (max-width:  1675px) {
+    .section_tittle{
+        font-size: 64px !important; 
+    }
+    .section_text{
+        font-size: 0.9rem !important;
+        margin: 1.2rem 0 0 0 !important;
+    }
+    .img-about{
+      width: 32.5rem;
+    }
+    .img-about_2{
+        margin: 0 0 0 1rem;
+    }
+    .text-section_container{
+        max-width: 80% !important;
+    }
+}
+
+@media screen and (max-width:  1278px) {
+    body {
+        font-size: 14px;
+    }
+    .section{
+        flex-direction: column-reverse !important;
+        margin: 0.5rem 0;
+    }
+    .text-section_container{
+        margin: 0 0 2.5rem 0;
+        /* text-align: center; */
+    }
+    .img-about{
+        margin:  0 0 1rem 0;
+        width: 70%;
+    } 
+   .section{
+        height: auto !important;
+    }
+}
+
+@media screen and (max-width: 727px) {
+    .section_tittle{
+        font-size: 54px !important; 
+    }
+    .section_text{
+        font-size: 0.8rem !important;
+        margin: 1rem 0 0 0 !important;
+    }
+    .img-about{
+      width: 90%;
+    }
+    .section_subtittle{
+        font-size: 33px !important;
+    }
+}
+
+@media screen and (max-width: 517px) {
+    .section{
+        margin: 0.1rem 0 !important;
+                text-align: justify;
+    }
+    .section_tittle{
+        font-size: 1.6rem !important; 
+    }
+    .section_subtittle{
+        font-size: 1.4rem !important;
+    }
+    .section_text{
+        font-size: 0.8rem !important;
+        margin: 0.6rem 0 0 0 !important;
+    }
+    .text-section_container{
+        max-width: 90% !important;
+    }
+}
