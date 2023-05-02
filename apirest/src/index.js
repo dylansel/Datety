@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const {authMiddleware} = require('./routes/authMiddleware')
+require('dotenv').config()
 
 
 const app = express();
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/user', require('./routes/user'));
-app.use('/event', require('./routes/event'));
+app.use('/event',authMiddleware, require('./routes/event'));
 
 //en caso de que no entre en ninguna ruta anterior, va a tirar la siguiente
 app.use(function(req, res, next) {
