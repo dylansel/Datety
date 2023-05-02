@@ -1,9 +1,23 @@
 const pool = require('../database/connection');
 const CRUD = require('../services/crud');
 
-const getAllEvents = async () => await CRUD.getAll('event');
+const getAllEvents = async (idUser) => {
+    const [results, fields] = await pool.promise().query(`
+      SELECT e.* FROM event e
+      INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
+      WHERE ue.idUser = ?;
+    `, [idUser]);
+    return results;
+}
 
-const getEventById = async (id) => await CRUD.getById('event', id);
+const getEventById = async (idUser,id) => {
+  const [results, fields] = await pool.promise().query(`
+  SELECT e.* FROM event e
+  INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
+  WHERE ue.idUser = ? and e.idEvent = ?;
+`, [idUser,id]);
+return results;
+};
 
 const addEvent = async (data) => await CRUD.add('event', data);
 
