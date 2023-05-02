@@ -61,6 +61,7 @@ export default function Register(){
   }
 
 const [form, setForm]= useState(initialForm);
+const [check, setCheck]= useState(false)
 
 const handleChange= (e)=>{
   setForm({
@@ -76,6 +77,10 @@ const handleSubmit= (e)=>{
   }
 }
 
+const handleCheck= (e)=>{
+  setCheck(!check);
+}
+
   return(
     <>
       <div style={containerStyle}>
@@ -88,15 +93,15 @@ const handleSubmit= (e)=>{
               <Input placeholder="Apellido" name="lastname" type="text" value={form.lastname} onChange={handleChange} classTyle="input_register" />
               <Input placeholder="Nombre de usuario" name="username" type="text" value={form.username} onChange={handleChange} classTyle="input_register" />
               <Input placeholder="Correo" name="email" type="text" value={form.email} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Contraseña" name="password" type="text" value={form.password} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Confirmacion" name="passConfirm" type="text" value={form.passConfirm} onChange={handleChange} classTyle="input_register" />
-               <div className="div">
-                <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <Input name="mostrar_pass" type="checkbox"/>
-                </div>
-              <Input widthInput={"40%"} type="submit"  value="Registrarme" name="enviar" classTyle="submit_buttom-login"/>
+              <Input placeholder="Contraseña" name="password" type={check ? "text" : "password"} value={form.password} onChange={handleChange} classTyle="input_register" />
+              <Input placeholder="Confirmacion" name="passConfirm"  type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classTyle="input_register" />
+              <div className="show_pass">
+                <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <Input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
+              </div>
+              <Input widthInput={"40%"} type="submit"value="Registrarme" name="enviar" classTyle="submit_buttom-login input_register"/>
             </form>
             <div className="img_background_container" style={imgContainerStyle} >
-              <img src={image} alt="img_login" style={imgStyle}/>
+              <img src={image} alt="img_login" className="img_login" style={imgStyle}/>
             </div>
           </div>
         </div>

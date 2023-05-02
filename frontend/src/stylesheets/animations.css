@@ -133,3 +133,33 @@ body{
     border: 1.6px solid #6C63FF !important;
     transition: .5s;
 }
+
+@media screen and (max-width: 1300px) {
+    .register{
+        flex-direction: column !important;
+        justify-content: center;
+        
+        
+    }
+
+    .img_login{
+        display: none !important;
+    }
+
+    .input_register{
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .show_pass{
+        margin: 0 auto;
+
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .input_register{
+        width: 90%;
+        margin: 0 auto;
+    }
+}
