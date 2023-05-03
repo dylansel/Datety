@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input"
 import SVG from "../imgs/img_welcome.svg"
+import "../stylesheets/animations.css"
+
 
 let initialForm= {
   user: "",
@@ -10,35 +12,48 @@ let initialForm= {
 
 export default function Login() {
   
-  let tittleStyle = {
-    textAlign: "center",
-    margin: "1rem 0",
-    fontSize: "3rem",
-    fontWeight: "bold",
-  }
-
-  let loginContainerStyle= {
-    height: "calc(100vh - 6.25rem)",
-    boxSizing: "border-box",
-    padding: "1rem 4rem 0 3rem"
-
-  }
-
-  let loginStyle= {
-    display: "flex",
-    flexDirection: "row-reverse"
-  }
-
-  let formStyle={
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    height: "70vh",
-    justifyContent: "space-around",
-  }
-
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
+
+  const contenedorPrincipal = {
+    display: "flex",
+    height: "calc(100vh - 12.25rem)",
+    boxSizing: "border-box"
+  }
+
+  const styleTittle = {
+    textAlign: "center",
+    fontWeight: "bord",
+    fontSize: "3rem",
+    margin: "1rem",
+  }
+
+  const styleLogin = {
+    display: "flex",
+    flexDirection: "row-reverse",
+    width: "100vw"
+  }
+
+  const formStyle = {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: "1",
+    height: "45vh",
+    justifyContent: "space-around",
+    maxWidth: "35%"
+  }
+
+  const imgStyle={
+    flexGrow: "1",
+    maxWidth: "60%"
+  }
+
+  const buttonLogin = {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between"
+  }
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -57,7 +72,7 @@ export default function Login() {
     }
   }
 
-  const styleLinks = {
+  const styleLink = {
     textDecoration: "none",
     color: "rgba(20, 20, 20, 0.827)"
   }
@@ -65,25 +80,26 @@ export default function Login() {
   return (
     <>
         <Header />
-        <div className="login-container-style" style={loginContainerStyle}>
-          <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
-          <h3 style={styleLinks}>Utiliza tu cuenta DateTy</h3>
-          <div className="login-style" style={loginStyle}>
-            <img src={SVG} alt="" />
-            <form className="form-login" action="" style={formStyle} onSubmit={handleSubmit} classTyle="input_register" >
-             <Input type="text" name="user" value={form.user} onChange={handleChange} placeholder="Ingrese su nombre" />
-             <Input type={(check) ? "text" : "password"} name="pass" value={form.pass} onChange={handleChange} placeholder="Contraseña"  />
-             <div>
-             <label htmlFor="">Mostrar Contraseña </label> <Input type="checkbox" name="check" value={form.check} onChange={handleCheck} /> 
-             </div>
-             <a href="" style={styleLinks}>¿Olvidaste tu contraseña?</a>
-             <a href="" style={{ ...styleLinks, color: "rgba(69, 38, 206, 1)" }}>Registrarme</a>
-             <Input type="submit" name="confirm" value="Confirmar" style={{background: "rgba(69, 38, 206, 0.5)"}} />
+        <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
+
+       <div className="contenedor-principal" style={contenedorPrincipal}>
+          <div className="login-style" style={styleLogin}>
+            <img src={SVG} alt="Imagen Login" style={imgStyle}/>
+            <form className="form-login" style={formStyle}>
+              <Input value={form.user} type="text" onChange={handleChange} placeholder="Ingrese su nombre" name="user" />
+              <Input value={form.pass} type={(check) ? "text" : "password" } onChange={handleChange} placeholder="Contraseña" name="pass"/>
+              <div>
+                <label htmlFor="">Mostrar contraseña</label> <Input value={form.check} type="checkbox" onChange={handleCheck}/>
+              </div>
+              <a href="" style={styleLink}>¿Olvidaste tu contraseña?</a>
+              <div style={buttonLogin}>
+                <a href="" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
+                <Input type="submit" value="Iniciar Sesión" name="confirm" onSubmit={handleSubmit} classStyle="check-login"></Input>
+              </div>
             </form>
-            </div>
-        </div>
-
-
+          </div>
+       </div>
+  
   </>
   )
 }

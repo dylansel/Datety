@@ -116,3 +116,8 @@ body{
         max-width: 90% !important;
     }
 }
+
+.check-login{
+    background: rgba(69, 38, 206, 0.5) !important;
+    color: #ffffff !important;
+}
