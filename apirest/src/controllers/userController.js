@@ -51,8 +51,9 @@ const addUser = async (req, res) => {
     // Agregar usuario
     const result = await userService.addUser(dataE);
     
-    const token = utils.createToken(userDB[0]); // Crear el token JWT
+    const token = utils.createToken(result); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
+    res.status(500).json({ message: 'Internal server error' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
