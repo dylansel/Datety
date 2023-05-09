@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require("cors");
 const {authMiddleware} = require('./routes/authMiddleware')
 require('dotenv').config()
 
@@ -13,6 +14,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors());
 
 
 // Configure the routes for the application
