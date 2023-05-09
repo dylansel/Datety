@@ -1,8 +1,10 @@
 
-
-export async function addUser(user) {
+ 
+ export async function addUser(user) {
   try {
-    const response = await fetch(`http://130.10.1.14:3000/user/addUser`, {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    console.warn(apiUrl)
+    const response = await fetch(`${apiUrl}/user/addUser`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

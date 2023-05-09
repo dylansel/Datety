@@ -8,8 +8,8 @@ export default function Login() {
   const user = {
       name: "Dylan",
       surname: "Seltzer",
-      email: "dylan.seltzer.et32@gmail.com",
-      userName: "dylansel32",
+      email: "dylana.seltzer.et32@gmail.com",
+      userName: "dylansel32a",
       password: "dylan32",
       photo: "dylan32.jpg"
   }
@@ -21,7 +21,7 @@ export default function Login() {
     <>
     <Header isLoged={isLoged} />
       <div>
-        <button onClick={añadir}></button>
+        <button onClick={añadir}>ENVIAR</button>
       </div>
   </>
   )
