@@ -116,3 +116,19 @@ body{
         max-width: 90% !important;
     }
 }
+
+/* _____MODAL ALERTA_____ */
+
+.accept_button{
+    background: #3ddc97;
+}
+
+.cancel_button{
+    background: #F54654;
+}
+
+.modal_alert{
+    transition: .5s;
+    transform: translateY(-30px);
+    z-index: 10;
+}
