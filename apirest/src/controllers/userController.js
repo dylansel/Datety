@@ -49,11 +49,9 @@ const addUser = async (req, res) => {
       password: await utils.encryptText(data.password) 
     }
     // Agregar usuario
-    const result = await userService.addUser(dataE);
-    
-    const token = utils.createToken(result); // Crear el token JWT
+    const id = await userService.addUser(dataE);
+    const token = utils.createToken({idUser:id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
-    res.status(500).json({ message: 'Internal server error' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -66,9 +64,8 @@ const editUser = async (req,res) => {
     
     // Obtener el usuario por ID
     const user = await userService.getUserById(id);
-
     // Validar si el usuario existe
-    if (utils.isExist(user)) {
+    if (!utils.isExist(user)) {
       return res.status(404).json({ message: 'User not found' });
     }
 
@@ -82,7 +79,7 @@ const editUser = async (req,res) => {
     }
     const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
     if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not edit' });
       return;
     }
     res.status(200).json({});
