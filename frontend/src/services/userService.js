@@ -1,46 +1,81 @@
-import { setAuthToken,getAuthToken} from '../services/authService'
- const apiUrl = import.meta.env.VITE_API_URL;
+import { setAuthToken, getAuthToken } from "../services/authService";
+const apiUrl = import.meta.env.VITE_API_URL;
 
- export async function addUser(user) {
+export async function addUser(user) {
   try {
     const response = await fetch(`${apiUrl}/user/addUser`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     });
     const data = await response.json();
     const status = response.status;
-    if(status === 200 && data.token){setAuthToken(data.token)}
-    return [data,status]
+    if (status === 200 && data.token) {
+      setAuthToken(data.token);
+    }
+    return [data, status];
   } catch (error) {
     console.error(error);
-    throw new Error('Error al agregar usuario');
+    throw new Error("Error al agregar usuario");
   }
 }
 
 export async function editUser(user) {
   try {
     const response = await fetch(`${apiUrl}/user/editUser`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getAuthToken()}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     });
     const data = await response.json();
     const status = response.status;
-    return [data,status]
+    return [data, status];
   } catch (error) {
     console.error(error);
-    throw new Error('Error al agregar usuario');
+    throw new Error("Error al editar usuario");
   }
 }
 
+export async function getUser() {
+  try {
+    const response = await fetch(`${apiUrl}/user/getAllUsers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    const data = await response.json();
+    const status = response.status;
+    return [data, status];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al solicitar usuario");
+  }
+}
 
-
+export async function deleteUser() {
+  try {
+    const response = await fetch(`${apiUrl}/user/deleteUser`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    const data = await response.json();
+    const status = response.status;
+    return [data, status];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al eliminar usuario");
+  }
+}
 
 /*
 

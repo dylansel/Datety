@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Header from "../components/utils/Header"
-import { addUser,editUser } from "../services/UserService";
+import { addUser,editUser,getUser,deleteUser } from "../services/UserService";
 
 const isLoged= false;
 
@@ -50,7 +50,8 @@ export default function Login() {
     try {
       const [result,status] = await getUser()
       if(status == 200){
-       console.log("se creo correctamente")
+        console.log("------------- LEER --------------")
+       console.log(result[9])
       }else{
         console.error(`API CODE ERR: "${result.message}"`)
       }
@@ -63,7 +64,7 @@ export default function Login() {
     try {
       const [result,status] = await deleteUser()
       if(status == 200){
-       console.log("se creo correctamente")
+       console.log("se elimino correctamente")
       }else{
         console.error(`API CODE ERR: "${result.message}"`)
       }
