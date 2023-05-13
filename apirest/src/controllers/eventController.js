@@ -1,9 +1,12 @@
 
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
+const utils = require('../controllers/utils')
+
 const getAllEvents = async (req,res) => {
   try {
-    const respuesta = await eventService.getAllEvents();
+    const idUser = req.user.idUser;
+    const respuesta = await eventService.getAllEvents(idUser);
     res.status(200).json(respuesta);
   }catch (error) {
     console.error(error);
@@ -13,10 +16,11 @@ const getAllEvents = async (req,res) => {
 
 const getEventById = async (req,res) => {
   try {
-    const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    const result = await eventService.getEventById(id); 
-    if (result === null || Object.keys(result).length === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'Event not found' });
+    const idUser = req.user.idUser; // Obtener el ID del usuario desde el auth
+    const id = req.params.id; // Obtener el ID del evento desde la ruta
+    const result = await eventService.getEventById(idUser,id); 
+    if (result === null || Object.keys(result).length === 0) { // Si el evento no existe
+      res.status(404).json({ message: 'Event not found or not accessible' });
       return;
     }
     res.status(200).json(result); 
@@ -28,7 +32,7 @@ const getEventById = async (req,res) => {
 
 const addEvent = async (req, res) => {
   try {
-    const idUser = req.params.idUser;
+    const idUser = req.user.idUser;
     //Validaciones de entrada
     if (!idUser || isNaN(idUser)) {
       return res.status(400).json({ message: 'Invalid user ID' });
@@ -56,16 +60,15 @@ const addEvent = async (req, res) => {
 
 const editEvent = async (req, res) => {
   try {
+    const idUser = req.user.idUser;
     const id = req.params.id;
     if (!id || isNaN(id)) {
       return res.status(400).json({ message: 'Invalid event ID' });
     }
-
-    const event = await eventService.getEventById(id);
-    if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+    const event = await eventService.getEventById(idUser,id);
+    if (!utils.isExist(event)) {
+      return res.status(404).json({ message: 'Event not found or not authorized' });
     }
-
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let data = {};
     for (const prop in req.body) {
@@ -94,12 +97,13 @@ const deleteEvent = async (req,res) => {
       userEvents.forEach(async (el) =>  {
           await usereventService.removeUserEvent(el.idUserEvent)
       });
+      
       const result = await eventService.removeEvent(id); 
-      if (result === 0) { // Si el event no existe
-          res.status(404).json({ message: 'Event not found' });
+      if (!utils.isExist(result)) { // Si el event no existe
+          res.status(404).json({ message: 'Event not found or not authorized' });
           return;
       }
-    res.status(200).json({}); //confirmo que se guardo correctamente
+    res.status(200).json({}); //confirmo que se elimino correctamente
     }
     
   }catch(error){

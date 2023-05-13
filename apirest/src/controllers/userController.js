@@ -4,6 +4,7 @@ const utils = require('../controllers/utils')
 const bcrypt = require('bcryptjs');
 
 const getAllUsers = async (req,res) => {
+  //esta funcion solo podria ser ejecutada por un admin
   try {
     const respuesta = await userService.getAllUsers();
     res.status(200).json(respuesta);
@@ -14,6 +15,7 @@ const getAllUsers = async (req,res) => {
 }
 
 const getUserById = async (req,res) => {
+  //esta funcion solo podria ser ejecutada por un admin
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
     const user = await userService.getUserById(id); 
@@ -47,9 +49,9 @@ const addUser = async (req, res) => {
       password: await utils.encryptText(data.password) 
     }
     // Agregar usuario
-    const result = await userService.addUser(dataE);
-    res.status(200).json({ id: result });
-
+    const id = await userService.addUser(dataE);
+    const token = utils.createToken({idUser:id}); // Crear el token JWT
+    res.status(200).json({ token }); // Devolver el token en la respuesta
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -58,13 +60,12 @@ const addUser = async (req, res) => {
 
 const editUser = async (req,res) => {
   try {
-    const id = req.params.id; // Obtener el ID del usuario desde la ruta
+    const id = req.user.idUser; // Obtener el ID del usuario desde el auth
     
     // Obtener el usuario por ID
     const user = await userService.getUserById(id);
-
     // Validar si el usuario existe
-    if (!user) {
+    if (!utils.isExist(user)) {
       return res.status(404).json({ message: 'User not found' });
     }
 
@@ -73,10 +74,12 @@ const editUser = async (req,res) => {
     for (const prop in req.body) {
         data[prop] = req.body[prop];
     }
-
+    if(data.password!=undefined) {
+      data.password = await utils.encryptText(data.password);
+    }
     const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
     if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'User not edit' });
       return;
     }
     res.status(200).json({});
@@ -88,13 +91,29 @@ const editUser = async (req,res) => {
 
 const deleteUser = async (req,res) => {
   try {
-    const id = req.params.id; // Obtener el ID del usuario desde la ruta
+    const id = req.user.idUser; // Obtener el ID del usuario desde el auth
+    //antes de borrar a un usuario tengo que borrar todas las relaciones de ese usuario
+
+    //delete settings
+
+    //delete notifications
+    
+
+    //delete userEvent
+
+
+
+
+
+
+
+
     const result = await CRUD.remove("user", id); // Eliminar el usuario utilizando la función remove de CRUD
     if (result === 0) { // Si el usuario no existe
       res.status(404).json({ message: 'User not found' });
       return;
     }
-    res.status(200).json({}); //confirmo que se guardo correctamente
+    res.status(200).json({}); //confirmo que se elimino correctamente
   }catch(error){
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -121,7 +140,8 @@ const login = async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
       return;
     }
-    res.status(200).json({ "idUser": userDB[0].idUser });
+    const token = utils.createToken(userDB[0]); // Crear el token JWT
+    res.status(200).json({ token }); // Devolver el token en la respuesta
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -138,10 +158,6 @@ const encript = async (req,res) => {
   }
 }
   
-
-
-
-
 module.exports = {
   getAllUsers,
   getUserById,
