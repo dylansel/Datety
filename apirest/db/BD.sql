@@ -9,6 +9,9 @@ USE datety;
   `userName` VARCHAR(50) NOT NULL,
   `password` VARCHAR(120) NOT NULL,
   `photo` VARCHAR(50),
+  `role` ENUM('admin', 'premium', 'user') DEFAULT 'user',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `is_active` BOOLEAN NOT NULL DEFAULT true,
   PRIMARY KEY (`idUser`)
   );
  
