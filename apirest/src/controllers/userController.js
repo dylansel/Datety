@@ -72,7 +72,9 @@ const editUser = async (req,res) => {
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
     let data = {};
     for (const prop in req.body) {
+      if(prop != "is_active"){
         data[prop] = req.body[prop];
+      }
     }
     if(data.password!=undefined) {
       data.password = await utils.encryptText(data.password);
@@ -89,25 +91,34 @@ const editUser = async (req,res) => {
   }
 }
 
-const deleteUser = async (req,res) => {
+const disableUser = async (req, res) => {
   try {
     const id = req.user.idUser; // Obtener el ID del usuario desde el auth
-    //antes de borrar a un usuario tengo que borrar todas las relaciones de ese usuario
-
-    //delete settings
-
-    //delete notifications
     
+    // Obtener el usuario por ID
+    const user = await userService.getUserById(id);
+    // Validar si el usuario existe
+    if (!utils.isExist(user)) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-    //delete userEvent
+    const data = { is_active: false }; // Actualiza el campo "is_active" a false para desactivar el usuario
+    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
+    if (result === 0) { // Si el usuario no existe
+      res.status(404).json({ message: 'User not deleted' });
+      return;
+    }
+    res.status(200).json({});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
-
-
-
-
-
-
-
+const deleteUser = async (req,res) => {
+  try {
+    //NO ES CORRECTO ELIMINAR UN USUARIO, SE DEBE DESACTIVAR NUNCA ELIMINAR. PERO POR NORMATIVA DEJO EL ENDPOINT
+    const id = req.user.idUser; // Obtener el ID del usuario desde el auth
     const result = await CRUD.remove("user", id); // Eliminar el usuario utilizando la función remove de CRUD
     if (result === 0) { // Si el usuario no existe
       res.status(404).json({ message: 'User not found' });
@@ -163,6 +174,7 @@ module.exports = {
   getUserById,
   addUser,
   editUser,
+  disableUser,
   deleteUser,
   login,
   encript
