@@ -56,17 +56,31 @@ const edit = async (table, data, id) => {
 };
 
 // remove generic for any table 
-const remove = async (table, id, extraClauses = null) => {
-  let sql = `DELETE FROM ?? WHERE ?? = ?`;
-  let params = [table, toId(table), id];
+const remove = async (table, id, where = null) => {
+  let sql = 'DELETE FROM ??';
+  const params = [table];
 
-  if (extraClauses) {
-    sql += ` ${extraClauses}`;
+  if (id) {
+    sql += ' WHERE ?? = ?';
+    params.push(toId(table), id);
   }
 
-  const [results, fields] = await pool.promise().query(sql, params);
-  return results.affectedRows;
+  if (where) {
+    const whereKeys = Object.keys(where);
+
+    if (whereKeys.length) {
+      sql += id ? ' AND ' : ' WHERE ';
+      sql += whereKeys.map((key) => {
+        params.push(key, where[key]);
+        return `?? = ?`;
+      }).join(' AND ');
+    }
+  }
+
+  const [result] = await pool.promise().query(sql, params);
+  return result.affectedRows;
 };
+
 //get by column generic for any table and any column
 const getByColumn = async (table, column, value, selectFields = ['*'], extraClauses = null) => {
   let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;

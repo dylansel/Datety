@@ -85,32 +85,43 @@ const editEvent = async (req, res) => {
   }
 }
 
-const deleteEvent = async (req,res) => {
+const deleteEvent = async (req, res) => {
   try {
-    const id = req.params.id; 
-    if(id!= null){
-      //Para borrar definitivamente un evento, hay que eliminar las FK utilizadas en otras tablas. 
-      //consulto todos las relaciones creadas entre event y User para borrarlas antes de borrar el evento.
-      const userEvents = await usereventService.getUserEventByColumn('idEvent',id); //devuelve un array con los eventos
+    const idUser = req.user.idUser;
+    const id = req.params.id;
+    if (id != null) {
+      //Para borrar definitivamente un evento, hay que eliminar las FK utilizadas en otras tablas.
+
+      //borrar userevent
+      //consulto todos las relaciones creadas entre event y User. en caso de ser mas de 1, solo voy a borrar la relacion, sino borro todo el evento
+      let result = await usereventService.removeUserEvent(id, idUser)
+      const userEvents = await usereventService.getUserEventByColumn('idEvent', id); //devuelve un array con los las relaciones
       console.log(userEvents);
-      let deleteUserEvents = false;
-      userEvents.forEach(async (el) =>  {
-          await usereventService.removeUserEvent(el.idUserEvent)
-      });
-      
-      const result = await eventService.removeEvent(id); 
-      if (!utils.isExist(result)) { // Si el event no existe
-          res.status(404).json({ message: 'Event not found or not authorized' });
-          return;
+      console.log("result de userevent:" + result);
+      if (userEvents.length == 0 && result) {
+
+        // //eliminar notificaciones relacionadas al evento TODAVIA NO IMPLEMENTADO
+        // const notifications = await notificationService.getNotificationByColumn('idEvent', id);
+        // notifications.forEach(async (notification) => {
+        //   await notificationService.removeNotification(notification.id);
+        // });
+
+        result = await eventService.removeEvent(id);
+        console.log(id)
       }
-    res.status(200).json({}); //confirmo que se elimino correctamente
+      console.log("result evento eliminado: " + result);
+      if (!result) { // Si el event no existe
+        res.status(404).json({ message: 'Event not found or not authorized' });
+        return;
+      }
+      res.status(200).json({}); //confirmo que se elimino correctamente
     }
-    
-  }catch(error){
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
-}
+};
+
 
 module.exports = {
   getAllEvents,
