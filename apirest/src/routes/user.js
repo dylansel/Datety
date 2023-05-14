@@ -12,6 +12,8 @@ router.get('/getAllUsers',authMiddleware ,userController.getAllUsers);
 
 // Get a user by ID
 router.get('/getUserById/:id',authMiddleware, userController.getUserById);
+// Get a current user
+router.get('/getUser',authMiddleware, userController.getUser);
 
 // Add a new user
 router.post('/addUser', userController.addUser); //no necesita estar logeado

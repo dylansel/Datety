@@ -25,9 +25,19 @@ const getAll = async (table, selectFields = ['*'], extraClauses = null) => {
 };
 
 // get By Id generic for any table 
-const getById = async (table, selectFields = ['*'], id) => {
-  const [results, fields] = await pool.promise()
-    .query(`SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`, [table, toId(table), id]);
+const getById = async (table, id, selectFields = ['*'], extraClauses = null) => {
+  let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;
+  let params = [table, toId(table), id];
+
+  if (extraClauses) {
+    if (extraClauses.includes('WHERE')) {
+      sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+    } else {
+      sql += ` ${extraClauses}`;
+    }
+  }
+
+  const [results, fields] = await pool.promise().query(sql, params);
   return results;
 };
 
@@ -46,16 +56,34 @@ const edit = async (table, data, id) => {
 };
 
 // remove generic for any table 
-const remove = async (table, id) => {
-  const [results, fields] = await pool.promise().query(`DELETE FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
+const remove = async (table, id, extraClauses = null) => {
+  let sql = `DELETE FROM ?? WHERE ?? = ?`;
+  let params = [table, toId(table), id];
+
+  if (extraClauses) {
+    sql += ` ${extraClauses}`;
+  }
+
+  const [results, fields] = await pool.promise().query(sql, params);
   return results.affectedRows;
 };
 //get by column generic for any table and any column
-const getByColumn = async (table, selectFields = ['*'], column, value) => {
-  const [results, fields] = await pool.promise()
-    .query(`SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`, [table, column, value]);
+const getByColumn = async (table, column, value, selectFields = ['*'], extraClauses = null) => {
+  let sql = `SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`;
+  let params = [table, column, value];
+
+  if (extraClauses) {
+    if (extraClauses.includes('WHERE')) {
+      sql += ` AND ${extraClauses.replace('WHERE', '')}`;
+    } else {
+      sql += ` ${extraClauses}`;
+    }
+  }
+
+  const [results, fields] = await pool.promise().query(sql, params);
   return results;
 };
+
 module.exports = {
   getAll,
   getById,

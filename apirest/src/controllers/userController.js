@@ -18,6 +18,17 @@ const getUserById = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
+    const user = await userService.getUserById(id,null); 
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
+    res.status(200).json(user); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+const getUser = async (req,res) => {
+  try {
+    const id = req.user.idUser; // Obtener el ID del usuario desde el auth
     const user = await userService.getUserById(id); 
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
@@ -27,18 +38,19 @@ const getUserById = async (req,res) => {
   }
 }
 
+
 const addUser = async (req, res) => {
   try {
     const data = req.body;
 
     // Verificar si el email ya está registrado
-    const emailExists = await userService.getUserByColumn('email', data.email);
+    const emailExists = await userService.getUserByColumn('email', data.email,null); //lo pongo con null el tercer prop para que tenga en cuenta los emails desaibilitados
     if (emailExists.length) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
     // Verificar si el nombre de usuario ya está en uso
-    const userNameExists = await userService.getUserByColumn("userName", data.userName);
+    const userNameExists = await userService.getUserByColumn("userName", data.userName,null); //lo pongo con null el tercer prop para que tenga en cuenta los users desaibilitados
     if (userNameExists.length) {
       return res.status(400).json({ message: 'Username already taken' });
     }
@@ -140,11 +152,11 @@ const login = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let userDB = null;
     if (emailRegex.test(user)) {
-      userDB = await userService.getUserByColumn("email", user);
+      userDB = await userService.getUserByColumn("email", user); 
     } else {
       userDB = await userService.getUserByColumn("userName", user);
     }
-    if (!(utils.isExist(userDB))) { res.status(404).json({ message: 'User not found' }); return; };
+    if (!(utils.isExist(userDB))) { res.status(404).json({ message: 'Invalid User' }); return; };
     const isMatch = await utils.hashCompare(password, userDB[0].password);
 
     if (!isMatch) {
@@ -172,6 +184,7 @@ const encript = async (req,res) => {
 module.exports = {
   getAllUsers,
   getUserById,
+  getUser,
   addUser,
   editUser,
   disableUser,
