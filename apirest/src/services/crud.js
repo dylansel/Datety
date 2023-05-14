@@ -12,16 +12,22 @@ y vulnerable a inyeccion SQL, en su lugar se usa ? para datos y ?? para nombre d
 */
 
 // get All generic for any table
-const getAll =  async (table) => {
-  const [results, fields] = await pool.promise()
-  .query(`SELECT * FROM ?? `,[table]); 
-  return results
-}
+const getAll = async (table, selectFields = ['*'], extraClauses = null) => {
+  let sql = `SELECT ${selectFields.join(', ')} FROM ??`;
+  let params = [table];
+
+  if (extraClauses) {
+    sql += ` ${extraClauses}`;
+  }
+  //aca estoy usando ${} en la consutla, pero no es una mala opractica por que no es un dto ingresado por el usuario sino interno de la api
+  const [results, fields] = await pool.promise().query(sql, params);
+  return results;
+};
 
 // get By Id generic for any table 
-const getById = async (table, id) => {
+const getById = async (table, selectFields = ['*'], id) => {
   const [results, fields] = await pool.promise()
-  .query(`SELECT * FROM ?? WHERE ?? = ?`, [table,toId(table),id]);
+    .query(`SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`, [table, toId(table), id]);
   return results;
 };
 
@@ -45,11 +51,11 @@ const remove = async (table, id) => {
   return results.affectedRows;
 };
 //get by column generic for any table and any column
-const getByColumn = async (table, column, value) => {
-    const [results, fields] = await pool.promise()
-      .query(`SELECT * FROM ?? WHERE ?? = ?`, [table, column, value]);
-    return results;
-  };
+const getByColumn = async (table, selectFields = ['*'], column, value) => {
+  const [results, fields] = await pool.promise()
+    .query(`SELECT ${selectFields.join(', ')} FROM ?? WHERE ?? = ?`, [table, column, value]);
+  return results;
+};
 module.exports = {
   getAll,
   getById,
