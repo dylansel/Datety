@@ -97,6 +97,9 @@ export async function login(user) {
     throw new Error("Error al iniciar sesion");
   }
 }
+
+
+
 /*
 
  const user = {
@@ -119,20 +122,7 @@ const userLogin = {
 
 
 
-  const añadir = async () =>{
-    try {
-      const [result,status] = await addUser(user)
-      if(status == 200){
-       console.log("se creo correctamente")
-      }else if(result.message){
-        console.warn(`API CODE Warn: "${result.message}"`)
-      }else{
-        console.error(`API CODE Error: "${result.error}"`)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
 
   const modificar = async () => {
     try {
