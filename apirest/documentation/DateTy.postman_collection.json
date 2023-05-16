@@ -60,7 +60,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Dylan\",\r\n    \"surname\": \"Seltzer\",\r\n    \"email\": \"dylan.seltzer.et32@gmail.com\",\r\n    \"userName\": \"dylansel32\",\r\n    \"password\": \"dylan32\",\r\n    \"photo\": \"dylan32.jpg\"\r\n    \r\n}",
+							"raw": "{\r\n    \"name\": \"Dylan\",\r\n    \"surname\": \"Seltzer\",\r\n    \"email\": \"dylana.seltzer.et32@gmail.com\",\r\n    \"userName\": \"dylansela32\",\r\n    \"password\": \"dylan32\",\r\n    \"photo\": \"dylan32.jpg\"\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,6 +106,35 @@
 							"path": [
 								"user",
 								"editUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disableUser",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/disableUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"disableUser"
 							]
 						}
 					},

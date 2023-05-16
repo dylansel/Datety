@@ -12,6 +12,8 @@ router.get('/getAllUsers',authMiddleware ,userController.getAllUsers);
 
 // Get a user by ID
 router.get('/getUserById/:id',authMiddleware, userController.getUserById);
+// Get a current user
+router.get('/getUser',authMiddleware, userController.getUser);
 
 // Add a new user
 router.post('/addUser', userController.addUser); //no necesita estar logeado
@@ -20,7 +22,8 @@ router.post('/addUser', userController.addUser); //no necesita estar logeado
 router.patch('/editUser',authMiddleware, userController.editUser);
 
 // Delete an existing user
-router.delete('/deleteUser',authMiddleware, userController.deleteUser);
+router.patch('/disableUser',authMiddleware, userController.disableUser); //Este se utiliza para "eliminar" usuarios, los desabilita permanentemente
+router.delete('/deleteUser',authMiddleware, userController.deleteUser); //Esta para un futuro, pero no deberia ser utilizado por logica, en su lugar desabilitar usuarios
 
 //especific routes
 
