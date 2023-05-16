@@ -152,13 +152,12 @@ const login = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let userDB = null;
     if (emailRegex.test(user)) {
-      userDB = await userService.getUserByColumn("email", user); 
+      userDB = await userService.getUserByColumn("email", user,null,["idUser","name","surname","email","userName","password","photo"]);
     } else {
-      userDB = await userService.getUserByColumn("userName", user);
+      userDB = await userService.getUserByColumn("userName", user,null,["idUser","name","surname","email","userName","password","photo"]);
     }
     if (!(utils.isExist(userDB))) { res.status(404).json({ message: 'Invalid User' }); return; };
     const isMatch = await utils.hashCompare(password, userDB[0].password);
-
     if (!isMatch) {
       res.status(401).json({ message: "Invalid credentials" });
       return;

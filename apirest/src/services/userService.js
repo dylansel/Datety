@@ -11,7 +11,7 @@ const editUser = async (data, id) => await CRUD.edit('user', data, id);
 
 const removeUser = async (id) => await CRUD.remove('user', id);
 
-const getUserByColumn = async (column, value,extraClauses = "WHERE is_active = 1") => await CRUD.getByColumn('user', column, value, ["idUser","name","surname","email","userName","photo"], extraClauses);
+const getUserByColumn = async (column, value,extraClauses = "WHERE is_active = 1",fields = ["idUser","name","surname","email","userName","photo"]) => await CRUD.getByColumn('user', column, value, fields, extraClauses);
 
 module.exports = {
   getAllUsers,
