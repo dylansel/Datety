@@ -7,7 +7,7 @@ const styleNav = {
     display: "flex",
     alignItems: "center",
     width: "100%",
-    height: "6.25rem",
+    height: "8.25rem",
     background: "#6C63FF",
     padding: "3.125rem",
     boxSizing: "border-box"

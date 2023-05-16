@@ -10,7 +10,6 @@ let initialForm= {
   email: "",
   username: "",
   password: "",
-  passConfirm: "",
 }
 
 const isLoged= false;
@@ -24,16 +23,19 @@ export default function Register(){
     }
 
   let containerStyle= {
-    height: "100vh",
+    height: "calc(100vh - 8.25rem)",
     boxSizing: "border-box",
     overflow: "hidden",
-
+    display: "flex",
+    alignItems: "center"
   }
 
   let registerContainerStyle= {
-    height: "calc(100vh - 6.25rem)",
     boxSizing: "border-box",
-    padding: "1rem 4rem 0 3rem"
+    padding: "1rem 4rem 0 3rem",
+    maxWidth: "1970px",
+    maxHeight: "800px" ,
+    margin: "8.25rem auto 200px auto",
 
   }
 
@@ -48,11 +50,16 @@ export default function Register(){
     flexGrow: 1,
     height: "70vh",
     justifyContent: "space-around",
+    maxHeight: "700px" ,
+
   }
 
   let imgContainerStyle= {
     flexGrow: 1,
     maxWidth: "55%",
+    margin: "0 50px 0 0",
+    maxHeight: "700px" ,
+
   }
 
   let imgStyle={
@@ -83,8 +90,8 @@ const handleCheck= (e)=>{
 
   return(
     <>
+      <Header isLoged={isLoged}/>
       <div style={containerStyle}>
-        <Header isLoged={isLoged}/>
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
           <div className="register" style={registerStyle}>
