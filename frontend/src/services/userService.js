@@ -43,7 +43,7 @@ export async function editUser(user) {
 
 export async function getUser() {
   try {
-    const response = await fetch(`${apiUrl}/user/getAllUsers`, {
+    const response = await fetch(`${apiUrl}/user/getUser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -77,15 +77,117 @@ export async function deleteUser() {
   }
 }
 
+export async function login(user) {
+  try {
+    const response = await fetch(`${apiUrl}/user/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    const status = response.status;
+    if (status === 200 && data.token) {
+      setAuthToken(data.token);
+    }
+    return [data, status];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al iniciar sesion");
+  }
+}
 /*
 
-var raw = JSON.stringify({
-  "name": "Dylan",
-  "surname": "Seltzer",
-  "email": "dylan.seltzer.et32@gmail.com",
-  "userName": "dylansel32",
-  "password": "dylan32",
-  "photo": "dylan32.jpg"
-});
+ const user = {
+      name: "Gonzalo",
+      surname: "Sanchez",
+      email: "Gonzalo.sanchezz.et32@gmail.com",
+      userName: "GonzaloS",
+      password: "GonzaloS",
+      photo: "GonzaloS.jpg"
+  }
+
+  const userEdit = {
+    name: "diego",
+    photo: "diegooo.jpg"
+}
+const userLogin = {
+    "user":"mariag",
+    "password":"mariag123"
+}
+
+
+
+  const añadir = async () =>{
+    try {
+      const [result,status] = await addUser(user)
+      if(status == 200){
+       console.log("se creo correctamente")
+      }else if(result.message){
+        console.warn(`API CODE Warn: "${result.message}"`)
+      }else{
+        console.error(`API CODE Error: "${result.error}"`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const modificar = async () => {
+    try {
+      const [result,status] = await editUser(userEdit)
+      if(status == 200){
+       console.log("se modifico correctamente")
+      }else{
+        console.error(`API CODE ERR: "${result.message}"`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  const leer = async () => {
+    try {
+      const [result,status] = await getUser()
+      if(status == 200){
+       console.log("------------- LEER --------------")
+       console.log(result)
+      }else{
+        console.error(`API CODE ERR: "${result.message}"`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  const eliminar = async () => {
+    try {
+      const [result,status] = await deleteUser()
+      if(status == 200){
+       console.log("se elimino correctamente")
+      }else{
+        console.error(`API CODE ERR: "${result.message}"`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  const logearse = async () =>{
+    try {
+      const [result,status] = await login(user)
+      if(status == 200){
+       console.log("se creo correctamente")
+      }else if(result.message){
+        console.warn(`API CODE Warn: "${result.message}"`)
+      }else{
+        console.error(`API CODE Error: "${result.error}"`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
 */
