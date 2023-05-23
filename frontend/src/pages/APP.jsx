@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import Header from "../components/utils/Header";
 import ModalAviso from "../components/ModalAviso"
 
 const isLoged = true;
 
-const ContenedorBotones = {
+const ModalAvisoStyle = {
+  position: "absolute",
+  background: "#E7E6F7",
+  top: "0",
+  left: "0",
+  width: "25%",
+  height: "3rem",
+  borderRadius: "0.7rem",
+  margin: "0 auto",
   display: "flex",
   justifyContent: "center",
-  padding: "40px",
-}
-
-const StyleButtonAviso = {
-  display: "flex",
-  padding: "10px 30px",
-  borderRadius: "100px",
-  color: "#fff",
-  border: "none",
-  background: "#0197F6",
-  cursor: "pointer",
+  alignItems: "center",
 }
 
 export default function APP() {
+
   return (
     <>
       <Header isLoged={isLoged} />
       <div>
         <h2>APP</h2>
       </div>
-      <div style={ContenedorBotones}>
-      <button style={StyleButtonAviso}>Aviso 1</button>
-      </div>
       <div>
-      <ModalAviso msg="Gonza es un capo, crack de la vida"></ModalAviso>
+        <ModalAviso style={ModalAvisoStyle}></ModalAviso>
       </div>
     </>
   )
