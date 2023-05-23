@@ -123,10 +123,33 @@ const deleteEvent = async (req, res) => {
 };
 
 
+//FUNCIONES ESPECIFICAS
+
+const getEventsForWeek = async (req,res) => {
+  try {
+    const idUser = req.user.idUser;
+    const date = req.params.date;
+    if(!date)return res.status(400).json({ message: 'Invalid date'});
+
+    //SEGUIR CODIGO ACA
+    let week = [];
+    for (let index = 0; index < 7; index++) {
+      const respuesta = await eventService.getEventsByDay(idUser,date);
+      week.push(respuesta)
+    }
+    res.status(200).json(respuesta);
+  }catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
 module.exports = {
   getAllEvents,
   getEventById,
   addEvent,
   editEvent,
   deleteEvent,
+  getEventsForWeek,
 }
