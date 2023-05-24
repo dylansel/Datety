@@ -119,6 +119,7 @@ body{
 
 
 
+
 /* _____MODAL ALERTA_____ */
 
 .accept_button{
@@ -212,3 +213,8 @@ body{
 
     }
 }
+      
+      
+.check-login{
+    background: rgba(69, 38, 206, 0.5) !important;
+    color: #ffffff !important;

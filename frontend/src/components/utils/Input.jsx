@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function Input({ value = "", type = "", placeholder = "", name = "", onChange = null, widthInput, classTyle }){
+
+export default function Input({value="", type="", placeholder="", name="", onChange= null, classStyle}){
+
 
   const inputStyle= {
     borderRadius: "0.6rem",
@@ -15,7 +17,9 @@ export default function Input({ value = "", type = "", placeholder = "", name = 
 
   return(
     <>
-      <input value={value} type={type} placeholder={placeholder} name={name} onChange={onChange} style={inputStyle} className={classTyle}/>
+
+      <input value={value} type={type} placeholder={placeholder} name={name} onChange={onChange} style={inputStyle} className={classStyle} />
+
     </>
   )
 }
