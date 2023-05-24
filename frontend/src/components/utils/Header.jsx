@@ -7,7 +7,7 @@ const styleNav = {
     display: "flex",
     alignItems: "center",
     width: "100%",
-    height: "6.25rem",
+    height: "8.25rem",
     background: "#6C63FF",
     padding: "3.125rem",
     boxSizing: "border-box"
@@ -52,7 +52,7 @@ export default function Header({isLoged}) {
                   :
                 <div className="links-container" style={linksContainer}>
                     <li className="link-item" style={linkItem}><Link style={item} className="item" to="/login">Login</Link></li>
-                    <li className="link-item" style={linkItem}><Link style={item} className="item" to="/app">Register</Link></li>
+                    <li className="link-item" style={linkItem}><Link style={item} className="item" to="/register">Register</Link></li>
                     <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About Us</Link></li>
                 </div>                
               }

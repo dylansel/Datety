@@ -73,8 +73,10 @@ export default function About() {
 
   const imgOne= {
     flexGrow: "1",
-    minWidth: "50%"
-    // maxWidth: "43.75rem"
+    minWidth: "50%",
+    
+    // maxWidth: "43.75rem",
+
   }
 
   const sectionOneTextContainer= {
@@ -113,7 +115,7 @@ export default function About() {
     margin: "0.937rem 0 0 0"
   } 
 
-  const isLoged = true;
+  const isLoged = false;
 
   return (
     <>
