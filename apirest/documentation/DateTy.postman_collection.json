@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5892a7ba-9cbb-4588-93c2-d4bc429aa4d5",
+		"_postman_id": "257db6da-f914-4557-a5a8-8331e65badbb",
 		"name": "DateTy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -207,6 +207,32 @@
 							"path": [
 								"event",
 								"getAllEvents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEventsForWeek",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForWeek/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForWeek",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-04-23"
+								}
 							]
 						}
 					},

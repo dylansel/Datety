@@ -41,17 +41,22 @@ const isExist = function (row) {
 
 
 function formatDateToString(date, format = 'YYYY-MM-DD') {
-  if (typeof date === 'string')date = new Date(date); 
+  
+ 
   const year = date.getFullYear();
+  const day = String(date.getDate());
   const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
 
   const formattedDate = format
     .replace('YYYY', year)
-    .replace('MM', month)
-    .replace('DD', day);
+    .replace('DD', day)
+    .replace('MM', month);
 
   return formattedDate;
+}
+
+function operateDate(date, days){
+  return  new Date(date.setDate(date.getDate() + days));
 }
 
 module.exports = {
@@ -61,4 +66,6 @@ module.exports = {
   createToken,
   verifyToken,
   formatDateToString,
+  operateDate,
+  
 };

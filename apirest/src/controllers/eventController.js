@@ -130,18 +130,19 @@ const getEventsForWeek = async (req,res) => {
     const idUser = req.user.idUser;
     const date = req.params.date;
     if(!date)return res.status(400).json({ message: 'Invalid date'});
-    const curr = new Date(date);
+    const curr = utils.operateDate(new Date(date),+1) ;
+    console.log(curr)
     let week = [];
     for (let index = 0; index < 7; index++) {
-      const day = utils.formatDateToString(new Date(curr.setDate(curr.getDate() - curr.getDay()+index)),'YYYY-MM-DD');
-      const respuesta = await eventService.getEventsByDay(idUser,day);
-      console.log(respuesta)
+      const day = new Date(curr.setDate(curr.getDate() - curr.getDay()+index))
+      const dayString = utils.formatDateToString(day,'YYYY-MM-DD');
+      const respuesta = await eventService.getEventsByDay(idUser,dayString);
+    
       week.push({
         day: utils.formatDateToString(day,'YYYY-MM-DD') ,
         events: respuesta
       })
     }
-    console.log(utils.formatDateToString('2022-2-20','DD-MM-YYYY'))
     res.status(200).json(week);
   }catch (error) {
     console.error(error);
