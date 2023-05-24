@@ -117,6 +117,54 @@ body{
     }
 }
 
+
+
+/* _____MODAL ALERTA_____ */
+
+.accept_button{
+    background: #3ddc97;
+}
+
+.cancel_button{
+    background: #F54654;
+}
+
+.modal_alert{
+    transition: .5s;
+    z-index: 10;
+    transform: translateY(-3rem);
+    animation-name: modalAlert;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+}
+
+.app_alerted{
+    animation: modalOpacity 0.5s ease-out forwards;
+    height: 100vh;
+}
+/* 
+.app{
+    background: rgba(0, 0, 0, 0.5)
+} */
+
+@keyframes modalAlert {
+    0%{
+        transform: translateY(-15rem);
+        opacity: 0;
+    }100%{
+        transform: translateY(-3rem);
+        opacity: 1;
+    }
+}
+
+@keyframes modalOpacity {
+    0%{
+        background: #fafafa,
+    }100%{
+        background: rgba(0, 0, 0, 0.5)
+          
+
 /* _________REGISTER__STYLE */
 
 /* .submit_buttom-login{
@@ -161,5 +209,6 @@ body{
     .input_register{
         width: 90%;
         margin: 0 auto;
+
     }
 }
