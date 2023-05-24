@@ -127,15 +127,16 @@ body{
     animation-duration: 0.8s;
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
+
 }
 
-/* .app_aviso{
+.app_aviso{
     animation: modalAvisoOpacity 0.5s ease-out forwards;
     height: 100vh;
-} */
-/* 
-.app{
-    background: rgba(0, 0, 0, 0.5)
+} 
+
+/* .app{
+    background: #fff;
 } */
 
 @keyframes modalAviso {
@@ -146,12 +147,12 @@ body{
         transform: translateY(45rem);
         opacity: 1;
     }
-}
+} 
 
-/* @keyframes modalAvisoOpacity {
+ @keyframes modalAvisoOpacity {
     0%{
         background: #fafafa,
     }100%{
         background: rgba(0, 0, 0, 0.5)
     }
-}      */
+}       

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const useHandleModalAviso= ()=>{
   const [modalAvisoResponse, setModalAvisoResponse]= useState(false);
@@ -17,15 +17,7 @@ const useHandleModalAviso= ()=>{
   }
 
   const openModalAviso= ()=>{
-    setAviso(true)
-    const timer = setTimeout(()=>{
-        setAviso(false);
-    }, 1500); //3000 = 3 segundos
-
-    return () => {
-        clearTimeout(timer);
-    }
-        
+    setAviso(true)   
   }
 
   return [modalAvisoResponse, handleModalAviso, aviso,openModalAviso]

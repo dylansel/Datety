@@ -7,7 +7,7 @@ const modalAvisoCalled= {
   left:"0",
   right: "0",
   margin: "0 auto",
-  background: "#21273785", //#f4f4f8 PARA DARKMODE  //8797af otra opcion
+  background: "#6C63FF", //#f4f4f8 PARA DARKMODE  //8797af otra opcion
   borderRadius: "20px",
   color: "#f4f4f8",
   display: "flex",
@@ -24,7 +24,9 @@ const topSectionStyle= {
 }
   
 const mainSectionStyle= {
-  padding: "0 1rem"
+  padding: "0 1rem",
+  display: "flex",
+  justifyContent: "center"
 }
 
 const buttonClose= {
