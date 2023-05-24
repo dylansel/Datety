@@ -15,7 +15,7 @@
     width: 100%;
     background: #ffd;
     height: 2.5px;
-    top: 1.67rem;
+    top: 2.67rem;
     transform: scale(0);
     border-radius: 1px;
     transition: .4s;
@@ -117,7 +117,104 @@ body{
     }
 }
 
+
+
+
+/* _____MODAL ALERTA_____ */
+
+.accept_button{
+    background: #3ddc97;
+}
+
+.cancel_button{
+    background: #F54654;
+}
+
+.modal_alert{
+    transition: .5s;
+    z-index: 10;
+    transform: translateY(-3rem);
+    animation-name: modalAlert;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+}
+
+.app_alerted{
+    animation: modalOpacity 0.5s ease-out forwards;
+    height: 100vh;
+}
+/* 
+.app{
+    background: rgba(0, 0, 0, 0.5)
+} */
+
+@keyframes modalAlert {
+    0%{
+        transform: translateY(-15rem);
+        opacity: 0;
+    }100%{
+        transform: translateY(-3rem);
+        opacity: 1;
+    }
+}
+
+@keyframes modalOpacity {
+    0%{
+        background: #fafafa,
+    }100%{
+        background: rgba(0, 0, 0, 0.5)
+          
+
+/* _________REGISTER__STYLE */
+
+/* .submit_buttom-login{
+    background: #958fff !important;
+} */
+
+.submit_buttom-login:hover{
+    background: #6C63FF !important;
+    transition: .5s;
+    color: #fff !important;
+}
+
+.input_register:hover{
+    border: 1.6px solid #6C63FF !important;
+    transition: .5s;
+}
+
+@media screen and (max-width: 1300px) {
+    .register{
+        flex-direction: column !important;
+        justify-content: center;
+        
+        
+    }
+
+    .img_login{
+        display: none !important;
+    }
+
+    .input_register{
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .show_pass{
+        margin: 0 auto;
+
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .input_register{
+        width: 90%;
+        margin: 0 auto;
+
+    }
+}
+      
+      
 .check-login{
     background: rgba(69, 38, 206, 0.5) !important;
     color: #ffffff !important;
-}

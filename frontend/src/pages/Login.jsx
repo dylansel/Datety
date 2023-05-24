@@ -11,6 +11,7 @@ let initialForm= {
 }
 
 export default function Login() {
+
   
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
@@ -99,7 +100,6 @@ export default function Login() {
             </form>
           </div>
        </div>
-  
   </>
   )
 }
