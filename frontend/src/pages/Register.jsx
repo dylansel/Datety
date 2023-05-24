@@ -4,6 +4,8 @@ import Input from "../components/utils/Input";
 import image from "../imgs/login_img.svg";
 import "../stylesheets/animations.css"
 import { addUser } from "../services/userService";
+import ModalAviso from "../components/ModalAviso";
+import useHandleModalAviso from "../hooks/handleModalAviso";
 
 let initialForm= {
   name: "",
@@ -15,16 +17,14 @@ let initialForm= {
 }
 
 const isLoged= false;
-export default function Register(){
-
-  let tittleStyle = { 
+const tittleStyle = { 
     textAlign: "center",
      margin: "1rem 0",
     fontSize: "3rem",
     fontWeight: "bold"
     }
 
-  let containerStyle= {
+const  containerStyle= {
     height: "calc(100vh - 8.25rem)",
     boxSizing: "border-box",
     overflow: "hidden",
@@ -32,7 +32,7 @@ export default function Register(){
     alignItems: "center"
   }
 
-  let registerContainerStyle= {
+const  registerContainerStyle= {
     boxSizing: "border-box",
     padding: "1rem 4rem 0 3rem",
     maxWidth: "1970px",
@@ -41,12 +41,12 @@ export default function Register(){
 
   }
 
-  let registerStyle= {
+const  registerStyle= {
     display: "flex",
     flexDirection: "row-reverse"
   }
 
-  let formStyle={
+const  formStyle={
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -56,7 +56,7 @@ export default function Register(){
 
   }
 
-  let imgContainerStyle= {
+const  imgContainerStyle= {
     flexGrow: 1,
     maxWidth: "55%",
     margin: "0 50px 0 0",
@@ -64,13 +64,17 @@ export default function Register(){
 
   }
 
-  let imgStyle={
+const  imgStyle={
     height: "85%",
     width: "100%"
   }
+export default function Register(){
 
 const [form, setForm]= useState(initialForm);
 const [check, setCheck]= useState(false)
+const [mensaje, setMensaje]= useState("")
+const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso]= useHandleModalAviso();
+
 
 const handleChange= (e)=>{
   setForm({
@@ -82,27 +86,31 @@ const handleChange= (e)=>{
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let passSecure= false;
 
+
+
 const handleSubmit= (e)=>{
   e.preventDefault();
   if(!form.name || !form.surname || !form.email || !form.userName || !form.password || !form.passConfirm ){
-    alert("Complete los datos...")
-    return;
+    setMensaje("Rellena todos los campos")
+    openModalAviso();
+    return ;
   }else if(form.password != form.passConfirm){
-    alert("Las contraseñas no coinciden...")
-    return;
+    setMensaje("Las contraseñas no coinciden...")
+    openModalAviso();
+    return ;
   }else if(!emailRegex.test(form.email)){
-    alert("Correo invalido...")
-    return;
+    setMensaje(mensaje= "Correo invalido...")
+    openModalAviso();
+    return ;
   }else  if(form.password.length < 8){
-    alert("La pass debe tener obtener almenos 8 caracteres...")
+    setMensaje("La contraseña debe tener un minimo de 8 caracteres")
+    openModalAviso();
+    return ;
   }else if(form.password.length >= 8){
     passSecure= true
   }
   añadir(newUser)
 }
-
-
-
 
 const añadir = async (user) =>{
   try {
@@ -133,16 +141,10 @@ const newUser= {
   photo: null
 }
 
-const handleRegister= ()=>{
-  addRegister(newUser);
-}
-
-
-
-
   return(
     <>
       <Header isLoged={isLoged}/>
+      {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso}/>}
       <div style={containerStyle}>
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>

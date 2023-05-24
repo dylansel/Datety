@@ -81,16 +81,12 @@ export async function login(user) {
   try {
     const response = await fetch(`${apiUrl}/user/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     });
     const data = await response.json();
     const status = response.status;
-    if (status === 200 && data.token) {
-      setAuthToken(data.token);
-    }
+    if (status === 200 && data.token) setAuthToken(data.token);
     return [data, status];
   } catch (error) {
     console.error(error);

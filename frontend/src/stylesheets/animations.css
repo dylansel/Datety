@@ -123,7 +123,7 @@ body{
 .modal_aviso{
     transition: .5s;
     z-index: 10;
-    transform: translateY(45rem);
+    transform: translateY(70rem);
     animation-name: modalAviso;
     animation-duration: 0.8s;
     animation-timing-function: ease-out;
@@ -134,10 +134,10 @@ body{
 
 @keyframes modalAviso {
     0%{
-        transform: translateY(50rem);
+        transform: translateY(90rem);
         opacity: 0;
     }100%{
-        transform: translateY(45rem);
+        transform: translateY(70rem);
         opacity: 1;
     }
 } 
@@ -169,10 +169,18 @@ body{
     animation: modalOpacity 0.5s ease-out forwards;
     height: 100vh;
 }
-/* 
+
+.app_aviso{
+    height: 100vh !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
 .app{
-    background: rgba(0, 0, 0, 0.5)
-} */
+    height: 100vh !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+} 
 
 @keyframes modalAlert {
     0%{

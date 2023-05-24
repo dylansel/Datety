@@ -3,7 +3,9 @@ import Header from "../components/utils/Header"
 import Input from "../components/utils/Input"
 import SVG from "../imgs/img_welcome.svg"
 import "../stylesheets/animations.css"
-
+import ModalAviso from "../components/ModalAviso";
+import useHandleModalAviso from "../hooks/handleModalAviso";
+import { login } from "../services/userService"
 
 let initialForm= {
   user: "",
@@ -12,9 +14,10 @@ let initialForm= {
 
 export default function Login() {
 
-  
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
+  const [mensaje, setMensaje]= useState("")
+  const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso]= useHandleModalAviso();
 
   const contenedorPrincipal = {
     display: "flex",
@@ -66,10 +69,22 @@ export default function Login() {
     setCheck(!check)
   }
 
-  const handleSubmit= (e)=>{
+  const logUser= {
+    user: form.user,
+    password: form.pass
+  }
+
+  const handleSubmit= async (e)=>{
     e.preventDefault();
     if(!form.user || !form.pass){
       alert("Complete los datos...")
+    }else{
+      const [data, status]= await login(logUser)
+      if(status == 401){
+        alert("pass Incorrecta")
+      }else if(status == 404){
+        alert("user no encontrado")
+      }
     }
   }
 
@@ -86,7 +101,7 @@ export default function Login() {
        <div className="contenedor-principal" style={contenedorPrincipal}>
           <div className="login-style" style={styleLogin}>
             <img src={SVG} alt="Imagen Login" style={imgStyle}/>
-            <form className="form-login" style={formStyle}>
+            <form className="form-login" style={formStyle}  onSubmit={handleSubmit} >
               <Input value={form.user} type="text" onChange={handleChange} placeholder="Ingrese su nombre" name="user" />
               <Input value={form.pass} type={(check) ? "text" : "password" } onChange={handleChange} placeholder="Contraseña" name="pass"/>
               <div>
@@ -95,7 +110,7 @@ export default function Login() {
               <a href="" style={styleLink}>¿Olvidaste tu contraseña?</a>
               <div style={buttonLogin}>
                 <a href="" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
-                <Input type="submit" value="Iniciar Sesión" name="confirm" onSubmit={handleSubmit} classStyle="check-login"></Input>
+                <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle="check-login"></Input>
               </div>
             </form>
           </div>
