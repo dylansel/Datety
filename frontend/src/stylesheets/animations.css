@@ -185,6 +185,11 @@ body{
     transition: .5s;
 }
 
+.input_register-pass{
+    border: 1.6px solid #52cf42 !important;
+    transition: .5s;
+}
+
 @media screen and (max-width: 1300px) {
     .register{
         flex-direction: column !important;
