@@ -11,7 +11,6 @@ export default function Input({value="", type="", placeholder="", name="", onCha
     color: "#222",
     background: "#eee",
     outline: "none",
-    width: widthInput
   }
 
 

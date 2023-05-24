@@ -165,12 +165,14 @@ body{
     }100%{
         background: rgba(0, 0, 0, 0.5)
           
+}
+}
 
 /* _________REGISTER__STYLE */
 
-/* .submit_buttom-login{
+.submit_buttom-login{
     background: #958fff !important;
-} */
+} 
 
 .submit_buttom-login:hover{
     background: #6C63FF !important;
@@ -187,8 +189,6 @@ body{
     .register{
         flex-direction: column !important;
         justify-content: center;
-        
-        
     }
 
     .img_login{
@@ -218,3 +218,4 @@ body{
 .check-login{
     background: rgba(69, 38, 206, 0.5) !important;
     color: #ffffff !important;
+}
