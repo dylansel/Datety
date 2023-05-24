@@ -118,6 +118,31 @@ body{
 }
 
 
+/* _____MODAL AVISO_____ */
+
+.modal_aviso{
+    transition: .5s;
+    z-index: 10;
+    transform: translateY(45rem);
+    animation-name: modalAviso;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+
+}
+
+
+@keyframes modalAviso {
+    0%{
+        transform: translateY(50rem);
+        opacity: 0;
+    }100%{
+        transform: translateY(45rem);
+        opacity: 1;
+    }
+} 
+
+
 
 
 /* _____MODAL ALERTA_____ */
@@ -160,14 +185,14 @@ body{
 }
 
 @keyframes modalOpacity {
+
     0%{
         background: #fafafa,
     }100%{
         background: rgba(0, 0, 0, 0.5)
+    }
+}       
           
-}
-}
-
 /* _________REGISTER__STYLE */
 
 .submit_buttom-login{
@@ -224,3 +249,4 @@ body{
     background: rgba(69, 38, 206, 0.5) !important;
     color: #ffffff !important;
 }
+

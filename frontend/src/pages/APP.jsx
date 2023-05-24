@@ -4,14 +4,16 @@ import Header from "../components/utils/Header";
 import useHandleModalAlert from "../hooks/handleModalAlert";
 const isLoged = true;
 
-
 export default function APP() {
   
+
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
 
 
 
+
   return (
+
     <div className={alert ? "app_alerted" : "app"}>
       <Header isLoged={isLoged} />
       {alert && <AlertModal msg="desea crear un nuevo evento" handleModal={handleModal}/>}
