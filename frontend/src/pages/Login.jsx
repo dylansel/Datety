@@ -77,13 +77,16 @@ export default function Login() {
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if(!form.user || !form.pass){
-      alert("Complete los datos...")
+      openModalAviso();
+      setMensaje("Complete los datos...")
     }else{
       const [data, status]= await login(logUser)
       if(status == 401){
-        alert("pass Incorrecta")
+        openModalAviso();
+        setMensaje("pass Incorrecta")
       }else if(status == 404){
-        alert("user no encontrado")
+        openModalAviso();
+        setMensaje("user no encontrado")
       }
     }
   }
@@ -96,6 +99,7 @@ export default function Login() {
   return (
     <>
         <Header />
+        {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso}/>}
         <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
 
        <div className="contenedor-principal" style={contenedorPrincipal}>
