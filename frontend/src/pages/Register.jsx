@@ -99,7 +99,7 @@ const handleSubmit= (e)=>{
     openModalAviso();
     return ;
   }else if(!emailRegex.test(form.email)){
-    setMensaje(mensaje= "Correo invalido...")
+    setMensaje("Correo invalido...")
     openModalAviso();
     return ;
   }else  if(form.password.length < 8){
