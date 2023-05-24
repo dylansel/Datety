@@ -38,10 +38,27 @@ const isExist = function (row) {
   return !(row === null || Object.keys(row).length === 0);
 };
 
+
+
+function formatDateToString(date, format = 'YYYY-MM-DD') {
+  if (typeof date === 'string')date = new Date(date); 
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  const formattedDate = format
+    .replace('YYYY', year)
+    .replace('MM', month)
+    .replace('DD', day);
+
+  return formattedDate;
+}
+
 module.exports = {
   isExist,
   encryptText,
   hashCompare,
   createToken,
   verifyToken,
+  formatDateToString,
 };

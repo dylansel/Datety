@@ -130,14 +130,19 @@ const getEventsForWeek = async (req,res) => {
     const idUser = req.user.idUser;
     const date = req.params.date;
     if(!date)return res.status(400).json({ message: 'Invalid date'});
-
-    //SEGUIR CODIGO ACA
+    const curr = new Date(date);
     let week = [];
     for (let index = 0; index < 7; index++) {
-      const respuesta = await eventService.getEventsByDay(idUser,date);
-      week.push(respuesta)
+      const day = utils.formatDateToString(new Date(curr.setDate(curr.getDate() - curr.getDay()+index)),'YYYY-MM-DD');
+      const respuesta = await eventService.getEventsByDay(idUser,day);
+      console.log(respuesta)
+      week.push({
+        day: utils.formatDateToString(day,'YYYY-MM-DD') ,
+        events: respuesta
+      })
     }
-    res.status(200).json(respuesta);
+    console.log(utils.formatDateToString('2022-2-20','DD-MM-YYYY'))
+    res.status(200).json(week);
   }catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
