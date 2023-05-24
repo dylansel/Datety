@@ -38,10 +38,34 @@ const isExist = function (row) {
   return !(row === null || Object.keys(row).length === 0);
 };
 
+
+
+function formatDateToString(date, format = 'YYYY-MM-DD') {
+  
+ 
+  const year = date.getFullYear();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+
+  const formattedDate = format
+    .replace('YYYY', year)
+    .replace('DD', day)
+    .replace('MM', month);
+
+  return formattedDate;
+}
+
+function operateDate(date, days){
+  return  new Date(date.setDate(date.getDate() + days));
+}
+
 module.exports = {
   isExist,
   encryptText,
   hashCompare,
   createToken,
   verifyToken,
+  formatDateToString,
+  operateDate,
+  
 };

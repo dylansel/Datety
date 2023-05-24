@@ -3,8 +3,11 @@ const router = express.Router();
 const pool = require('../database/connection'); 
 const eventController = require('../controllers/eventController')
 
-// Obtener todos los usuarios
+// Obtener todos los eventos
 router.get('/getAllEvents', eventController.getAllEvents);
+
+// Obtener todos los eventos de una semana
+router.get('/getEventsForWeek/:date', eventController.getEventsForWeek);
 
 // Obtener un evento por ID
 router.get('/getEventById/:id', eventController.getEventById);
