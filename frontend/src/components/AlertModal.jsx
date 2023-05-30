@@ -9,9 +9,9 @@ const modalCalled= {
   left:"0",
   right: "0",
   margin: "0 auto",
-  background: "#212737", //#f4f4f8 PARA DARKMODE  //8797af otra opcion
+  background: "#f4f4f8", //#f4f4f8 PARA DARKMODE  //8797af otra opcion //#212737
   borderRadius: "20px",
-  color: "#f4f4f8",
+  color: "#212737",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
@@ -21,12 +21,15 @@ const modalCalled= {
 const topSectionStyle= {
   display: "flex",
   justifyContent: "end",
-  padding: "0 .6rem",
-  color: "#888"
+  padding: "0 .6rem .5rem 0",
+  color: "#212737",
+  borderBottom: ".3px solid #999"
 }
   
 const mainSectionStyle= {
-  padding: "0 1rem"
+  padding: "1rem",
+  display: "flex",
+  justifyContent: "center"
 }
 
 const buttonSectionStyle= {
@@ -38,15 +41,14 @@ const buttonSectionStyle= {
 const buttonStyle= {
   borderRadius: "10px",
   border: "none",
-  padding: ".3rem",
-  color: "#fafafa"
-
+  padding: ".4rem",
+  color: "#111",
 }
 
 const buttonClose= {
   border: "none",
   background: "transparent",
-  color: "#fafafa"
+  color: "#212737"
 }
 
 
@@ -61,8 +63,8 @@ export default function AlertModal({msg, handleModal}) {
         <p>¿Seguro que {msg}?</p>
       </div>
       <div className="buttons-section" style={buttonSectionStyle}>
-        <button style={buttonStyle} className="cancel_button" onClick={handleModal} value={"Cancelar"}>Cancelar</button>
-        <button style={buttonStyle} className="accept_button"  onClick={handleModal} value={"Aceptar"}>Aceptar</button>
+        <button style={buttonStyle} className="modal_button cancel_button" onClick={handleModal} value={"Cancelar"}>Cancelar</button>
+        <button style={buttonStyle} className="modal_button accept_button"  onClick={handleModal} value={"Aceptar"}>Aceptar</button>
       </div>
     </div>
   )

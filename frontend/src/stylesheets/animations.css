@@ -147,11 +147,24 @@ body{
 
 /* _____MODAL ALERTA_____ */
 
+.modal_button{
+    transition: .4s;
+    min-width: 8rem;
+}
+
 .accept_button{
+    background: #17955e;
+    color: #fafafa !important;
+}
+.accept_button:hover{
     background: #3ddc97;
 }
 
 .cancel_button{
+    background: #e92535;
+    color: #fafafa !important;
+}
+.cancel_button:hover{
     background: #F54654;
 }
 
