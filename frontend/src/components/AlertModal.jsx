@@ -23,7 +23,7 @@ const topSectionStyle= {
   justifyContent: "end",
   padding: "0 .6rem .5rem 0",
   color: "#212737",
-  borderBottom: ".3px solid #999"
+  borderBottom: ".1px solid #999"
 }
   
 const mainSectionStyle= {
@@ -43,12 +43,13 @@ const buttonStyle= {
   border: "none",
   padding: ".4rem",
   color: "#111",
+  width: "100%"
 }
 
 const buttonClose= {
   border: "none",
   background: "transparent",
-  color: "#212737"
+  color: "#555"
 }
 
 
@@ -57,7 +58,7 @@ export default function AlertModal({msg, handleModal}) {
   return(
     <div style={modalCalled} className="modal_alert">
       <div className="top_section" style={topSectionStyle}>
-        <button onClick={handleModal} style={buttonClose} value={"X"}>X</button>
+        <button onClick={handleModal} style={buttonClose} value={"X"}>x</button>
       </div>
       <div className="main_section" style={mainSectionStyle}>
         <p>¿Seguro que {msg}?</p>

@@ -149,7 +149,7 @@ body{
 
 .modal_button{
     transition: .4s;
-    min-width: 8rem;
+    width: 40% !important;
 }
 
 .accept_button{
