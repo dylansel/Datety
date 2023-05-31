@@ -12,58 +12,61 @@ let initialForm= {
   pass: ""
 }
 
+const contenedorPrincipal = {
+  display: "flex",
+  height: "calc(100vh - 14.25rem)",
+  boxSizing: "border-box",
+  overflow: "hidden"
+}
+
+const styleTittle = {
+  textAlign: "center",
+  fontWeight: "bord",
+  fontSize: "3rem",
+  margin: "1rem",
+}
+
+const styleLogin = {
+  display: "flex",
+  flexDirection: "row-reverse",
+  width: "100vw"
+}
+
+const formStyle = {
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: "1",
+  height: "45vh",
+  justifyContent: "space-around",
+  maxWidth: "35%"
+}
+
+const imgStyle={
+  flexGrow: "1",
+  maxWidth: "60%",
+  height: "70vh"
+}
+
+const buttonLogin = {
+  display: "flex",
+  width: "100%",
+  justifyContent: "space-between"
+}
+
+const handleChange = (e) => {
+  setForm({
+    ...form,
+    [e.target.name] : e.target.value
+  })
+}
+
 export default function Login() {
 
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
   const [mensaje, setMensaje]= useState("")
-  const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso]= useHandleModalAviso();
+  const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
 
-  const contenedorPrincipal = {
-    display: "flex",
-    height: "calc(100vh - 12.25rem)",
-    boxSizing: "border-box"
-  }
-
-  const styleTittle = {
-    textAlign: "center",
-    fontWeight: "bord",
-    fontSize: "3rem",
-    margin: "1rem",
-  }
-
-  const styleLogin = {
-    display: "flex",
-    flexDirection: "row-reverse",
-    width: "100vw"
-  }
-
-  const formStyle = {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: "1",
-    height: "45vh",
-    justifyContent: "space-around",
-    maxWidth: "35%"
-  }
-
-  const imgStyle={
-    flexGrow: "1",
-    maxWidth: "60%"
-  }
-
-  const buttonLogin = {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between"
-  }
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name] : e.target.value
-    })
-  }
 
   const handleCheck = ()=>{
     setCheck(!check)
@@ -99,7 +102,6 @@ export default function Login() {
   return (
     <>
         <Header />
-        {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso}/>}
         <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
 
        <div className="contenedor-principal" style={contenedorPrincipal}>
@@ -119,6 +121,8 @@ export default function Login() {
             </form>
           </div>
        </div>
+       {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso} modalStyle={aviso ? modalAvisoCalled : "aviso-hidden"}/>}
+
   </>
   )
 }

@@ -117,33 +117,33 @@ body{
     }
 }
 
+.aviso-hidden{
+    display: none;
+}
 
 /* _____MODAL AVISO_____ */
 
 .modal_aviso{
     transition: .5s;
     z-index: 10;
-    transform: translateY(70rem);
     animation-name: modalAviso;
-    animation-duration: 0.8s;
-    animation-timing-function: ease-out;
+    animation-duration: 4s;
+    animation-timing-function:ease;
     animation-iteration-count: 1;
-
 }
-
 
 @keyframes modalAviso {
     0%{
-        transform: translateY(90rem);
+        transform: translateY(0);
         opacity: 0;
-    }100%{
-        transform: translateY(70rem);
+    }50%{
+        transform: translateY(-5rem);
         opacity: 1;
+    }100%{
+        transform: translateY(0);
+        opacity: 0;
     }
 } 
-
-
-
 
 /* _____MODAL ALERTA_____ */
 
@@ -230,6 +230,7 @@ body{
     border: 1.6px solid #6C63FF !important;
     transition: .5s;
 }
+
 
 .input_register-pass{
     border: 1.6px solid #52cf42 !important;

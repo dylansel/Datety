@@ -5,22 +5,36 @@ const useHandleModalAviso= ()=>{
   const [aviso, setAviso]= useState(false);
 
   const handleModalAviso= (e)=>{
-    if(e.target.value == "Cancelar" || e.target.value == "X"){
+    if(e.target.value == "X"){
       console.log("Operacion Cancelada")
       setModalAvisoResponse(false)
       setAviso(false)
-    }else if(e.target.value == "Aceptar" ){
-      console.log("Operacion Realizada")
-      setModalAvisoResponse(true)
-      setAviso(false)
     }
+  }
+  const modalAvisoCalled= {
+    width: "20%",
+    minHeight: "4rem",
+    position: "absolute",
+    left:"0",
+    right: "0",
+    bottom: "0",
+    margin: "0 auto",
+    background: "#6C63FF", //#f4f4f8 PARA DARKMODE  //8797af otra opcion
+    borderRadius: "20px",
+    color: "#f4f4f8",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    transition: "2s"
   }
 
   const openModalAviso= ()=>{
     setAviso(true)   
+    setTimeout(()=>{
+      setAviso(false)   
+    },3899)
   }
 
-  return [modalAvisoResponse, handleModalAviso, aviso,openModalAviso]
+  return [modalAvisoResponse, handleModalAviso, aviso,openModalAviso, modalAvisoCalled]
 }
-
 export default useHandleModalAviso;

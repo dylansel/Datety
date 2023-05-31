@@ -2,10 +2,10 @@ import React, {useState} from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input";
 import image from "../imgs/login_img.svg";
-import "../stylesheets/animations.css"
 import { addUser } from "../services/userService";
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
+import "../stylesheets/animations.css"
 
 let initialForm= {
   name: "",
@@ -73,8 +73,7 @@ export default function Register(){
 const [form, setForm]= useState(initialForm);
 const [check, setCheck]= useState(false)
 const [mensaje, setMensaje]= useState("")
-const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso]= useHandleModalAviso();
-
+const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
 
 const handleChange= (e)=>{
   setForm({
@@ -82,11 +81,8 @@ const handleChange= (e)=>{
     [e.target.name] : e.target.value
   })
 }
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let passSecure= false;
-
-
 
 const handleSubmit= (e)=>{
   e.preventDefault();
@@ -140,11 +136,9 @@ const newUser= {
   password: form.password,
   photo: null
 }
-
   return(
     <>
       <Header isLoged={isLoged}/>
-      {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso}/>}
       <div style={containerStyle}>
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
@@ -167,7 +161,7 @@ const newUser= {
           </div>
         </div>
       </div>
-      
+      {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso} modalStyle={aviso ? modalAvisoCalled : "aviso-hidden"}/>}
     </>
   )
 }

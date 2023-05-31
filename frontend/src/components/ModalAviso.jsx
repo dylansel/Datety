@@ -1,20 +1,7 @@
 import React, {useState} from "react"
 
-const modalAvisoCalled= {
-  width: "20%",
-  minHeight: "4rem",
-  position: "absolute",
-  left:"0",
-  right: "0",
-  margin: "0 auto",
-  background: "#6C63FF", //#f4f4f8 PARA DARKMODE  //8797af otra opcion
-  borderRadius: "20px",
-  color: "#f4f4f8",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  transition: "2s"
-}
+
+
 
 const topSectionStyle= {
   display: "flex",
@@ -36,12 +23,12 @@ const buttonClose= {
 }
 
 
-export default function ModalAviso({msg, handleModalAviso}) {
+export default function ModalAviso({msg, handleModalAviso,modalStyle}) {
 
   return(
-    <div style={modalAvisoCalled} className="modal_aviso">
+    <div style={modalStyle} className="modal_aviso">
       <div className="top_section" style={topSectionStyle}>
-        <button onClick={handleModalAviso} style={buttonClose} value={"X"}>X</button>
+        <button onClick={handleModalAviso} style={buttonClose} value={"X"}>x</button>
       </div>
       <div className="main_section" style={mainSectionStyle}>
         <p>{msg}</p>
