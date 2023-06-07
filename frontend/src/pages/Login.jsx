@@ -53,15 +53,15 @@ const buttonLogin = {
   justifyContent: "space-between"
 }
 
-const handleChange = (e) => {
-  setForm({
-    ...form,
-    [e.target.name] : e.target.value
-  })
-}
 
 export default function Login() {
-
+  
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
   const [mensaje, setMensaje]= useState("")
