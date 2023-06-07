@@ -11,8 +11,11 @@ const useHandleModalAlert= ()=>{
       setModalResponse(false)
       setAlert(false)
     }else if(e.target.value == "Aceptar" ){
-      console.log("Operacion Realizada")
+      //console.log("Operacion Realizada")
       setModalResponse(true)
+      setTimeout(()=>{
+        setModalResponse(false)
+      }, 3000)
       setAlert(false)
     }
   }

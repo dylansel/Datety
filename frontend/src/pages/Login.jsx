@@ -53,12 +53,6 @@ const buttonLogin = {
   justifyContent: "space-between"
 }
 
-const handleChange = (e) => {
-  setForm({
-    ...form,
-    [e.target.name] : e.target.value
-  })
-}
 
 export default function Login() {
 
@@ -94,6 +88,13 @@ export default function Login() {
     }
   }
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
+  
   const styleLink = {
     textDecoration: "none",
     color: "rgba(20, 20, 20, 0.827)"
