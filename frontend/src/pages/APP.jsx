@@ -47,7 +47,6 @@ export default function APP() {
       }
       return e;
     });
-    console.log("newEvents", newEvents);
 
     setEvents(newEvents);
   };
@@ -63,8 +62,12 @@ export default function APP() {
           <h2>APP</h2>
           <button onClick={openModal}>Crear</button>
           <button onClick={()=>console.log(events)}>EVENTOS</button>
-          <FullCalendar
+
+
+
           
+          <FullCalendar
+          locale= 'es'
           plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
           initialView="timeGridWeek"
           headerToolbar= {{
@@ -74,7 +77,7 @@ export default function APP() {
           }}
           eventDrop={eventDrop}
           editable={true}
-          selectable={true}
+          selectable={false}
           events={events}
         />
 
