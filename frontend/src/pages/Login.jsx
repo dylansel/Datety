@@ -53,21 +53,20 @@ const buttonLogin = {
   justifyContent: "space-between"
 }
 
-const handleChange = (e) => {
-  setForm({
-    ...form,
-    [e.target.name] : e.target.value
-  })
-}
 
 export default function Login() {
-
+  
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
   const [mensaje, setMensaje]= useState("")
   const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-
-
+  
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
   const handleCheck = ()=>{
     setCheck(!check)
   }
