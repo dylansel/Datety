@@ -12,27 +12,13 @@ const isLoged = true;
 
 export default function APP() {
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
+
+
   const [events, setEvents] = useState([
     { id:1 ,title: 'Pijamada en lo del diego', start: "2023-06-07T10:00:00", end: "2023-06-07T12:00:00" },
     { id:2 ,title: 'event 2', date: '2023-06-08'}
   ])
 
-
-  const handleEventDrop = (eventDropInfo)=>{
-    // Accede al evento y a su nueva fecha y hora
-    const event = eventDropInfo.event;
-    const newStart = eventDropInfo.start;
-    const newEnd = eventDropInfo.end;
-    console.log(eventDropInfo.event.start.toISOString())
-    // Actualiza el horario del evento con las nuevas fechas y horas
-    event.setStart(newStart);
-    event.setEnd(newEnd);
-    
-   
-
-    // Realiza cualquier otra lógica que desees después del cambio de horario
-    console.log("Evento arrastrado y soltado:", events);
-  }
   const eventDrop = (info) => {
  
     const newEvents = events.map((e) => {
@@ -64,9 +50,15 @@ export default function APP() {
           <button onClick={()=>console.log(events)}>EVENTOS</button>
 
 
-
-          
           <FullCalendar
+          timeZone="local"
+          
+          dateClick={function(info){
+            console.log('Clicked on: ' + info.dateStr);
+            console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            console.log('Current view: ' + info.view.type);
+            console.log('EVENTO: ' + info.date.toString());
+          }}
           locale= 'es'
           plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
           initialView="timeGridWeek"
@@ -75,10 +67,15 @@ export default function APP() {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
+          
+          // eventChange={(e)=>{
+          //   console.log("CAMBIO: ", e._def.title)
+          // }}
           eventDrop={eventDrop}
           editable={true}
           selectable={false}
           events={events}
+          
         />
 
         </div>
