@@ -10,9 +10,9 @@ import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcional
 
 const isLoged = true;
 
-export default function APP() {
+export default  function APP() {
   const [msg, setMsg]= useState("");
-  const [modalResponse, handleModal, alert, openModal, loading]= useHandleModalAlert();
+  const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
 
 
   const [events, setEvents] = useState([
@@ -20,40 +20,32 @@ export default function APP() {
     { id:2 ,title: 'event 2', date: '2023-06-08'}
   ])
 
-  const eventDrop = (info) => {
- 
-    const newEvents = events.map((e) => {
-      if (e.id == info.event.id) {
-        const data = {
-          ...info.event,
-          id: info.event.id,
-          title: info.event.title,
-          start: info.event.start,
-          end: info.event.end
-        };
-        
-        setMsg(info.event.title + " fue movia " + info.event.start + " Are you sure about this change?")
-        openModal();
 
-        console.log("RESPUESTA:",modalResponse)
-        
-        if(!modalResponse){
-          info.revert();
-        }else{
+    const eventDrop = (info) => {
+ 
+    setMsg(info.event.title + " fue movia " + info.event.start + " Are you sure about this change?")
+
+    const res = window.confirm(msg);
+    
+    if(!res){
+      info.revert();
+    }else{
+      const newEvents = events.map((e) => {
+        if (e.id == info.event.id) {
+          const data = {
+            ...info.event,
+            id: info.event.id,
+            title: info.event.title,
+            start: info.event.start,
+            end: info.event.end
+          };
           return data
         }
-
-       
-
-
+        return e;
+      });
+      setEvents(newEvents);
       }
-      return e;
-    });
-
-    setEvents(newEvents);
-  };
-  
-
+    };
 
   return (
 
