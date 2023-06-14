@@ -38,10 +38,36 @@ const isExist = function (row) {
   return !(row === null || Object.keys(row).length === 0);
 };
 
+
+const listDateInWeekUntil  = (startDate,endDate,week)=>{
+//esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
+//startDate = "2023-04-16"
+//endDate = "2023-10-16"
+//week = [0,1,1,1,1,1,0]
+  const result = [];
+  const currentDate = new Date(startDate);
+
+  while (currentDate <= new Date(endDate)) {
+    const dayOfWeek = (currentDate.getDay() + 6) % 7; // Ajuste para que 0 represente el domingo
+
+    if (week[dayOfWeek] === 1) {
+      result.push(currentDate.toISOString().split('T')[0]);
+    }
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return result;
+};
+
+
+
+
+
 module.exports = {
   isExist,
   encryptText,
   hashCompare,
   createToken,
   verifyToken,
+  listDateInWeekUntil,
 };
