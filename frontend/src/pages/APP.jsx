@@ -11,7 +11,8 @@ import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcional
 const isLoged = true;
 
 export default function APP() {
-  const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
+  const [msg, setMsg]= useState("");
+  const [modalResponse, handleModal, alert, openModal, loading]= useHandleModalAlert();
 
 
   const [events, setEvents] = useState([
@@ -26,10 +27,25 @@ export default function APP() {
         const data = {
           ...info.event,
           id: info.event.id,
+          title: info.event.title,
           start: info.event.start,
           end: info.event.end
         };
-        return data
+        
+        setMsg(info.event.title + " fue movia " + info.event.start + " Are you sure about this change?")
+        openModal();
+
+        console.log("RESPUESTA:",modalResponse)
+        
+        if(!modalResponse){
+          info.revert();
+        }else{
+          return data
+        }
+
+       
+
+
       }
       return e;
     });
@@ -43,7 +59,7 @@ export default function APP() {
 
     <div className={alert ? "app_alerted" : "app"}>
       <Header isLoged={isLoged} />
-      {alert && <AlertModal msg="desea crear un nuevo evento llamado comer con Celeste" handleModal={handleModal}/>}
+      {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
         <div>
           <h2>APP</h2>
           <button onClick={openModal}>Crear</button>
@@ -52,6 +68,12 @@ export default function APP() {
 
           <FullCalendar
           timeZone="local"
+        
+          eventChange={function (e){
+            console.log(e.event._def.title)
+            e.title= e.event._def.title
+            console.log("TITTLE: ",e.title)
+          }}
           
           dateClick={function(info){
             console.log('Clicked on: ' + info.dateStr);
@@ -75,7 +97,8 @@ export default function APP() {
           editable={true}
           selectable={false}
           events={events}
-          
+          allDaySlot={false}
+
         />
 
         </div>
