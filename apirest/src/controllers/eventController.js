@@ -53,27 +53,25 @@ const addEvent = async (req, res) => {
 
     if(repeat){
       //Crear un evento
-      console.log(repeat.rep)
-      const resp = utils.listDateInWeekUntil("2023-06-16","2023-07-16",[0,1,1,1,1,1,0])
-      console.log(resp)
-        // const data = { tittle, description, startDate, endDate, startTime, endTime, isDinamic, isAccepted };
-        // const rEvet = await eventService.addEvent(data);
-        // if (!rEvet) {
-        //   return res.status(500).json({ message: 'Internal server error' });
-        // }
-        // await usereventService.addUserEvent({
-        //   idUser: idUser,
-        //   idEvent: rEvet
-        // });
-      
-      
+      const respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
+      respsDates.forEach(async (dateDinamic) => {
+        const data = { tittle, description, startDate:dateDinamic, endDate:dateDinamic, startTime, endTime, isDinamic:0, isAccepted:1 };
+        const rEvet = await eventService.addEvent(data);
+        if (!rEvet) {
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+        await usereventService.addUserEvent({
+          idUser: idUser,
+          idEvent: rEvet
+        });
+      });
     }
-
+  res.status(200).json({});
 
 
     
     
-    res.status(200).json({});
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

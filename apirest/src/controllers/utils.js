@@ -41,15 +41,14 @@ const isExist = function (row) {
 
 const listDateInWeekUntil  = (startDate,endDate,week)=>{
 //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
-//startDate = "2023-04-16"
-//endDate = "2023-10-16"
-//week = [0,1,1,1,1,1,0]
+
   const result = [];
   const currentDate = new Date(startDate);
+  const targetDate = new Date(endDate);
+  targetDate.setDate(targetDate.getDate() + 1); // Sumar 1 día a targetDate
 
-  while (currentDate <= new Date(endDate)) {
-    const dayOfWeek = (currentDate.getDay() + 6) % 7; // Ajuste para que 0 represente el domingo
-
+  while (currentDate <= targetDate) {
+    const dayOfWeek = (currentDate.getDay()) % 7; // Ajuste para que 0 represente el domingo
     if (week[dayOfWeek] === 1) {
       result.push(currentDate.toISOString().split('T')[0]);
     }
