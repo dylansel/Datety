@@ -57,8 +57,41 @@ const listDateInWeekUntil  = (startDate,endDate,week)=>{
 
   return result;
 };
+const listDateInNumberUntil  = (startDate,endDate,numberDay)=>{
+  //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el numero de dia especidifado.
+  //se usara para listar las fechas de varios meses
 
-
+    const result = [];
+    const currentDate = new Date(startDate);
+    const targetDate = new Date(endDate);
+    targetDate.setDate(targetDate.getDate()); // Sumar 1 día a targetDate
+    if (typeof numberDay === 'string') {
+      numberDay = parseInt(numberDay);
+    }
+    while (currentDate <= targetDate) {
+      if (currentDate.getDate() === numberDay-1) {
+        result.push(currentDate.toISOString().split('T')[0]);
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return result;
+  };
+const listDateInYearUntil  = (startDate,endDate)=>{
+    //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el numero de dia especidifado.
+    const targetDate = new Date(endDate);
+    let [year,month,day] = startDate.split('-');
+    year = parseInt(year);
+    month = parseInt(month);
+    day = parseInt(day);
+    const result = [];
+    while (year <= targetDate.getFullYear()) {
+        result.push(`${year++}-${month}-${day}`);
+    }
+  
+    return result;
+  };
+ 
 
 
 
@@ -69,4 +102,6 @@ module.exports = {
   createToken,
   verifyToken,
   listDateInWeekUntil,
+  listDateInNumberUntil,
+  listDateInYearUntil,
 };

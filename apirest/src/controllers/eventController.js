@@ -53,7 +53,17 @@ const addEvent = async (req, res) => {
 
     if(repeat){
       //Crear un evento
-      const respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
+      
+      let respsDates = [startDate];
+      if(repeat.rep){
+        respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
+      }else if(repeat.for == "month"){
+        respsDates = utils.listDateInNumberUntil(startDate,repeat.until,startDate.split('-')[2])
+      }else if(repeat.for == "year"){
+        respsDates = utils.listDateInYearUntil(startDate,repeat.until)
+      }
+      if(respsDates.length ==0)respsDates = [startDate];
+      
       respsDates.forEach(async (dateDinamic) => {
         const data = { tittle, description, startDate:dateDinamic, endDate:dateDinamic, startTime, endTime, isDinamic:0, isAccepted:1 };
         const rEvet = await eventService.addEvent(data);
