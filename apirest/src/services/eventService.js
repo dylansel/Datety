@@ -5,7 +5,7 @@ const getAllEvents = async (idUser) => {
     const [results, fields] = await pool.promise().query(`
       SELECT e.* FROM event e
       INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
-      WHERE ue.idUser = ?;
+      WHERE ue.idUser = ? order by e.startDate;
     `, [idUser]);
     return results;
 }

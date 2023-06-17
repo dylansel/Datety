@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5892a7ba-9cbb-4588-93c2-d4bc429aa4d5",
+		"_postman_id": "dbeacff5-ac7a-48a1-9fdf-faf887edbd97",
 		"name": "DateTy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -239,13 +239,42 @@
 					"response": []
 				},
 				{
-					"name": "addEvent",
+					"name": "addEvent-1",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"tittle\": \"Reunion iona\",\r\n        \"description\": \"llevar una caja\",\r\n        \"startDate\": \"2023-04-18T03:00:00.000Z\",\r\n        \"endDate\": \"2023-04-18T03:00:00.000Z\",\r\n        \"startTime\": \"16:00:00\",\r\n        \"endTime\": \"18:00:00\",\r\n        \"isDinamic\": 1,\r\n        \"isAccepted\": 1\r\n}",
+							"raw": "{\r\n    \"tittle\": \"Reunion iona\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDate\": \"2023-04-16\",\r\n    \"endDate\": \"2023-04-16\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":{\r\n        \"rep\":[0,1,1,1,1,1,0],\r\n        \"until\": \"2023-10-16\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/event/addEvent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"addEvent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEvent-2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tittle\": \"Reunion iona\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDate\": \"2023-04-16\",\r\n    \"endDate\": \"2023-04-16\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":{\r\n        \"dayRep\":16,\r\n        \"until\": \"2023-10-16\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 1,\r\n    \"participants\":[\r\n        {\"idUser\":1,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -338,7 +367,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4MjkxMDAyMCwiZXhwIjoxNjg1NTAyMDIwfQ.D0qmE2X9GHg3es5rcY44yjja-YNFmvLpHSOsH6Qoz00",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4Njc3NDE3NywiZXhwIjoxNjg5MzY2MTc3fQ.LB15y78kkYP-0bvIOYUl5O7jSNCujV-y0f_Ox8L9ppo",
 				"type": "string"
 			}
 		]
