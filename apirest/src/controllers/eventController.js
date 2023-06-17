@@ -44,16 +44,19 @@ const addEvent = async (req, res) => {
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
-
-    }
-
-    if(participants){
-      //agregar a todos los participantes
-    }
-
-    if(repeat){
-      //Crear un evento
+      return res.status(400).json({ message: 'Todavia no habilitado este endpoint dinamico' });
+      if(participants.length>=1 ){
+      //agregar el evento y todos los participantes
       
+      }
+
+    }
+
+    
+
+    if(repeat && !isDinamic){
+      //Crear un evento
+      console.log("repeat")
       let respsDates = [startDate];
       if(repeat.rep){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
@@ -74,13 +77,10 @@ const addEvent = async (req, res) => {
           idUser: idUser,
           idEvent: rEvet
         });
-      });
+      }); 
+      return res.status(200).json({});
     }
-  res.status(200).json({});
-
-
-    
-    
+    res.status(400).json({ message: 'could not add the event, check the data' });
     
   } catch (error) {
     console.error(error);
