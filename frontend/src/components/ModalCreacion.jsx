@@ -1,14 +1,15 @@
 import { React, useState } from "react";
 import Input from "./utils/Input";
+import "../stylesheets/animations.css"
 
 /*
 INPUTS:
-- Titulo
-- Descripcion input area
-- Fecha de Inicio date
-- Fecha de Fin date 
-- Hora de inicio time 
-- Hora de Fin time 
+- Titulo X
+- Descripcion input area X
+- Fecha de Inicio date X
+- Fecha de Fin date X
+- Hora de inicio time X
+- Hora de Fin time X
 - Repeticion del Evento multi check 
     Repeat:{
         rep: [1,1,1,1,1,0,0,1] | [16]
@@ -59,7 +60,7 @@ const formSection = {
   flexDirection: "column",
   color: "#fafafa",
   justifyContent: "space-around",
-  height: "35rem"
+  height: "35rem",
 }
 
 const textArea = {
@@ -72,9 +73,15 @@ const textArea = {
   overflow: "hidden"
 }
 
-const labelStyle = {
+const timeStyle = {
   display: "flex",
   justifyContent: "space-between"
+}
+
+const confirmStyle = {
+  display: "flex",
+  justifyContent: "center",
+  margin: "1rem 0rem 0rem"
 }
 
 let initialForm= {
@@ -82,7 +89,8 @@ let initialForm= {
   description: "",
   date: "",
   timeIni: "",
-  timeFin: ""
+  timeFin: "",
+  participants: ""
 }
 
 
@@ -109,16 +117,30 @@ export default function ModalCreacion({handleModalCreacion}) {
                         <form style={formSection}>
                             <Input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" />
                             <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
-                            <Input type="date" name="date" value={form.date} onChange={handleChange}/>
-                            <label style={labelStyle}>Hora de Inicio <Input type="time" name="timeIni" value={form.timeIni} onChange={handleChange}/> </label>
-                            <label style={labelStyle}>Hora de Finalización <Input type="time" name="timeFin" value={form.timeFin} onChange={handleChange}/> </label>
+                            <div style={timeStyle}>
+                            <Input type="date" name="date" value={form.date} onChange={handleChange}/> <Input type="time" name="timeIni" value={form.timeIni} onChange={handleChange}/> <label>_</label> <Input type="time" name="timeFin" value={form.timeFin} onChange={handleChange}/>
+                            </div>
                             <label>Repeticion del Evento</label>
                             <select>
-                              <option value="1">Dia</option>
-                              <option value="2">Mes</option>
-                              <option value="3">Semana</option>
-                              <option value="4">Año</option>
+                              <option value="1">No se repite</option>
+                              <option value="2">Todos los días</option>
+                              <option value="3">Cada semana</option>
+                              <option value="4">Cada mes</option>
+                              <option value="5">Anualmente</option>
                             </select>
+                            <label>Recordatorio</label>
+                            <select>
+                              <option value="1">5 minutos antes</option>
+                              <option value="2">10 minutos antes</option>
+                              <option value="3">30 minutos antes</option>
+                              <option value="4">1 hora antes</option>
+                              <option value="5">1 día antes</option>
+                            </select>
+                            <Input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes"/>
+                            <div style={confirmStyle}>
+                            <Input type="submit" value="Confirmar" name="confirm" classStyle={"input_submit_create"}/>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>

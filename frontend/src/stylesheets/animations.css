@@ -272,3 +272,8 @@ body{
     color: #ffffff !important;
 }
 
+.input_submit_create{
+    width: 50% !important;
+    color: white !important;
+    background: rgba(69, 38, 206, 0.5) !important;
+}
