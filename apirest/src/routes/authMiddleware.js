@@ -15,6 +15,9 @@ const authMiddleware = (req, res, next)=> {
     const decodedToken = verifyToken(token);
     // Agrega el usuario autenticado al objeto de solicitud para que se pueda utilizar en rutas posteriores
     req.user = decodedToken;
+    if(!req.user){
+      return res.status(401).json({ error: "Invalid authentication token" });
+    }
     // Continúa con la siguiente función en la pila de middleware
     next();
   } catch (err) {

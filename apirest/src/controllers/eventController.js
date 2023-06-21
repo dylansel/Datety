@@ -37,21 +37,51 @@ const addEvent = async (req, res) => {
     if (!idUser || isNaN(idUser)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
-    const { tittle, description, startDate, endDate, startTime, endTime, isDinamic, isAccepted } = req.body;
+    const { tittle, description, startDate, endDate, startTime, endTime,repeat,reminder, isDinamic, participants } = req.body;
     if (!tittle || !startDate || !endDate || !startTime || !endTime) {
       return res.status(400).json({ message: 'Missing event data' });
     }
-    //Enviar la informacion
-    const data = { tittle, description, startDate, endDate, startTime, endTime, isDinamic, isAccepted };
-    const rEvet = await eventService.addEvent(data);
-    if (!rEvet) {
-      return res.status(500).json({ message: 'Internal server error' });
+    if ( isDinamic && !repeat) {
+      //codigo para crear dinamicamente, para muchos usuarios 
+      //evento dinamico no se repite. 
+      return res.status(400).json({ message: 'Todavia no habilitado este endpoint dinamico' });
+      if(participants.length>=1 ){
+      //agregar el evento y todos los participantes
+      
+      }
+
     }
-    await usereventService.addUserEvent({
-      idUser: idUser,
-      idEvent: rEvet
-    });
-    res.status(200).json({ id: rEvet });
+
+    
+
+    if(repeat && !isDinamic){
+      //Crear un evento
+      console.log("repeat")
+      let respsDates = [startDate];
+      if(repeat.rep){
+        respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
+      }else if(repeat.for == "month"){
+        respsDates = utils.listDateInNumberUntil(startDate,repeat.until,startDate.split('-')[2])
+      }else if(repeat.for == "year"){
+        respsDates = utils.listDateInYearUntil(startDate,repeat.until)
+      }
+      if(respsDates.length ==0)respsDates = [startDate];
+      
+      respsDates.forEach(async (dateDinamic) => {
+        const data = { tittle, description, startDate:dateDinamic, endDate:dateDinamic, startTime, endTime, isDinamic:0, isAccepted:1 };
+        const rEvet = await eventService.addEvent(data);
+        if (!rEvet) {
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+        await usereventService.addUserEvent({
+          idUser: idUser,
+          idEvent: rEvet
+        });
+      }); 
+      return res.status(200).json({});
+    }
+    res.status(400).json({ message: 'could not add the event, check the data' });
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
