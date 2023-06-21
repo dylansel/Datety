@@ -128,20 +128,18 @@ const deleteEvent = async (req, res) => {
 const getEventsForWeek = async (req,res) => {
   try {
     const idUser = req.user.idUser;
-    const date = req.params.date;
+    const dateparam = req.params.date;
+    const date = (new Date(dateparam) != "Invalid Date")? new Date(dateparam) : new Date();
+
     if(!date)return res.status(400).json({ message: 'Invalid date'});
     const curr = utils.operateDate(new Date(date),+1) ;
-    console.log(curr)
     let week = [];
     for (let index = 0; index < 7; index++) {
       const day = new Date(curr.setDate(curr.getDate() - curr.getDay()+index))
       const dayString = utils.formatDateToString(day,'YYYY-MM-DD');
       const respuesta = await eventService.getEventsByDay(idUser,dayString);
     
-      week.push({
-        day: utils.formatDateToString(day,'YYYY-MM-DD') ,
-        events: respuesta
-      })
+      week.push(...respuesta)
     }
     res.status(200).json(week);
   }catch (error) {
@@ -149,6 +147,48 @@ const getEventsForWeek = async (req,res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+const getEventsForMonth = async (req, res) => {
+  try {
+    const idUser = req.user.idUser;
+    const dateparam = req.params.date;
+    const date = (new Date(dateparam) != "Invalid Date")? new Date(dateparam) : new Date();
+    console.log(date)
+
+    const curr = utils.operateDate(date, +1);
+    const year = curr.getFullYear();
+    const monthIndex = curr.getMonth();
+    const startDate = new Date(year, monthIndex, 1);
+    const endDate = new Date(year, monthIndex + 1, 0);
+
+    const monthEvents = await eventService.getEventsBetweenDates(idUser, startDate, endDate);
+    res.status(200).json(monthEvents);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+const getEventsForYear = async (req, res) => {
+  try {
+    const idUser = req.user.idUser;
+    const dateparam = req.params.date;
+    const date = (new Date(dateparam) != "Invalid Date")? new Date(dateparam) : new Date();
+    let year = date.getFullYear().toString();
+    
+    if (!year) return res.status(400).json({ message: 'Invalid year' });
+
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year, 11, 31);
+
+    const yearEvents = await eventService.getEventsBetweenDates(idUser, startDate, endDate);
+    res.status(200).json(yearEvents);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
 
 
 module.exports = {
@@ -158,4 +198,6 @@ module.exports = {
   editEvent,
   deleteEvent,
   getEventsForWeek,
+  getEventsForMonth,
+  getEventsForYear,
 }

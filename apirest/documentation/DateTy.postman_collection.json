@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "257db6da-f914-4557-a5a8-8331e65badbb",
+		"_postman_id": "8ff38a40-19ba-404c-81e1-45e4872f6ab5",
 		"name": "DateTy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -213,6 +213,32 @@
 					"response": []
 				},
 				{
+					"name": "getEventsForMonth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForMonth/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForMonth",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getEventsForWeek",
 					"request": {
 						"method": "GET",
@@ -232,6 +258,32 @@
 								{
 									"key": "date",
 									"value": "2023-04-23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEventsForYear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForYear/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForYear",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-1"
 								}
 							]
 						}
@@ -364,7 +416,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4MjkxMDAyMCwiZXhwIjoxNjg1NTAyMDIwfQ.D0qmE2X9GHg3es5rcY44yjja-YNFmvLpHSOsH6Qoz00",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4NzM2NzQ5OCwiZXhwIjoxNjg5OTU5NDk4fQ.VSM8GNYl_gDK2cebWTynAdL1Ub5VZ7eAxbfbppBnrVI",
 				"type": "string"
 			}
 		]
