@@ -27,6 +27,28 @@ const removeEvent = async (id) => await CRUD.remove('event', id);
 
 const getEventByColumn = async (column, value) => await CRUD.getByColumn('event', column, value);
 
+//Consultas especificas
+
+const getEventsByDay = async (idUser, date) => {
+  const [results, fields] = await pool.promise().query(`
+    SELECT e.* FROM event e
+    INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
+    WHERE ue.idUser = ? AND DATE(e.startDate) = ? 
+    ORDER BY e.startTime;
+  `, [idUser, date]);
+  return results;
+}
+
+const getEventsBetweenDates = async (idUser, dateA, dateB) => {
+  const [results, fields] = await pool.promise().query(`
+    SELECT e.* FROM event e
+    INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
+    WHERE ue.idUser = ? AND DATE(e.startDate) BETWEEN ? AND ?
+    ORDER BY e.startTime;
+  `, [idUser, dateA, dateB]);
+  return results;
+}
+
 module.exports = {
   getAllEvents,
   getEventById,
@@ -34,4 +56,6 @@ module.exports = {
   addEvent,
   editEvent,
   removeEvent,
+  getEventsByDay,
+  getEventsBetweenDates,
 };

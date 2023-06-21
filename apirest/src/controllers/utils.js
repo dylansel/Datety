@@ -39,6 +39,25 @@ const isExist = function (row) {
 };
 
 
+function formatDateToString(date, format = 'YYYY-MM-DD') {
+  
+ 
+  const year = date.getFullYear();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+
+  const formattedDate = format
+    .replace('YYYY', year)
+    .replace('DD', day)
+    .replace('MM', month);
+
+  return formattedDate;
+}
+
+function operateDate(date, days){
+  return  new Date(date.setDate(date.getDate() + days));
+}
+
 const listDateInWeekUntil  = (startDate,endDate,week)=>{
 //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
 
@@ -94,14 +113,16 @@ const listDateInYearUntil  = (startDate,endDate)=>{
  
 
 
-
 module.exports = {
   isExist,
   encryptText,
   hashCompare,
   createToken,
   verifyToken,
+  formatDateToString,
+  operateDate,
   listDateInWeekUntil,
   listDateInNumberUntil,
   listDateInYearUntil,
+
 };

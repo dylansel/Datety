@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dbeacff5-ac7a-48a1-9fdf-faf887edbd97",
+		"_postman_id": "8ff38a40-19ba-404c-81e1-45e4872f6ab5",
 		"name": "DateTy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -213,6 +213,84 @@
 					"response": []
 				},
 				{
+					"name": "getEventsForMonth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForMonth/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForMonth",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEventsForWeek",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForWeek/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForWeek",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-04-23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEventsForYear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventsForYear/:date",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventsForYear",
+								":date"
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "2023-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getEventById",
 					"request": {
 						"method": "GET",
@@ -367,7 +445,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4Njc3NDE3NywiZXhwIjoxNjg5MzY2MTc3fQ.LB15y78kkYP-0bvIOYUl5O7jSNCujV-y0f_Ox8L9ppo",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY4NzM2NzQ5OCwiZXhwIjoxNjg5OTU5NDk4fQ.VSM8GNYl_gDK2cebWTynAdL1Ub5VZ7eAxbfbppBnrVI",
 				"type": "string"
 			}
 		]
