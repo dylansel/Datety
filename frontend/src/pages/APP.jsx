@@ -6,6 +6,7 @@ import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' //plugin de show semanal
 import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcionalidad
+import { addEvent, getAllEvents } from "../services/eventServices";
 
 
 const isLoged = true;
@@ -13,23 +14,16 @@ const isLoged = true;
 export default  function APP() {
   const [msg, setMsg]= useState("");
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
-
-
-  const [events, setEvents] = useState([
-    { id:1 ,title: 'Pijamada en lo del diego', start: "2023-06-07T10:00:00", end: "2023-06-07T12:00:00" },
-    { id:2 ,title: 'event 2', date: '2023-06-08'}
-  ])
-
+  const [events, setEvents] = useState([])
+  const [loading, setLoading]= useState(false);
 
     const eventDrop = (info) => {
- 
-    setMsg(info.event.title + " fue movia " + info.event.start + " Are you sure about this change?")
-
+    setMsg(info.event.title + " fue movida " + info.event.start + " Are you sure about this change?")
     const res = window.confirm(msg);
-    
     if(!res){
       info.revert();
     }else{
+
       const newEvents = events.map((e) => {
         if (e.id == info.event.id) {
           const data = {
@@ -47,6 +41,43 @@ export default  function APP() {
       }
     };
 
+    const newEvent= { 
+      tittle: "16 años Juana",
+      description: "Ir fachero",
+      startDate: "2023-06-21", 
+      endDate: "2023-06-21", 
+      startTime: "10:00:00", 
+      endTime: "15:00:00", 
+      isDinamic: 0, 
+      isAccepted: 0 
+    }
+
+    const enviarEvento= ()=>{
+      addEvent(newEvent);
+    }
+
+
+    const fetchData= async ()=>{
+
+      let arr= []
+      const req= await getAllEvents();
+      const results= req[0];
+      console.log(results)
+
+      results.forEach(event =>{
+        console.log(event)
+        const e = {id: event.idEvent, title:event.tittle,  start: `${event.startDate.split("T")[0]}T${event.startTime}`, end: `${event.endDate.split("T")[0]}T${event.endTime}`}
+        arr.push(e)
+      } )
+      setEvents(arr)
+    }
+   
+    useEffect(()=>{
+      fetchData();
+      
+    },[])
+
+
   return (
 
     <div className={alert ? "app_alerted" : "app"}>
@@ -54,7 +85,9 @@ export default  function APP() {
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
         <div>
           <h2>APP</h2>
-          <button onClick={openModal}>Crear</button>
+          {/* <button onClick={openModal}>Crear</button> */}
+          <button onClick={enviarEvento}>Crear</button>
+          <button onClick={getAllEvents}>Ver todos Los Eventos</button>
           <button onClick={()=>console.log(events)}>EVENTOS</button>
 
 
@@ -71,7 +104,6 @@ export default  function APP() {
             console.log('Clicked on: ' + info.dateStr);
             console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
             console.log('Current view: ' + info.view.type);
-            console.log('EVENTO: ' + info.date.toString());
           }}
           locale= 'es'
           plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
