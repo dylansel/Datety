@@ -20,57 +20,71 @@ INPUTS:
 */ 
 
 const backgroundModalCreacion = {
-  background: "#000000cc",
+  background: "#444444cc",
   height: "100vh",
+  position: "absolute",
+  width: "100vw",
+  top: "0",
+  bottom: "0",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center"
 }
 
 const modalCreacion = {
   display: "flex",
-  padding: "10rem",
+  borderRadius: "20px",
   alignItems: "center",
   flexDirection: "column",
-  position: "abstract",
-  justifyContent: "center"
+  
+  justifyContent: "space-evenly",
+  background: "#6C63FF",
+  width: "35%",
+  height: "60%"
 }
 
 const cornerSectionStyle = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "1rem",
   color: "#fafafa",
-  background: "#6C63FF",
-  width: "30%",
   height: "5rem",
+  width: "90%",
+  position: "relative"
 }
 
 const buttonClose= {
   border: "none",
   background: "transparent",
+  position: "absolute",
+  right: "-20px",
+  top: "-20px"
 }
 
 const mainSection = {
-  width: "30%",
+
 }
 
 const formSection = {
-  padding: "1rem",
   display: "flex",
-  background: "#6C63FF",
   flexDirection: "column",
   color: "#fafafa",
   justifyContent: "space-around",
-  height: "35rem",
+  height: "40rem",
 }
 
 const textArea = {
   borderRadius: "0.6rem",
   border: "1.6px solid #ccc",
-  padding: ".5rem .6rem",
   color: "#222",
   background: "#eee",
   outline: "none",
   overflow: "hidden"
+}
+
+const selectStyle= {
+  borderRadius: "5px",
+  outline: "none"
 }
 
 const timeStyle = {
@@ -93,10 +107,18 @@ let initialForm= {
   participants: ""
 }
 
+const daysContainer = {
+  display: "flex",
+  justifyContent: "space-evenly"
+}
+
+
+
 
 export default function ModalCreacion({handleModalCreacion}) {
     
     const [form, setForm]= useState(initialForm);
+    const [repDay, setRepDay]= useState(false)
 
     const handleChange= (e)=>{
         setForm({
@@ -104,6 +126,15 @@ export default function ModalCreacion({handleModalCreacion}) {
           [e.target.name] : e.target.value
         })
       }
+
+
+    const handleFrecuency= (e)=>{
+      if(e.target.name == "selectOptions"){
+        if(e.target.value == 2){
+          setRepDay(true)
+        }
+      }
+    }
 
     return(
         <>
@@ -121,15 +152,40 @@ export default function ModalCreacion({handleModalCreacion}) {
                             <Input type="date" name="date" value={form.date} onChange={handleChange}/> <Input type="time" name="timeIni" value={form.timeIni} onChange={handleChange}/> <label>_</label> <Input type="time" name="timeFin" value={form.timeFin} onChange={handleChange}/>
                             </div>
                             <label>Repeticion del Evento</label>
-                            <select>
+                            <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
                               <option value="1">No se repite</option>
                               <option value="2">Todos los días</option>
                               <option value="3">Cada semana</option>
                               <option value="4">Cada mes</option>
                               <option value="5">Anualmente</option>
                             </select>
+
+                            {repDay && <div style={daysContainer}>
+                              <div>
+                                <input type="radio" /><label>D</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>L</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>M</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>Mi</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>J</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>V</label>
+                              </div>
+                              <div>
+                                <input type="radio" /><label>S</label>
+                              </div>
+                            </div>}
+
                             <label>Recordatorio</label>
-                            <select>
+                            <select style={selectStyle}>
                               <option value="1">5 minutos antes</option>
                               <option value="2">10 minutos antes</option>
                               <option value="3">30 minutos antes</option>
