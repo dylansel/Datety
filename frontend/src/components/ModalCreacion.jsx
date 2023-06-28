@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Input from "./utils/Input";
 import "../stylesheets/animations.css"
 
@@ -113,12 +113,12 @@ const daysContainer = {
 }
 
 
-
-
 export default function ModalCreacion({handleModalCreacion}) {
-    
-    const [form, setForm]= useState(initialForm);
-    const [repDay, setRepDay]= useState(false)
+  
+  const [form, setForm]= useState(initialForm);
+  const [repDay, setRepDay]= useState(false)
+  const [frecuency, setFrecuency]= useState(0)
+  const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
 
     const handleChange= (e)=>{
         setForm({
@@ -127,14 +127,49 @@ export default function ModalCreacion({handleModalCreacion}) {
         })
       }
 
-
     const handleFrecuency= (e)=>{
+      console.log(e.target.value)
       if(e.target.name == "selectOptions"){
         if(e.target.value == 2){
+          setRepDay(false)
+          setFrecuency(2)
+        }else if(e.target.value == 3){
           setRepDay(true)
+          setFrecuency(3)
+        }else if(e.target.value == 4){
+          setRepDay(false)
+          setFrecuency(4)
+        }else if(e.target.value == 5){
+          setRepDay(false)
+          setFrecuency(5)
+        }else if(e.target.value == 1){
+          setRepDay(false)
+          setFrecuency(1)
         }
       }
     }
+
+    const handleDayModal= (e)=>{
+      let daysCounter = [...activeDays];
+      let daySelected= e.target.textContent;
+      if(daySelected == "D") daysCounter[0] = daysCounter[0] ? 0 : 1
+      else if(daySelected == "L") daysCounter[1] = daysCounter[1] ? 0 : 1
+      else if(daySelected == "M") daysCounter[2] = daysCounter[2] ? 0 : 1
+      else if(daySelected == "Mi") daysCounter[3] = daysCounter[3] ? 0 : 1
+      else if(daySelected == "J") daysCounter[4] = daysCounter[4] ? 0 : 1
+      else if(daySelected == "V") daysCounter[5] = daysCounter[5] ? 0 : 1
+      else if(daySelected == "S") daysCounter[6] = daysCounter[6] ? 0 : 1
+      setActiveDays(daysCounter)
+    } 
+
+    useEffect(()=>{
+      if(frecuency == 2){
+        setActiveDays([1,1,1,1,1,1,1])
+      }else if(frecuency != 2){
+        setActiveDays([0,0,0,0,0,0,0])
+      }
+      console.log(activeDays)
+    }, [frecuency])
 
     return(
         <>
@@ -161,27 +196,13 @@ export default function ModalCreacion({handleModalCreacion}) {
                             </select>
 
                             {repDay && <div style={daysContainer}>
-                              <div>
-                                <input type="radio" /><label>D</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>L</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>M</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>Mi</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>J</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>V</label>
-                              </div>
-                              <div>
-                                <input type="radio" /><label>S</label>
-                              </div>
+                              <div className={activeDays[0] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>D</p></div>
+                              <div className={activeDays[1] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>L</p></div>
+                              <div className={activeDays[2] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>M</p></div>
+                              <div className={activeDays[3] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>Mi</p></div>
+                              <div className={activeDays[4] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>J</p></div>
+                              <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>V</p></div>
+                              <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>S</p></div>
                             </div>}
 
                             <label>Recordatorio</label>

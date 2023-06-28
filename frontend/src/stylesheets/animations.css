@@ -277,3 +277,32 @@ body{
     color: white !important;
     background: rgba(69, 38, 206, 0.5) !important;
 }
+
+/* CREATION_MODAL___________ */
+
+.day_election_modal, .day_election_modal_active{
+    width: 7%;
+    height: 3rem;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    position: relative;
+    cursor: pointer;
+    transition: .3s;
+}
+.day_election_modal{
+    background: #dedede;
+    color: #222;
+}
+
+.day_election_modal_active{
+    background: #459cff ;
+    color: #e7e7e7;
+}
+
+.day_election_modal p, .day_election_modal_active p{
+    position: absolute;
+    top: 2px;
+}
+
