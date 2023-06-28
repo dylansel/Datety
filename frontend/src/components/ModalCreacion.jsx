@@ -102,8 +102,10 @@ let initialForm= {
   tittle: "",
   description: "",
   date: "",
+  repeat: null,
   timeIni: "",
   timeFin: "",
+ 
   participants: ""
 }
 
@@ -116,9 +118,16 @@ const daysContainer = {
 export default function ModalCreacion({handleModalCreacion}) {
   
   const [form, setForm]= useState(initialForm);
+  const [untilDate, setUntilDate]= useState({until: ""})
   const [repDay, setRepDay]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
   const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
+
+  const handleUntilDate= (e)=>{ 
+    setUntilDate({
+    ...untilDate,
+    [e.target.name] : e.target.value
+  })}
 
     const handleChange= (e)=>{
         setForm({
@@ -129,24 +138,28 @@ export default function ModalCreacion({handleModalCreacion}) {
 
     const handleFrecuency= (e)=>{
       console.log(e.target.value)
-      if(e.target.name == "selectOptions"){
+      // if(e.target.name == "selectOptions"){
         if(e.target.value == 2){
           setRepDay(false)
           setFrecuency(2)
+          setForm({...form, repeat: { ...form.repeat, rep: activeDays }})
         }else if(e.target.value == 3){
           setRepDay(true)
           setFrecuency(3)
+          setForm({...form, repeat: { ...form.repeat, rep: activeDays }})
         }else if(e.target.value == 4){
           setRepDay(false)
           setFrecuency(4)
+          setForm({...form, repeat: { ...form.repeat, for: "month" }})
         }else if(e.target.value == 5){
           setRepDay(false)
           setFrecuency(5)
+          setForm({...form, repeat: { ...form.repeat, for: "year"  }})
         }else if(e.target.value == 1){
           setRepDay(false)
           setFrecuency(1)
         }
-      }
+      // }
     }
 
     const handleDayModal= (e)=>{
@@ -160,6 +173,7 @@ export default function ModalCreacion({handleModalCreacion}) {
       else if(daySelected == "V") daysCounter[5] = daysCounter[5] ? 0 : 1
       else if(daySelected == "S") daysCounter[6] = daysCounter[6] ? 0 : 1
       setActiveDays(daysCounter)
+      
     } 
 
     useEffect(()=>{
@@ -168,8 +182,15 @@ export default function ModalCreacion({handleModalCreacion}) {
       }else if(frecuency != 2){
         setActiveDays([0,0,0,0,0,0,0])
       }
+    
       console.log(activeDays)
     }, [frecuency])
+
+    
+    useEffect(()=>{
+    if(frecuency >= 2){
+      setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
+    }}, [activeDays])
 
     return(
         <>
@@ -204,6 +225,8 @@ export default function ModalCreacion({handleModalCreacion}) {
                               <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>V</p></div>
                               <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>S</p></div>
                             </div>}
+
+                            {frecuency >= 2 && <Input type="date"  name="until" onChange={handleUntilDate} value={untilDate.until}/>}
 
                             <label>Recordatorio</label>
                             <select style={selectStyle}>
