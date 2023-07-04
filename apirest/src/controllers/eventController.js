@@ -1,7 +1,8 @@
 
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
-const utils = require('../controllers/utils')
+const utils = require('../controllers/utils');
+const { resetPassword } = require('./emeilSendController');
 
 const getAllEvents = async (req,res) => {
   try {
@@ -78,6 +79,7 @@ const addEvent = async (req, res) => {
           idEvent: rEvet
         });
       }); 
+      resetPassword(idUser);
       return res.status(200).json({});
     }
     res.status(400).json({ message: 'could not add the event, check the data' });
