@@ -308,6 +308,12 @@ body{
 
 /* ________MODAL DE CREACION________ */
 
-.input_modal_creacion:hover{
-    border: #e92535;
+.button_modal_creation:hover{
+    background: #f2f2f2 !important;
+    color: #2E4052 !important;
+    transition: .5s;
 }
+/* .input_modal_creacion:hover{
+    border: 1.5px solid #7854da !important;
+    transition: .2s;
+} */

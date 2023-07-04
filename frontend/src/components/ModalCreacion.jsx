@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import Input from "./utils/Input";
 import "../stylesheets/animations.css"
+import logo from "../imgs/exit_logo.png"
 
 /*
 INPUTS:
@@ -36,9 +37,8 @@ const modalCreacion = {
   borderRadius: "20px",
   alignItems: "center",
   flexDirection: "column",
-  
   justifyContent: "space-evenly",
-  background: "#6C63FF",
+  background: "#415a77",
   width: "35%",
   height: "60%"
 }
@@ -55,6 +55,8 @@ const cornerSectionStyle = {
 
 const buttonClose= {
   border: "none",
+  width: "30px",
+  height: "30px",
   background: "transparent",
   position: "absolute",
   right: "-20px",
@@ -108,7 +110,16 @@ const inputStyle= {
   borderRadius: "8px",
   border: "none",
   outline: "none",
-  padding: "4px"
+  padding: "5px",
+}
+
+const buttonStyle= {
+  background: "transparent",
+  color: "#f2f2f2",
+  borderRadius: "10px",
+  border: "2px solid #d2d2d2",
+  padding: "8px",
+  fontWeight: "500"
 }
 
 export default function ModalCreacion({handleModalCreacion, isDinamic}) {
@@ -123,7 +134,6 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
     participants: "",
     isDinamic
   }
-
   const [form, setForm]= useState(initialForm);
   const [repDay, setRepDay]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
@@ -205,7 +215,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
                 <div style={modalCreacion} className="modal_creacion">
                     <div style={cornerSectionStyle} className="corner_section">
                         <h2>Crea tu Evento</h2>
-                        <button onClick={handleModalCreacion} style={buttonClose} value={"X"}>x</button>
+                        <button onClick={handleModalCreacion} style={buttonClose} value="X"><img style={{width: "100%"}} src={logo}></img></button>
                     </div>
                     <div className="main_section_creation" style={mainSection}>
                         <form style={formSection}>
@@ -247,7 +257,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
                             </select>
                             <input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes" style={inputStyle} className="input_modal_creacion"></input>
                             <div style={confirmStyle}>
-                            <input type="submit" value="Confirmar" name="confirm" classStyle={"input_submit_create"} style={inputStyle} className="input_modal_creacion"></input>
+                            <input type="submit" value="Confirmar" name="confirm" style={buttonStyle} className="button_modal_creation"></input>
                             </div>
                             
                         </form>
