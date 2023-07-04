@@ -14,17 +14,16 @@ const jConfig = {
       pass: "Dylansel32",
     },
   };
+const transporter = nodemailer.createTransport(jConfig);
 
-const email ={ 
-    from:"ewebik@ewebik.com",  //remitente
-    to:"contacto@ewebik.com",  //destinatario
-    subject:"Nuevo mensaje de usuario",  //asunto del correo
-    html:` 
-        <div> 
-        <p>Hola amigo</p> 
-        <p>Esto es una prueba del vídeo</p> 
-        <p>¿Cómo enviar correos eletrónicos con Nodemailer en NodeJS </p> 
-        </div> 
-    ` 
-};
-let createTransport = nodemailer.createTransport(jConfig);
+
+const mailOptions = {
+    from: from,
+    to: data.destinatario,
+    subject: data.asunto,
+    text: data.body
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  console.log('Correo electrónico enviado: ' + info.response);
+
