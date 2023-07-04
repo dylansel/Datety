@@ -83,8 +83,9 @@ const textArea = {
 }
 
 const selectStyle= {
-  borderRadius: "5px",
-  outline: "none"
+  borderRadius: "8px",
+  outline: "none",
+  padding: "4px"
 }
 
 const timeStyle = {
@@ -98,47 +99,55 @@ const confirmStyle = {
   margin: "1rem 0rem 0rem"
 }
 
-let initialForm= {
-  tittle: "",
-  description: "",
-  date: "",
-  repeat: null,
-  timeIni: "",
-  timeFin: "",
- 
-  participants: ""
-}
-
 const daysContainer = {
   display: "flex",
   justifyContent: "space-evenly"
 }
 
+const inputStyle= {
+  borderRadius: "8px",
+  border: "none",
+  outline: "none",
+  padding: "4px"
+}
 
-export default function ModalCreacion({handleModalCreacion}) {
+export default function ModalCreacion({handleModalCreacion, isDinamic}) {
   
+  let initialForm= {
+    tittle: "",
+    description: "",
+    date: "",
+    repeat: null,
+    timeIni: "",
+    timeFin: "",
+    participants: "",
+    isDinamic
+  }
+
   const [form, setForm]= useState(initialForm);
-  const [untilDate, setUntilDate]= useState({until: ""})
   const [repDay, setRepDay]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
   const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
-
-  const handleUntilDate= (e)=>{ 
-    setUntilDate({
-    ...untilDate,
-    [e.target.name] : e.target.value
-  })}
 
     const handleChange= (e)=>{
         setForm({
           ...form,
           [e.target.name] : e.target.value
         })
+
+        if(e.target.name == "until"){
+          setForm({
+            ...form,
+            repeat:{
+              ...form.repeat,
+              until: e.target.value
+            }
+          })
+        }
       }
 
     const handleFrecuency= (e)=>{
       console.log(e.target.value)
-      // if(e.target.name == "selectOptions"){
         if(e.target.value == 2){
           setRepDay(false)
           setFrecuency(2)
@@ -159,7 +168,6 @@ export default function ModalCreacion({handleModalCreacion}) {
           setRepDay(false)
           setFrecuency(1)
         }
-      // }
     }
 
     const handleDayModal= (e)=>{
@@ -185,7 +193,6 @@ export default function ModalCreacion({handleModalCreacion}) {
     
       console.log(activeDays)
     }, [frecuency])
-
     
     useEffect(()=>{
     if(frecuency >= 2){
@@ -202,10 +209,12 @@ export default function ModalCreacion({handleModalCreacion}) {
                     </div>
                     <div className="main_section_creation" style={mainSection}>
                         <form style={formSection}>
-                            <Input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" />
+                            <input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" style={inputStyle} className="input_modal_creacion"></input>
                             <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
                             <div style={timeStyle}>
-                            <Input type="date" name="date" value={form.date} onChange={handleChange}/> <Input type="time" name="timeIni" value={form.timeIni} onChange={handleChange}/> <label>_</label> <Input type="time" name="timeFin" value={form.timeFin} onChange={handleChange}/>
+                            <input type="date" name="date" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion"></input>
+                            <input style={inputStyle} type="time" name="timeIni" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label>_</label> 
+                            <input style={inputStyle} type="time" name="timeFin" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
                             </div>
                             <label>Repeticion del Evento</label>
                             <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
@@ -226,7 +235,7 @@ export default function ModalCreacion({handleModalCreacion}) {
                               <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>S</p></div>
                             </div>}
 
-                            {frecuency >= 2 && <Input type="date"  name="until" onChange={handleUntilDate} value={untilDate.until}/>}
+                            {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
 
                             <label>Recordatorio</label>
                             <select style={selectStyle}>
@@ -236,9 +245,9 @@ export default function ModalCreacion({handleModalCreacion}) {
                               <option value="4">1 hora antes</option>
                               <option value="5">1 día antes</option>
                             </select>
-                            <Input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes"/>
+                            <input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes" style={inputStyle} className="input_modal_creacion"></input>
                             <div style={confirmStyle}>
-                            <Input type="submit" value="Confirmar" name="confirm" classStyle={"input_submit_create"}/>
+                            <input type="submit" value="Confirmar" name="confirm" classStyle={"input_submit_create"} style={inputStyle} className="input_modal_creacion"></input>
                             </div>
                             
                         </form>

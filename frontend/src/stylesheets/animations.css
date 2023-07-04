@@ -306,3 +306,8 @@ body{
     top: 2px;
 }
 
+/* ________MODAL DE CREACION________ */
+
+.input_modal_creacion:hover{
+    border: #e92535;
+}
