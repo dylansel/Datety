@@ -1,54 +1,250 @@
-
 const { sendEmail } = require("../services/emailService");
 const { getUserById } = require("../services/userService");
 
-  const styleHeader = "background:'blue',width:'100%',height:'6rem',margin:'auto 2rem',margin-buttom:'4rem',display:'flex',align-item:'center',justify-content:'center'";
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
-
- async function resetPassword(idUser){
+const resetPassword = async (idUser) => {
   try {
-    //Manda email en caso de haberlo creado
-      
-      const user = await getUserById(idUser);
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al agregar usuarios");
 
-      
-      if(!user){throw new Error("Error al agregar usuarios")}
-      const html =  `
-      <div style="background:blue">
-      <h1>RESETEAR CONTRASEÑA</h1>
-      </div>
-      <h1>Hola ${user.name}, Para resetear la contraseña tenes que ingresar al siguiente link...</h1>
+    const subject = 'Recuperar Contraseña DateTy';
+    const html = generateResetPasswordEmail(user);
 
-      `
-      const data = {
-          to: user.email,
-          subject: "Recupera contraseña DateTy",
-          html
-        };
-      console.log(data)
-      await sendEmail(data);
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    throw new Error(error);
   }
-    
+};
+const generateResetPasswordEmail = (user) => {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
 
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">RESETEAR CONTRASEÑA</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, parece que has perdido el acceso a tu cuenta de DateTy y solicitaste un cambio de contraseña. Si esto no es así, desestima este mensaje. De lo contrario, haz clic en el siguiente botón:</h3>
+        <a href="https://google.com.ar" style="${styleButton}">Resetear Contraseña</a>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
+};
+
+async function sendSecurityNotification(idUser) {
+  try {
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al agregar usuarios");
+
+    const subject = 'Aviso de Seguridad';
+    const html = generateSecurityNotificationEmail(user);
+
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
+function generateSecurityNotificationEmail(user) {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">AVISO DE SEGURIDAD</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, se ha detectado un cambio de contraseña o información en tu cuenta de DateTy. Si no realizaste estos cambios, te recomendamos tomar las siguientes medidas de seguridad:</h3>
+        <ul>
+          <li>Cambiar tu contraseña de inmediato.</li>
+          <li>Revisar y actualizar la información de seguridad en tu cuenta.</li>
+          <li>Contactar al soporte técnico si sospechas de actividad no autorizada.</li>
+        </ul>
+        <p>Si fuiste tú quien realizó estos cambios, puedes ignorar este mensaje.</p>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
+}
+
+async function sendEventReminder(idUser, event) {
+  try {
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al agregar usuarios");
+
+    const subject = 'Recordatorio de Evento';
+    const html = generateEventReminderEmail(user, event);
+
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
+function generateEventReminderEmail(user, event) {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">RECORDATORIO DE EVENTO</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, te recordamos que tienes un evento programado:</h3>
+        <p>Evento: ${event.title}</p>
+        <p>Fecha: ${event.date}</p>
+        <p>Hora: ${event.time}</p>
+        <p>Lugar: ${event.location}</p>
+        <p>No olvides estar presente y disfrutar del evento.</p>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
+}
+
+async function sendEventModification(idUser, event) {
+  try {
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al agregar usuarios");
+
+    const subject = 'Aviso de Modificación/Cancelación de Evento';
+    const html = generateEventModificationEmail(user, event);
+
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
+function generateEventModificationEmail(user, event) {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  conststyleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">AVISO DE MODIFICACIÓN/CANCELACIÓN DE EVENTO</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, te informamos que ha habido una modificación o cancelación en el siguiente evento:</h3>
+        <p>Evento: ${event.title}</p>
+        <p>Fecha: ${event.date}</p>
+        <p>Hora: ${event.time}</p>
+        <p>Lamentamos los inconvenientes y te agradecemos tu comprensión.</p>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
+}
+
+async function sendEventInvitation(idUser, event) {
+  try {
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al agregar usuarios");
+
+    const subject = 'Invitación a Evento';
+    const html = generateEventInvitationEmail(user, event);
+
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}
+
+function generateEventInvitationEmail(user, event) {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">INVITACIÓN A EVENTO</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, tienes una invitación para el siguiente evento:</h3>
+        <p>Evento: ${event.title}</p>
+        <p>Fecha: ${event.date}</p>
+        <p>Hora: ${event.time}</p>
+        <p>Lugar: ${event.location}</p>
+        <p>Esperamos contar con tu presencia en este evento. ¡No te lo pierdas!</p>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
 }
 
 module.exports = {
-    resetPassword,
-  }
-
-
-
-
+  resetPassword,
+  sendSecurityNotification,
+  sendEventReminder,
+  sendEventModification,
+  sendEventInvitation
+};

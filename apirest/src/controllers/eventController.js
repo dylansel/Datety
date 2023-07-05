@@ -39,7 +39,7 @@ const addEvent = async (req, res) => {
     if (!idUser || isNaN(idUser)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
-    const { tittle, description, startDate, endDate, startTime, endTime,repeat,reminder, isDinamic, participants } = req.body;
+    const { tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants } = req.body;
     if (!tittle || !startDate || !endDate || !startTime || !endTime) {
       return res.status(400).json({ message: 'Missing event data' });
     }
@@ -60,7 +60,7 @@ const addEvent = async (req, res) => {
       //Crear un evento
       console.log("repeat")
       let respsDates = [startDate];
-      if(repeat.rep){
+      if(repeat.rep && !repeat.for){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
       }else if(repeat.for == "month"){
         respsDates = utils.listDateInNumberUntil(startDate,repeat.until,startDate.split('-')[2])
