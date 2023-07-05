@@ -38,7 +38,7 @@ const getById = async (table, id, selectFields = ['*'], extraClauses = null) => 
   }
 
   const [results, fields] = await pool.promise().query(sql, params);
-  return results;
+  return results[0];
 };
 
 // add generic for any table 

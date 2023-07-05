@@ -1,6 +1,6 @@
 const CRUD = require('../services/crud')
 const userService = require('../services/userService')
-const utils = require('../controllers/utils')
+const utils = require('../utils/utils')
 const bcrypt = require('bcryptjs');
 
 const getAllUsers = async (req,res) => {

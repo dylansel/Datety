@@ -4,7 +4,7 @@ las funciones necesarias para mandar un email desde la api*/
 const nodemailer = require('nodemailer');
 require('dotenv').config()
 
-  async function enviarCorreo(data) {
+  async function sendEmail(data) {
     try {
       const jConfig = {
       service: "gmail",
@@ -27,5 +27,5 @@ require('dotenv').config()
   }
 
   module.exports = {
-    enviarCorreo,
+    sendEmail,
   }
