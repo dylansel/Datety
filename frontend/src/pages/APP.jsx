@@ -7,7 +7,9 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' //plugin de show semanal
 import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcionalidad
 import { addEvent, getAllEvents } from "../services/eventServices";
-
+import { addEvent , getAllEvents, getEventForWeek} from "../services/eventService";
+import useHandleModalCreacion from "../hooks/handleModalCreacion";
+import ModalCreacion from "../components/ModalCreacion";
 
 const isLoged = true;
 
@@ -16,6 +18,8 @@ export default  function APP() {
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
   const [events, setEvents] = useState([])
   const [loading, setLoading]= useState(false);
+  const [modalCreacionResponse, handleModalCreacion, creacion, openModalCreacion] = useHandleModalCreacion();
+
 
     const eventDrop = (info) => {
     setMsg(info.event.title + " fue movida " + info.event.start + " Are you sure about this change?")
@@ -41,21 +45,7 @@ export default  function APP() {
       }
     };
 
-    const newEvent= { 
-      tittle: "16 años Juana",
-      description: "Ir fachero",
-      startDate: "2023-06-21", 
-      endDate: "2023-06-21", 
-      startTime: "10:00:00", 
-      endTime: "15:00:00", 
-      isDinamic: 0, 
-      isAccepted: 0 
-    }
-
-    const enviarEvento= ()=>{
-      addEvent(newEvent);
-    }
-
+ 
 
     const fetchData= async ()=>{
 
@@ -78,13 +68,31 @@ export default  function APP() {
     },[])
 
 
-  return (
+  const eventsForWeek= ()=>{
+    getEventForWeek("2023-04-04");
+  }
 
+  const handleCreateEvent= ()=>{
+    openModal();
+  }
+
+  useEffect(()=>{
+    if(modalResponse){
+      enviarEvento();
+    }
+  }, [modalResponse])
+  
+  return (
     <div className={alert ? "app_alerted" : "app"}>
       <Header isLoged={isLoged} />
+
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
+
         <div>
+        <button onClick={openModalCreacion}>Crear Evento</button>
+        {creacion && <ModalCreacion handleModalCreacion={handleModalCreacion} isDinamic={false}/>}
           <h2>APP</h2>
+
           {/* <button onClick={openModal}>Crear</button> */}
           <button onClick={enviarEvento}>Crear</button>
           <button onClick={getAllEvents}>Ver todos Los Eventos</button>
@@ -124,6 +132,7 @@ export default  function APP() {
           allDaySlot={false}
 
         />
+
 
         </div>
     </div>

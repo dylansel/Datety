@@ -56,18 +56,18 @@ const buttonLogin = {
 
 export default function Login() {
   
+  const [form, setForm] = useState(initialForm);
+  const [check, setCheck] = useState(false);
+  const [mensaje, setMensaje]= useState("")
+  const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
+  
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name] : e.target.value
     })
   }
-  const [form, setForm] = useState(initialForm);
-  const [check, setCheck] = useState(false);
-  const [mensaje, setMensaje]= useState("")
-  const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-
-
+  
   const handleCheck = ()=>{
     setCheck(!check)
   }
@@ -94,6 +94,13 @@ export default function Login() {
     }
   }
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name] : e.target.value
+    })
+  }
+  
   const styleLink = {
     textDecoration: "none",
     color: "rgba(20, 20, 20, 0.827)"

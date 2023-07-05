@@ -22,7 +22,6 @@ const buttonClose= {
   color: "#fafafa"
 }
 
-
 export default function ModalAviso({msg, handleModalAviso,modalStyle}) {
 
   return(
