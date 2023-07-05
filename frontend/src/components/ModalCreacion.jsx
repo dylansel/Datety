@@ -60,9 +60,14 @@ const buttonClose= {
   background: "transparent",
   position: "absolute",
   right: "-20px",
-  top: "-20px"
+  top: "-20px",
+  zIndex: "100"
 }
 
+const imgClose= {
+  width: "100%",
+  zIndex: "5"
+}
 const mainSection = {
 
 }
@@ -138,6 +143,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
   const [repDay, setRepDay]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
   const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
+  const [modalOpen, setModalOpen]= useState(true)
 
     const handleChange= (e)=>{
         setForm({
@@ -209,13 +215,15 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
       setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
     }}, [activeDays])
 
+  
+
     return(
-        <>
+        <>{modalOpen &&
             <div style={backgroundModalCreacion}>
                 <div style={modalCreacion} className="modal_creacion">
                     <div style={cornerSectionStyle} className="corner_section">
                         <h2>Crea tu Evento</h2>
-                        <button onClick={handleModalCreacion} style={buttonClose} value="X"><img style={{width: "100%"}} src={logo}></img></button>
+                        <button onClick={handleModalCreacion} style={buttonClose} value="X"><img className="buttonClosed" style={imgClose} src={logo}></img></button>
                     </div>
                     <div className="main_section_creation" style={mainSection}>
                         <form style={formSection}>
@@ -264,7 +272,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
                     </div>
                 </div>
             </div>
-            
+        }
         </>
     )
 } 

@@ -5,7 +5,7 @@ const useHandleModalCreacion = () => {
   const [creacion, setCreacion] = useState(false);
 
   const handleModalCreacion = (e) => {
-    if(e.target.value == "X"){
+    if(e.target.value == "X" || e.target.className == "buttonClosed"){
         console.log("Operación cancelada")
         setModalCreacionResponse(false)
         setCreacion(false)
