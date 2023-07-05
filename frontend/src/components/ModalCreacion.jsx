@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import Input from "./utils/Input";
 import "../stylesheets/animations.css"
 import logo from "../imgs/exit_logo.png"
+import { addEvent } from "../services/eventService";
 
 /*
 INPUTS:
@@ -132,18 +133,31 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
   let initialForm= {
     tittle: "",
     description: "",
-    date: "",
-    repeat: null,
-    timeIni: "",
-    timeFin: "",
+    startDate: "",
+    endDate: "", 
+    repeat: {
+      until: ""
+    },
+    startTime: "",
+    endTime: "",
     participants: "",
     isDinamic
   }
+
   const [form, setForm]= useState(initialForm);
   const [repDay, setRepDay]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
   const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
   const [modalOpen, setModalOpen]= useState(true)
+
+  
+  const handleSubmit= ( )=>{
+    if(form.tittle && form.description && form.startDate && form.startDate && form.endTime){
+      const event = {...form,endDate:form.startDate}
+      addEvent(event)
+    }
+    setForm({...initialForm})
+  }
 
     const handleChange= (e)=>{
         setForm({
@@ -215,7 +229,6 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
       setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
     }}, [activeDays])
 
-  
 
     return(
         <>{modalOpen &&
@@ -226,13 +239,13 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
                         <button onClick={handleModalCreacion} style={buttonClose} value="X"><img className="buttonClosed" style={imgClose} src={logo}></img></button>
                     </div>
                     <div className="main_section_creation" style={mainSection}>
-                        <form style={formSection}>
+                        <form style={formSection} onSubmit={handleSubmit}>
                             <input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" style={inputStyle} className="input_modal_creacion"></input>
                             <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
                             <div style={timeStyle}>
-                            <input type="date" name="date" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion"></input>
-                            <input style={inputStyle} type="time" name="timeIni" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label>_</label> 
-                            <input style={inputStyle} type="time" name="timeFin" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
+                            <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion"></input>
+                            <input style={inputStyle} type="time" name="startTime" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label>_</label> 
+                            <input style={inputStyle} type="time" name="endTime" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
                             </div>
                             <label>Repeticion del Evento</label>
                             <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
@@ -265,7 +278,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
                             </select>
                             <input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes" style={inputStyle} className="input_modal_creacion"></input>
                             <div style={confirmStyle}>
-                            <input type="submit" value="Confirmar" name="confirm" style={buttonStyle} className="button_modal_creation"></input>
+                            <input type="submit" value="Confirmar" name="confirm" style={buttonStyle} className="button_modal_creation" ></input>
                             </div>
                             
                         </form>
