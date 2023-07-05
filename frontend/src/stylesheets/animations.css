@@ -272,3 +272,48 @@ body{
     color: #ffffff !important;
 }
 
+.input_submit_create{
+    width: 50% !important;
+    color: white !important;
+    background: rgba(69, 38, 206, 0.5) !important;
+}
+
+/* CREATION_MODAL___________ */
+
+.day_election_modal, .day_election_modal_active{
+    width: 7%;
+    height: 3rem;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    position: relative;
+    cursor: pointer;
+    transition: .3s;
+}
+.day_election_modal{
+    background: #dedede;
+    color: #222;
+}
+
+.day_election_modal_active{
+    background: #459cff ;
+    color: #e7e7e7;
+}
+
+.day_election_modal p, .day_election_modal_active p{
+    position: absolute;
+    top: 2px;
+}
+
+/* ________MODAL DE CREACION________ */
+
+.button_modal_creation:hover{
+    background: #f2f2f2 !important;
+    color: #2E4052 !important;
+    transition: .5s;
+}
+/* .input_modal_creacion:hover{
+    border: 1.5px solid #7854da !important;
+    transition: .2s;
+} */
