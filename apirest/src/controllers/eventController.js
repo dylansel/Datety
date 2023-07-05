@@ -2,7 +2,7 @@
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
 const utils = require('../utils/utils');
-const { resetPassword } = require('../utils/emeilSendUtils');
+const { resetPassword, sendEventInvitation } = require('../utils/emeilSendUtils');
 
 const getAllEvents = async (req,res) => {
   try {
@@ -80,8 +80,10 @@ const addEvent = async (req, res) => {
           idEvent: rEvet
         });
       }); 
-      resetPassword(idUser);
+      const event = {tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants}
+      sendEventInvitation(idUser,event);
       return res.status(200).json({});
+      
     }
     res.status(400).json({ message: 'could not add the event, check the data' });
     

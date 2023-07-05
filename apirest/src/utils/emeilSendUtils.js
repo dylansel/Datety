@@ -179,10 +179,10 @@ function generateEventModificationEmail(user, event) {
         <h1 style="${styleTitle}">AVISO DE MODIFICACIÓN/CANCELACIÓN DE EVENTO</h1>
       </div>
       <div style="${styleBody}">
-        <h3>Hola ${user.name}, te informamos que ha habido una modificación o cancelación en el siguiente evento:</h3>
-        <p>Evento: ${event.title}</p>
-        <p>Fecha: ${event.date}</p>
-        <p>Hora: ${event.time}</p>
+        <h3>Hola ${user.name}, te informamos que ha habido una modificación o cancelación en el evento "${event.tittle}" esta es la actualizacion:</h3>
+        <p>Evento: ${event.tittle}</p>
+        <p>Fecha: ${event.startDate}</p>
+        <p>Hora: ${event.startTime} - ${event.endTime}</p>
         <p>Lamentamos los inconvenientes y te agradecemos tu comprensión.</p>
       </div>
       <div style="${styleFooter}">
@@ -228,10 +228,9 @@ function generateEventInvitationEmail(user, event) {
       </div>
       <div style="${styleBody}">
         <h3>Hola ${user.name}, tienes una invitación para el siguiente evento:</h3>
-        <p>Evento: ${event.title}</p>
-        <p>Fecha: ${event.date}</p>
-        <p>Hora: ${event.time}</p>
-        <p>Lugar: ${event.location}</p>
+        <p>Evento: ${event.tittle}</p>
+        <p>Fecha: ${event.startDate}</p>
+        <p>Hora: ${event.startTime} - ${event.endTime}</p>
         <p>Esperamos contar con tu presencia en este evento. ¡No te lo pierdas!</p>
       </div>
       <div style="${styleFooter}">
