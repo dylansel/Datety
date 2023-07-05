@@ -67,6 +67,7 @@ export default function Login() {
       [e.target.name] : e.target.value
     })
   }
+  
   const handleCheck = ()=>{
     setCheck(!check)
   }
