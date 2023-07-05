@@ -7,7 +7,6 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid' //plugin de show semanal
 import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcionalidad
 import { addEvent, getAllEvents } from "../services/eventServices";
-import { addEvent , getAllEvents, getEventForWeek} from "../services/eventService";
 import useHandleModalCreacion from "../hooks/handleModalCreacion";
 import ModalCreacion from "../components/ModalCreacion";
 
@@ -68,10 +67,6 @@ export default  function APP() {
     },[])
 
 
-  const eventsForWeek= ()=>{
-    getEventForWeek("2023-04-04");
-  }
-
   const handleCreateEvent= ()=>{
     openModal();
   }
@@ -83,7 +78,7 @@ export default  function APP() {
   }, [modalResponse])
   
   return (
-    <div className={alert ? "app_alerted" : "app"}>
+    <div className={"app"}>
       <Header isLoged={isLoged} />
 
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
@@ -94,7 +89,6 @@ export default  function APP() {
           <h2>APP</h2>
 
           {/* <button onClick={openModal}>Crear</button> */}
-          <button onClick={enviarEvento}>Crear</button>
           <button onClick={getAllEvents}>Ver todos Los Eventos</button>
           <button onClick={()=>console.log(events)}>EVENTOS</button>
 

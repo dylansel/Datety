@@ -29,6 +29,7 @@ const backgroundModalCreacion = {
   top: "0",
   bottom: "0",
   display: "flex",
+  zIndex: "500",
   justifyContent: "center",
   alignItems: "center"
 }
@@ -152,7 +153,7 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
 
   
   const handleSubmit= ( )=>{
-    if(form.tittle && form.description && form.startDate && form.startDate && form.endTime){
+    if(form.tittle && form.startDate && form.startDate && form.endTime){
       const event = {...form,endDate:form.startDate}
       addEvent(event)
     }
