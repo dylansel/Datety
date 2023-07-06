@@ -116,7 +116,7 @@ export default function Login() {
               </div>
               <a href="" style={styleLink}>¿Olvidaste tu contraseña?</a>
               <div style={buttonLogin}>
-                <a href="" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
+                <a href="/register" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
                 <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle="check-login"></Input>
               </div>
             </form>
