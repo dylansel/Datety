@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react"
-import ModalCreacion from "../components/ModalCreacion"
-import useHandleModalCreacion from "../hooks/handleModalCreacion"
 
 export default function NotFound() {
 
