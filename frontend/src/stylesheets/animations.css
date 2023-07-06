@@ -317,3 +317,10 @@ body{
     border: 1.5px solid #7854da !important;
     transition: .2s;
 } */
+
+/*_________DECORATION NONE_________ */
+
+.link_decoration{
+    text-decoration: none;
+    color: #090909;
+}
