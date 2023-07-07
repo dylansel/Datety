@@ -5,6 +5,7 @@ import image from "../imgs/login_img.svg";
 import { addUser } from "../services/userService";
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
+import { errorMessageConverter } from "../components/utils/errorHandling";
 import "../stylesheets/animations.css"
 
 let initialForm= {
@@ -113,11 +114,19 @@ const añadir = async (user) =>{
     const [result,status] = await addUser(user)
     if(status == 200){
      console.log("se creo correctamente")
-     alert("Usuario Creado")
+     setMensaje("Usuario Creado")
+     openModalAviso();
+     return;
     }else if(result.message){
       console.warn(`API CODE Warn: "${result.message}"`)
+      setMensaje(errorMessageConverter(result.message))
+      openModalAviso();
+      return;
     }else{
       console.error(`API CODE Error: "${result.error}"`)
+      setMensaje(errorMessageConverter(result.error))
+      openModalAviso();
+      return;
     }
   } catch (error) {
     console.log(error)
