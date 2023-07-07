@@ -6,7 +6,7 @@ import "../stylesheets/animations.css"
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
 import { login } from "../services/userService"
-
+import { useNavigate } from 'react-router-dom';
 let initialForm= {
   user: "",
   pass: ""
@@ -52,7 +52,10 @@ const buttonLogin = {
   width: "100%",
   justifyContent: "space-between"
 }
-
+const styleLink = {
+  textDecoration: "none",
+  color: "rgba(20, 20, 20, 0.827)"
+}
 
 export default function Login() {
   
@@ -77,28 +80,51 @@ export default function Login() {
     password: form.pass
   }
 
+
+  const redirec = ()=>{
+    const previousUrl = document.referrer;
+    console.log(window.location.origin)
+    if (previousUrl === window.location.href || !previousUrl || `${window.location.origin}/register`) {
+      navigate('/app');
+    } else {
+      navigate(-1);
+    }
+}
+
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if(!form.user || !form.pass){
       openModalAviso();
       setMensaje("Complete los datos...")
-    }else{
-      const [data, status]= await login(logUser)
-      if(status == 401){
-        openModalAviso();
-        setMensaje("pass Incorrecta")
-      }else if(status == 404){
-        openModalAviso();
-        setMensaje("user no encontrado")
-      }
+      return
+    }
+    const [data, status]= await login(logUser)
+    if(status == 401){
+      openModalAviso();
+      setMensaje("Contraseña Incorrecta")
+    }else if(status == 404){
+      openModalAviso();
+      setMensaje("Usuario incorrecto")
+    }else if(status ==200){
+      redirec()
+      auth.reloaded()
+    }
+    
+  }
+  
+  const reloaded = async () =>{
+    const authe = await auth.reloaded();
+    console.log(authe)
+    if(authe){
+      redirec();
     }
   }
+  useEffect(()=>{
+    reloaded()
+  },[])
 
 
-  const styleLink = {
-    textDecoration: "none",
-    color: "rgba(20, 20, 20, 0.827)"
-  }
+  
 
   return (
     <>
