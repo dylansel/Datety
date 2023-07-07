@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import Header from "./components/utils/Header"
 import Input from './components/utils/Input';
 import useAuth from './hooks/useAuth';
+import Loading from './components/misc/Loading';
 
 
 function App() {
@@ -18,16 +19,17 @@ function App() {
   return (
     <>
      <BrowserRouter>
-     
+     {auth.loaded &&<Header  auth={auth} />}
       <Routes> 
-        <Route path="/" element={<About/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/settings" element={<Settings/>} />
-        <Route path="/app" element={<APP/>} />
-        <Route path="/about" element={<About/>} />
+        <Route path="/" element={<About auth={auth}/>} />
+        <Route path="/login" element={<Login auth={auth}/>} />
+        <Route path="/register" element={<Register auth={auth}/>} />
+        <Route path="/settings" element={<Settings auth={auth}/>} />
+        <Route path="/app" element={<APP auth={auth}/>} />
+        <Route path="/about" element={<About auth={auth}/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>   
+      
      </BrowserRouter>
     </>
   );

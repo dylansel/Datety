@@ -8,7 +8,6 @@ export default function Setting(){
   return(
     <>
       <div>
-        <Header isLoged={isLoged} />
         <div>
           <h2>SETTINGS </h2>
         </div>

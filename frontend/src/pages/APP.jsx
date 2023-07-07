@@ -9,16 +9,36 @@ import interactionPlugin from "@fullcalendar/interaction"; //plugin de funcional
 import { addEvent, getAllEvents } from "../services/eventServices";
 import useHandleModalCreacion from "../hooks/handleModalCreacion";
 import ModalCreacion from "../components/ModalCreacion";
+import { useNavigate } from "react-router-dom";
+import { restrict } from "../components/utils/authUtils";
+import Loading from "../components/misc/Loading";
 
 const isLoged = true;
 
-export default  function APP() {
+export default  function APP({auth}) { 
+  //-----------------AUTHENTHICATION------------
+  const navigate = useNavigate();
+  const reloaded = async () =>{
+    const authe = await auth.reloaded();
+    if(!authe){
+        navigate('/login'); //redireciona al login en caso de no estar authenticado
+    }
+  }
+  useEffect(()=>{
+    if(!auth.user){
+      reloaded()
+    }
+  },[])
+  //-----------------FIN AUTHENTHICATION------------
+
+
   const [msg, setMsg]= useState("");
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
   const [events, setEvents] = useState([])
   const [loading, setLoading]= useState(false);
   const [modalCreacionResponse, handleModalCreacion, creacion, openModalCreacion] = useHandleModalCreacion();
 
+ 
 
     const eventDrop = (info) => {
     setMsg(info.event.title + " fue movida " + info.event.start + " Are you sure about this change?")
@@ -51,10 +71,8 @@ export default  function APP() {
       let arr= []
       const req= await getAllEvents();
       const results= req[0];
-      console.log(results)
 
       results.forEach(event =>{
-        console.log(event)
         const e = {id: event.idEvent, title:event.tittle,  start: `${event.startDate.split("T")[0]}T${event.startTime}`, end: `${event.endDate.split("T")[0]}T${event.endTime}`}
         arr.push(e)
       } )
@@ -62,9 +80,9 @@ export default  function APP() {
     }
    
     useEffect(()=>{
-      fetchData();
+      if(auth.loaded)fetchData();
       
-    },[])
+    },[auth.loaded])
 
 
   const handleCreateEvent= ()=>{
@@ -77,10 +95,15 @@ export default  function APP() {
     }
   }, [modalResponse])
   
-  return (
-    <div className={"app"}>
-      <Header isLoged={isLoged} />
 
+
+ 
+
+  return (
+    <>
+    {!auth.loaded? <Loading/>:
+    <div className={"app"}>
+    
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
 
         <div>
@@ -130,7 +153,7 @@ export default  function APP() {
 
         </div>
     </div>
-     
-    
+  }
+</>    
   )
 }

@@ -147,7 +147,6 @@ const newUser= {
 }
   return(
     <>
-      <Header isLoged={isLoged}/>
       <div style={containerStyle}>
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
@@ -157,8 +156,8 @@ const newUser= {
               <Input placeholder="Apellido" name="surname" type="text" value={form.surname} onChange={handleChange} classTyle="input_register" />
               <Input placeholder="Nombre de usuario" name="userName" type="text" value={form.userName} onChange={handleChange} classTyle="input_register" />
               <Input placeholder="Correo" name="email" type="text" value={form.email} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Contraseña" name="password" type={check ? "text" : "password"} value={form.password} onChange={handleChange} classTyle={passSecure ? "input_register-pass" : "input_register"} />
-              <Input placeholder="Confirmacion" name="passConfirm"  type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classTyle="input_register" />
+              <Input placeholder="Contraseña" name="password" autoComplete="off" type={check ? "text" : "password"}  value={form.password} onChange={handleChange} classTyle={passSecure ? "input_register-pass" : "input_register"} />
+              <Input placeholder="Confirmacion" name="passConfirm" autoComplete="off" type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classTyle="input_register" />
               <div className="show_pass">
                 <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <Input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
               </div>

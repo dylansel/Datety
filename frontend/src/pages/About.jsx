@@ -120,10 +120,6 @@ export default function About() {
   return (
     <>
 
-      <Header  isLoged={isLoged} />
-      {/* {loged ? <Header isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
-              < Header isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />}  */}
-     
       <div className="about_container" style={aboutContainer}>
         <div className="section section_1" style={sectionOne}>
           <img className="img-about" src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>

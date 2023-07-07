@@ -2,31 +2,39 @@ import { useEffect, useState } from "react";
 import { getUser } from "../services/userService";
 import { getAuthToken } from "../services/authService";
 
-
+ 
 const useAuth= ()=>{
     const [user,setUser] = useState(null);
-    const [authenticated,setAuthenticated] = useState(false);
+    const [loaded,setLoaded] = useState(false);
 
     const reloaded = async ()=>{
-        setAuthenticated(false)
+        setLoaded(false)
         setUser(null)
         if(getAuthToken() ){
             const u = await getUser()
-            if(u.name){
-               setUser(u) 
-                setAuthenticated(true)
+            if(u.status != 200){
+              setLoaded(true)
+              return false
+            }
+
+            if(u.data.name){
+               setUser(u.data) 
+               setLoaded(true)
                 return true
             }
             
         }
-        setAuthenticated(false)
+        setLoaded(true)
     }
     
     useEffect(()=>{
         reloaded()
     },[])
 
-    return{authenticated,user,reloaded}
+    return{loaded,user,reloaded}
 
 }
 export default useAuth;
+
+
+

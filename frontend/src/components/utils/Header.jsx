@@ -37,17 +37,22 @@ const item= {
     textDecoration: "none",
 }
 
-export default function Header({isLoged}) {
+export default function Header({auth}) {
+
+    const user = auth.user
+    
     return (
         <>
           <header >
             <nav style={styleNav}>
               <h2 style={{ color: "#ffd", flexGrow: "2" }}>DateTy</h2>
-                {isLoged ? 
+                {user ? 
                 <div className="links-container" style={linksContainer}>
                   <li className="link-item" style={linkItem}><Link style={item} className="item" to="/settings">Settings</Link></li>
                   <li className="link-item" style={linkItem}><Link style={item} className="item" to="/app">My agenda</Link></li>
-                  <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About</Link></li> 
+                  <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About Us</Link></li>
+                  <li className="" style={linkItem}><Link style={item} className="item" >{`${user?.name} ${user?.surname}`}</Link></li>
+                   
                 </div>
                   :
                 <div className="links-container" style={linksContainer}>

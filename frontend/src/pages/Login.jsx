@@ -57,19 +57,23 @@ const styleLink = {
   color: "rgba(20, 20, 20, 0.827)"
 }
 
-export default function Login() {
+export default function Login({auth}) {
   
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
   const [mensaje, setMensaje]= useState("")
   const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-  
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name] : e.target.value
     })
   }
+  
+
+
   
   const handleCheck = ()=>{
     setCheck(!check)
@@ -105,6 +109,9 @@ export default function Login() {
     }else if(status == 404){
       openModalAviso();
       setMensaje("Usuario incorrecto")
+    }else if(status == 400){
+      openModalAviso();
+      setMensaje("Nombre de usuario en uso")
     }else if(status ==200){
       redirec()
       auth.reloaded()
@@ -114,7 +121,6 @@ export default function Login() {
   
   const reloaded = async () =>{
     const authe = await auth.reloaded();
-    console.log(authe)
     if(authe){
       redirec();
     }
@@ -124,11 +130,9 @@ export default function Login() {
   },[])
 
 
-  
 
   return (
     <>
-        <Header />
         <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
 
        <div className="contenedor-principal" style={contenedorPrincipal}>
