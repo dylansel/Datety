@@ -8,7 +8,7 @@ USE datety;
   `email` VARCHAR(50) NOT NULL,
   `userName` VARCHAR(50) NOT NULL,
   `password` VARCHAR(120) NOT NULL,
-  `photo` VARCHAR(50),
+  `photo` VARCHAR(250),
   `role` ENUM('admin', 'premium', 'user') DEFAULT 'user',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `is_active` BOOLEAN NOT NULL DEFAULT true,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
 INSERT INTO `user` (`name`, `surname`, `email`, `userName`, `password`, `photo`)
 VALUES
   ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2b$10$xKGDaCIQxjYkgMwlaSztH.XOK5oCUiUZxCqbD.rPymxiBwR5/AsjW', 'photo1.jpg'),
-  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'photo2.jpg'),
+  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png'),
   ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'pedros123', 'photo3.jpg'),
   ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'luciam123', 'photo4.jpg');
 
