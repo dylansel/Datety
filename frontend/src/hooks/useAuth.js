@@ -16,6 +16,7 @@ const useAuth= ()=>{
         setUser(null)
         if(getAuthToken() ){
             const u = await getUser()
+            console.log(u)
             if(u.status != 200){
               setLoaded(true)
               return false
