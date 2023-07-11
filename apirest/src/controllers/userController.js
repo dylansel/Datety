@@ -1,5 +1,6 @@
 const CRUD = require('../services/crud')
 const userService = require('../services/userService');
+const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 const utils = require('../utils/utils')
 const bcrypt = require('bcryptjs');
 
@@ -62,8 +63,10 @@ const addUser = async (req, res) => {
     }
     // Agregar usuario
     const id = await userService.addUser(dataE);
+    if(!id) throw new Error('Error al agregar usuario');
     const token = utils.createToken({idUser:id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
+    sendConfirmEmail(id);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

@@ -1,6 +1,52 @@
 const { sendEmail } = require("../services/emailService");
 const { getUserById } = require("../services/userService");
 
+const sendConfirmEmail = async (idUser) => {
+  try {
+    const user = await getUserById(idUser);
+    if (!user) throw new Error("Error al intentar mandar email al usuario");
+
+    const subject = 'Confirmar dirección de correo electrónico - DateTy';
+    const html = generateConfirmEmail(user);
+
+    const data = {
+      to: user.email,
+      subject,
+      html
+    };
+
+    await sendEmail(data);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+const generateConfirmEmail = (user) => {
+  const styleHeader = "background: #6e3ef8;  width: 100%; padding: 1rem; margin:auto; display: flex; justify-content: center; align-items: center; text-align: center;";
+  const styleTitle = "color: white; margin: auto;";
+  const styleFooter = "background: #333; color: white; width: 100%; padding: 1rem; text-align: center;";
+  const styleMain = "width: 80%; margin: 0 auto; text-align: center;max-width: 60rem;";
+  const styleButton = "display: block; background-color: #6e3ef8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; text-decoration: none;margin:2rem auto ;width:8rem; font-size: 1.2rem;";
+  const styleBody = "background:#ffd8d8; width: 100%; padding: 1rem; margin:auto;";
+
+  return `
+    <div style="${styleMain}">
+      <div style="${styleHeader}">
+        <h1 style="${styleTitle}">CONFIRMAR DIRECCIÓN DE CORREO ELECTRÓNICO</h1>
+      </div>
+      <div style="${styleBody}">
+        <h3>Hola ${user.name}, ¡Gracias por registrarte en DateTy! Para completar el proceso de registro, por favor confirma tu dirección de correo electrónico haciendo clic en el siguiente botón:</h3>
+        <a href="https://tu-sitio.com/confirmar-email/${user.id}" style="${styleButton}">Confirmar Email</a>
+      </div>
+      <div style="${styleFooter}">
+        <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>
+      </div>
+    </div>
+  `;
+};
+
+
 const resetPassword = async (idUser) => {
   try {
     const user = await getUserById(idUser);
@@ -131,10 +177,9 @@ function generateEventReminderEmail(user, event) {
       </div>
       <div style="${styleBody}">
         <h3>Hola ${user.name}, te recordamos que tienes un evento programado:</h3>
-        <p>Evento: ${event.title}</p>
-        <p>Fecha: ${event.date}</p>
-        <p>Hora: ${event.time}</p>
-        <p>Lugar: ${event.location}</p>
+        <p>Evento: ${event.tittle}</p>
+        <p>Fecha: ${event.startDate}</p>
+        <p>Hora: ${event.startTime} - ${event.endTime}</p>
         <p>No olvides estar presente y disfrutar del evento.</p>
       </div>
       <div style="${styleFooter}">
@@ -245,5 +290,6 @@ module.exports = {
   sendSecurityNotification,
   sendEventReminder,
   sendEventModification,
-  sendEventInvitation
+  sendEventInvitation,
+  sendConfirmEmail
 };
