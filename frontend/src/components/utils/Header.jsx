@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { BrowserRouter, Link } from "react-router-dom";
 import '../../stylesheets/animations.css';
+import defaultProfilePicture from '../../assets/imgs/defaultProfilePicture.png'
 
 const styleNav = {
     fontFamily: "'Comfortaa', cursive",
@@ -37,21 +38,36 @@ const item= {
     textDecoration: "none",
 }
 
-export default function Header({auth}) {
+const imgStyle = {
+  width: "4rem",
+  height: "4rem",
+  borderRadius: "50%",
+}
 
-    const user = auth.user
+const iconLogOutStyle = {
+  fontSize:"2.4rem",
+  margin:"1rem",
+}
+
+export default function Header({auth}) {
+  const user = auth.user
+  const [userPhoto, setUserPhoto] = useState(user?.photo || defaultProfilePicture);
+
     
     return (
         <>
           <header >
             <nav style={styleNav}>
               <h2 style={{ color: "#ffd", flexGrow: "2" }}>DateTy</h2>
-                {user ? 
+                {(user)? 
                 <div className="links-container" style={linksContainer}>
                   <li className="link-item" style={linkItem}><Link style={item} className="item" to="/settings">Settings</Link></li>
                   <li className="link-item" style={linkItem}><Link style={item} className="item" to="/app">My agenda</Link></li>
                   <li className="link-item" style={linkItem}><Link style={item} className="item" to="/about">About Us</Link></li>
+                  
                   <li className="" style={linkItem}><Link style={item} className="item" >{`${user?.name} ${user?.surname}`}</Link></li>
+                  <img src={userPhoto} style={imgStyle} alt="icono de perfil" onError={()=>setUserPhoto(defaultProfilePicture)}/>
+                  <i className="fa-solid fa-right-from-bracket link_pointed" style={iconLogOutStyle} onClick={auth.logOut}></i>
                    
                 </div>
                   :

@@ -1,8 +1,8 @@
 import "../stylesheets/animations.css"
 import Header from "../components/utils/Header"
-import SvgOne from "../imgs/about_us-img1.svg"
-import SvgTwo from "../imgs/about_us-img2.svg"
-import SvgThree from "../imgs/about_us-img3.svg"
+import SvgOne from "../assets/imgs/about_us-img1.svg"
+import SvgTwo from "../assets/imgs/about_us-img2.svg"
+import SvgThree from "../assets/imgs/about_us-img3.svg"
 import ScrollReveal from "scrollreveal"
 import { useEffect } from "react"
 

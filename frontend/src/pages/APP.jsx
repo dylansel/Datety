@@ -10,7 +10,6 @@ import { addEvent, getAllEvents } from "../services/eventServices";
 import useHandleModalCreacion from "../hooks/handleModalCreacion";
 import ModalCreacion from "../components/ModalCreacion";
 import { useNavigate } from "react-router-dom";
-import { restrict } from "../components/utils/authUtils";
 import Loading from "../components/misc/Loading";
 
 const isLoged = true;
@@ -28,7 +27,7 @@ export default  function APP({auth}) {
     if(!auth.user){
       reloaded()
     }
-  },[])
+  },[auth.user])
   //-----------------FIN AUTHENTHICATION------------
 
 
@@ -101,7 +100,6 @@ export default  function APP({auth}) {
 
   return (
     <>
-    {!auth.loaded? <Loading/>:
     <div className={"app"}>
     
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
@@ -153,7 +151,6 @@ export default  function APP({auth}) {
 
         </div>
     </div>
-  }
 </>    
   )
 }

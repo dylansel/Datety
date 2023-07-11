@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../services/userService";
-import { getAuthToken } from "../services/authService";
+import { deleteAuthToken, getAuthToken } from "../services/authService";
 
  
 const useAuth= ()=>{
     const [user,setUser] = useState(null);
     const [loaded,setLoaded] = useState(false);
-
+    const logOut = ()=>{
+        deleteAuthToken()
+        
+        reloaded()
+    }
     const reloaded = async ()=>{
         setLoaded(false)
         setUser(null)
@@ -31,7 +35,7 @@ const useAuth= ()=>{
         reloaded()
     },[])
 
-    return{loaded,user,reloaded}
+    return{loaded,user,reloaded,logOut}
 
 }
 export default useAuth;

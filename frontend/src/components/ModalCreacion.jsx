@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import Input from "./utils/Input";
 import "../stylesheets/animations.css"
-import logo from "../imgs/exit_logo.png"
+import logo from "../assets/imgs/exit_logo.png"
 import { addEvent } from "../services/eventService";
 
 /*

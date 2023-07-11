@@ -19,9 +19,10 @@ function App() {
   return (
     <>
      <BrowserRouter>
-     {auth.loaded &&<Header  auth={auth} />}
+     {auth.loaded && <Header  auth={auth} />}
+     {auth.loaded?
       <Routes> 
-        <Route path="/" element={<About auth={auth}/>} />
+        <Route path="/" element={auth.user?<APP auth={auth}/>:<About auth={auth}/>} />
         <Route path="/login" element={<Login auth={auth}/>} />
         <Route path="/register" element={<Register auth={auth}/>} />
         <Route path="/settings" element={<Settings auth={auth}/>} />
@@ -29,7 +30,7 @@ function App() {
         <Route path="/about" element={<About auth={auth}/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>   
-      
+      :<Loading/>}
      </BrowserRouter>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input"
-import SVG from "../imgs/img_welcome.svg"
+import SVG from "../assets/imgs/img_welcome.svg"
 import "../stylesheets/animations.css"
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
@@ -88,7 +88,7 @@ export default function Login({auth}) {
   const redirec = ()=>{
     const previousUrl = document.referrer;
     console.log(window.location.origin)
-    if (previousUrl === window.location.href || !previousUrl || `${window.location.origin}/register`) {
+    if (previousUrl === window.location.href || !previousUrl || previousUrl == `${window.location.origin}/register`) {
       navigate('/app');
     } else {
       navigate(-1);
