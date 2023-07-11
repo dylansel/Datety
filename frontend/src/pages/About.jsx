@@ -1,8 +1,8 @@
 import "../stylesheets/animations.css"
 import Header from "../components/utils/Header"
-import SvgOne from "../imgs/about_us-img1.svg"
-import SvgTwo from "../imgs/about_us-img2.svg"
-import SvgThree from "../imgs/about_us-img3.svg"
+import SvgOne from "../assets/imgs/about_us-img1.svg"
+import SvgTwo from "../assets/imgs/about_us-img2.svg"
+import SvgThree from "../assets/imgs/about_us-img3.svg"
 import ScrollReveal from "scrollreveal"
 import { useEffect } from "react"
 
@@ -120,10 +120,6 @@ export default function About() {
   return (
     <>
 
-      <Header  isLoged={isLoged} />
-      {/* {loged ? <Header isLoged={loged} firstLink="Logout" secondLink="Settings" thirdLink="My Agenda" firstRout="/login" secondRoute="/settings" thirdRoute="/app" /> :
-              < Header isLoged={loged} firstLink="Login" secondLink="Register" firstRout="/login" secondRoute="/register" />}  */}
-     
       <div className="about_container" style={aboutContainer}>
         <div className="section section_1" style={sectionOne}>
           <img className="img-about" src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input"
-import SVG from "../imgs/img_welcome.svg"
+import SVG from "../assets/imgs/img_welcome.svg"
 import "../stylesheets/animations.css"
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
 import { login } from "../services/userService"
-
+import { useNavigate } from 'react-router-dom';
 let initialForm= {
   user: "",
   pass: ""
@@ -52,21 +52,28 @@ const buttonLogin = {
   width: "100%",
   justifyContent: "space-between"
 }
+const styleLink = {
+  textDecoration: "none",
+  color: "rgba(20, 20, 20, 0.827)"
+}
 
-
-export default function Login() {
+export default function Login({auth}) {
   
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
   const [mensaje, setMensaje]= useState("")
   const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-  
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name] : e.target.value
     })
   }
+  
+
+
   
   const handleCheck = ()=>{
     setCheck(!check)
@@ -77,32 +84,55 @@ export default function Login() {
     password: form.pass
   }
 
+
+  const redirec = ()=>{
+    const previousUrl = document.referrer;
+    console.log(window.location.origin)
+    if (previousUrl === window.location.href || !previousUrl || previousUrl == `${window.location.origin}/register`) {
+      navigate('/app');
+    } else {
+      navigate(-1);
+    }
+}
+
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if(!form.user || !form.pass){
       openModalAviso();
       setMensaje("Complete los datos...")
-    }else{
-      const [data, status]= await login(logUser)
-      if(status == 401){
-        openModalAviso();
-        setMensaje("pass Incorrecta")
-      }else if(status == 404){
-        openModalAviso();
-        setMensaje("user no encontrado")
-      }
+      return
+    }
+    const [data, status]= await login(logUser)
+    if(status == 401){
+      openModalAviso();
+      setMensaje("Contraseña Incorrecta")
+    }else if(status == 404){
+      openModalAviso();
+      setMensaje("Usuario incorrecto")
+    }else if(status == 400){
+      openModalAviso();
+      setMensaje("Nombre de usuario en uso")
+    }else if(status ==200){
+      redirec()
+      auth.reloaded()
+    }
+    
+  }
+  
+  const reloaded = async () =>{
+    const authe = await auth.reloaded();
+    if(authe){
+      redirec();
     }
   }
+  useEffect(()=>{
+    reloaded()
+  },[])
 
 
-  const styleLink = {
-    textDecoration: "none",
-    color: "rgba(20, 20, 20, 0.827)"
-  }
 
   return (
     <>
-        <Header />
         <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
 
        <div className="contenedor-principal" style={contenedorPrincipal}>

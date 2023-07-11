@@ -21,7 +21,9 @@
     transition: .4s;
     cursor: pointer;
 }
-
+.link_pointed:hover{
+    cursor: pointer;
+}
 .link-item:hover::before{
     transform: scale(1.2);
 }

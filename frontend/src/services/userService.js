@@ -52,7 +52,7 @@ export async function getUser() {
     });
     const data = await response.json();
     const status = response.status;
-    return [data, status];
+    return {data:data[0], status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al solicitar usuario");

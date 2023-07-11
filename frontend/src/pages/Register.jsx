@@ -1,12 +1,13 @@
 import React, {useState} from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input";
-import image from "../imgs/login_img.svg";
+import image from "../assets/imgs/login_img.svg";
 import { addUser } from "../services/userService";
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
 import { errorMessageConverter } from "../components/utils/errorHandling";
 import "../stylesheets/animations.css"
+import { useNavigate } from "react-router-dom";
 
 let initialForm= {
   name: "",
@@ -69,13 +70,17 @@ const  imgStyle={
     height: "85%",
     width: "100%"
   }
-export default function Register(){
+
+
+
+
+export default function Register({auth}){
 
 const [form, setForm]= useState(initialForm);
 const [check, setCheck]= useState(false)
 const [mensaje, setMensaje]= useState("")
 const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-
+const navigate = useNavigate();
 const handleChange= (e)=>{
   setForm({
     ...form,
@@ -113,10 +118,10 @@ const añadir = async (user) =>{
   try {
     const [result,status] = await addUser(user)
     if(status == 200){
-     console.log("se creo correctamente")
-     setMensaje("Usuario Creado")
-     openModalAviso();
-     return;
+        
+        navigate('/app'); 
+        auth.reloaded()
+      return;
     }else if(result.message){
       console.warn(`API CODE Warn: "${result.message}"`)
       setMensaje(errorMessageConverter(result.message))
@@ -147,22 +152,21 @@ const newUser= {
 }
   return(
     <>
-      <Header isLoged={isLoged}/>
       <div style={containerStyle}>
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
           <div className="register" style={registerStyle}>
-            <form className="form-login" action="" style={formStyle} onSubmit={handleSubmit} classTyle="input_register" >
-              <Input placeholder="Nombre" name="name" type="text" value={form.name} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Apellido" name="surname" type="text" value={form.surname} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Nombre de usuario" name="userName" type="text" value={form.userName} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Correo" name="email" type="text" value={form.email} onChange={handleChange} classTyle="input_register" />
-              <Input placeholder="Contraseña" name="password" type={check ? "text" : "password"} value={form.password} onChange={handleChange} classTyle={passSecure ? "input_register-pass" : "input_register"} />
-              <Input placeholder="Confirmacion" name="passConfirm"  type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classTyle="input_register" />
+            <form className="form-login" action="" style={formStyle} onSubmit={handleSubmit}  >
+              <Input placeholder="Nombre" name="name" type="text" value={form.name} onChange={handleChange} classStyle="input_register" />
+              <Input placeholder="Apellido" name="surname" type="text" value={form.surname} onChange={handleChange} classStyle="input_register" />
+              <Input placeholder="Nombre de usuario" name="userName" type="text" value={form.userName} onChange={handleChange} classStyle="input_register" />
+              <Input placeholder="Correo" name="email" type="text" value={form.email} onChange={handleChange} classStyle="input_register" />
+              <Input placeholder="Contraseña" name="password" autoComplete="off" type={check ? "text" : "password"}  value={form.password} onChange={handleChange} classStyle={passSecure ? "input_register-pass" : "input_register"} />
+              <Input placeholder="Confirmacion" name="passConfirm" autoComplete="off" type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classStyle="input_register" />
               <div className="show_pass">
                 <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <Input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
               </div>
-              <Input widthInput={"40%"} type="submit"value="Registrarme" name="enviar" classTyle="submit_buttom-login input_register"/>
+              <Input widthInput={"40%"} type="submit"value="Registrarme" name="enviar" classStyle="submit_buttom-login input_register"/>
             </form>
             <div className="img_background_container" style={imgContainerStyle} >
               <img src={image} alt="img_login" className="img_login" style={imgStyle}/>
