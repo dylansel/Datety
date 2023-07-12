@@ -11,7 +11,8 @@ import Header from "./components/utils/Header"
 import Input from './components/utils/Input';
 import useAuth from './hooks/useAuth';
 import Loading from './components/misc/Loading';
-
+import ConfirmEmail from './pages/ConfirmEmail';
+import { useParams } from 'react-router-dom';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/settings" element={<Settings auth={auth}/>} />
         <Route path="/app" element={<APP auth={auth}/>} />
         <Route path="/about" element={<About auth={auth}/>} />
+        <Route path="/confirmEmail/:emailToken" element={<ConfirmEmail auth={auth}/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>   
       :<Loading/>}
