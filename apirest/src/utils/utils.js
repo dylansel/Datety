@@ -25,6 +25,10 @@ const createToken = (user) => {
   return token;
 };
 
+const createEmailTokenById = (idUser,email,data = null) => {
+  const token = jwt.sign({ idUser, email, data}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION_EMAIL});
+  return token;
+};
 const verifyToken = (token) => {
   try {
     const isValid = jwt.verify(token, process.env.JWT_SECRET);
@@ -118,6 +122,7 @@ module.exports = {
   encryptText,
   hashCompare,
   createToken,
+  createEmailTokenById,
   verifyToken,
   formatDateToString,
   operateDate,

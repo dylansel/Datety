@@ -29,8 +29,9 @@ router.delete('/deleteUser',authMiddleware, userController.deleteUser); //Esta p
 
 //Login
 router.post('/login', userController.login); //no necesita estar logueado 
-router.get('/encript/:text', userController.encript);
+router.post('/confirmEmail/:token', userController.confirmEmail);
 module.exports = router;
 
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9*eyJpZFVzZXIiOjksImVtYWlsIjoibWFsZXRlbDUyMEBtc2JhY2suY29tIiwiZGF0YSI6bnVsbCwiaWF0IjoxNjg5MTMxODQ4LCJleHAiOjE2ODkyMTgyNDh9*4Nq5zJcUBm6hD7sbIRG__K-VlSywmOJZ7-JdoDSYzXk
 
 

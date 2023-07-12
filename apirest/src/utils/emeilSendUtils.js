@@ -1,9 +1,15 @@
 const { sendEmail } = require("../services/emailService");
 const { getUserById } = require("../services/userService");
+const { createEmailTokenById } = require("./utils");
+
+const linkConfirmEmailByIdUser  = (user)=>{
+  const token = createEmailTokenById(user?.idUser,user?.email)
+  return `${process.env.DOMAIN_FRONTEND}confirmEmail/${token.replaceAll(".","*")}`
+}
 
 const sendConfirmEmail = async (idUser) => {
   try {
-    const user = await getUserById(idUser);
+    const user = await getUserById(idUser,"");
     if (!user) throw new Error("Error al intentar mandar email al usuario");
 
     const subject = 'Confirmar dirección de correo electrónico - DateTy';
@@ -37,7 +43,7 @@ const generateConfirmEmail = (user) => {
       </div>
       <div style="${styleBody}">
         <h3>Hola ${user.name}, ¡Gracias por registrarte en DateTy! Para completar el proceso de registro, por favor confirma tu dirección de correo electrónico haciendo clic en el siguiente botón:</h3>
-        <a href="https://tu-sitio.com/confirmar-email/${user.id}" style="${styleButton}">Confirmar Email</a>
+        <a href=${linkConfirmEmailByIdUser(user)} style="${styleButton}">Confirmar Email</a>
       </div>
       <div style="${styleFooter}">
         <p>© ${new Date().getFullYear()} X-MOON. Todos los derechos reservados</p>

@@ -2,13 +2,13 @@
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
 const utils = require('../utils/utils');
-const { resetPassword, sendEventInvitation } = require('../utils/emeilSendUtils');
+const {sendEventInvitation, sendConfirmEmail } = require('../utils/emeilSendUtils');
 
 const getAllEvents = async (req,res) => {
   try {
     const idUser = req.user.idUser;
+    sendConfirmEmail(idUser)
     const respuesta = await eventService.getAllEvents(idUser);
-    resetPassword(idUser)
     res.status(200).json(respuesta);
   }catch (error) {
     console.error(error);
