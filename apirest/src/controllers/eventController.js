@@ -1,7 +1,8 @@
 
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
-const utils = require('../controllers/utils')
+const utils = require('../utils/utils');
+const {sendEventInvitation, sendConfirmEmail } = require('../utils/emeilSendUtils');
 
 const getAllEvents = async (req,res) => {
   try {
@@ -37,7 +38,7 @@ const addEvent = async (req, res) => {
     if (!idUser || isNaN(idUser)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
-    const { tittle, description, startDate, endDate, startTime, endTime,repeat,reminder, isDinamic, participants } = req.body;
+    const { tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants } = req.body;
     if (!tittle || !startDate || !endDate || !startTime || !endTime) {
       return res.status(400).json({ message: 'Missing event data' });
     }
@@ -57,7 +58,7 @@ const addEvent = async (req, res) => {
     if(repeat && !isDinamic){
       //Crear un evento
       let respsDates = [startDate];
-      if(repeat.rep && !repeat.for ){
+      if(repeat.rep && !repeat.for){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
       }else if(repeat.for == "month"){
         respsDates = utils.listDateInNumberUntil(startDate,repeat.until,startDate.split('-')[2])
@@ -77,7 +78,10 @@ const addEvent = async (req, res) => {
           idEvent: rEvet
         });
       }); 
+      const event = {tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants}
+      sendEventInvitation(idUser,event);
       return res.status(200).json({});
+      
     }
     res.status(400).json({ message: 'could not add the event, check the data' });
     

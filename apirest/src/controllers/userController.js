@@ -1,6 +1,7 @@
 const CRUD = require('../services/crud')
-const userService = require('../services/userService')
-const utils = require('../controllers/utils')
+const userService = require('../services/userService');
+const { sendConfirmEmail } = require('../utils/emeilSendUtils');
+const utils = require('../utils/utils')
 const bcrypt = require('bcryptjs');
 
 const getAllUsers = async (req,res) => {
@@ -18,7 +19,7 @@ const getUserById = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
   try {
     const id = req.params.id; // Obtener el ID del usuario desde la ruta
-    const user = await userService.getUserById(id,null); 
+    const user = await userService.getUserById(id); 
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
   } catch (error) {
@@ -62,8 +63,10 @@ const addUser = async (req, res) => {
     }
     // Agregar usuario
     const id = await userService.addUser(dataE);
+    if(!id) throw new Error('Error al agregar usuario');
     const token = utils.createToken({idUser:id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
+    sendConfirmEmail(id);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -170,10 +173,18 @@ const login = async (req, res) => {
   }
 }
 
-const encript = async (req,res) => {
+const confirmEmail = async (req,res) => {
   try {
-    const hash = await utils.encryptText(req.params.text);
-    res.status(200).json(hash); 
+    const emailToken = req.params.token.replaceAll("*",".");
+    const resToken = utils.verifyToken(emailToken);
+    if(!resToken.idUser)throw new Error("invalid or modified token"); 
+    if(!resToken.email)throw new Error("email not fond"); 
+    const user = await userService.getUserById(resToken.idUser, "");
+    if(!user)throw new Error("User Not fond");
+    if(user.email != resToken.email)throw new Error("Invalid email")
+    const u = userService.editUser({is_active:1},resToken.idUser)
+    if (!u)throw new Error("failed to activate user")
+    res.status(200).json({}); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -189,6 +200,6 @@ module.exports = {
   disableUser,
   deleteUser,
   login,
-  encript
+  confirmEmail
 }
 

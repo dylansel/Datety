@@ -11,7 +11,7 @@ USE datety;
   `photo` VARCHAR(250),
   `role` ENUM('admin', 'premium', 'user') DEFAULT 'user',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `is_active` BOOLEAN NOT NULL DEFAULT true,
+  `is_active` BOOLEAN NOT NULL DEFAULT false,
   PRIMARY KEY (`idUser`)
   );
  
@@ -67,14 +67,11 @@ CREATE TABLE IF NOT EXISTS `notification` (
     );
     
 
-INSERT INTO `user` (`name`, `surname`, `email`, `userName`, `password`, `photo`)
+INSERT INTO `user` (`name`, `surname`, `email`, `userName`, `password`, `photo`, `is_active`)
 VALUES
-  ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2b$10$xKGDaCIQxjYkgMwlaSztH.XOK5oCUiUZxCqbD.rPymxiBwR5/AsjW', 'photo1.jpg'),
-  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png'),
-  ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'pedros123', 'photo3.jpg'),
-  ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'luciam123', 'photo4.jpg');
-
-
+  ('Juan', 'Pérez', 'juan.perez@example.com', 'juanp', '$2b$10$xKGDaCIQxjYkgMwlaSztH.XOK5oCUiUZxCqbD.rPymxiBwR5/AsjW', 'photo1.jpg',1),
+  ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png',1),
+  ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'pedros123', 'photo3.jpg',1),
 INSERT INTO `event` (`tittle`, `description`, `startDate`, `endDate`, `startTime`, `endTime`, `isDinamic`, `isAccepted`)
 VALUES
   ('Fiesta de cumpleaños', 'Celebración de cumpleaños de Juan', '2023-04-22', '2023-04-22', '19:00:00', '23:00:00', 0, 1),
