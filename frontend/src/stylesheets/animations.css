@@ -379,6 +379,23 @@ body{
     transition: .2s;
 } */
 
+@media screen and (max-width: 1278px) {
+    .modal_creacion{
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    .form_creation{
+        width: 100% !important;
+    }
+}
+    
+@media screen and (max-width: 1015px) {
+    .modal_creacion{
+        width: 60% !important
+    }
+
+}
+
 /*_________DECORATION NONE_________ */
 
 .link_decoration{
