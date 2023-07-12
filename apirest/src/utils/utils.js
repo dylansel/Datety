@@ -34,12 +34,13 @@ const verifyToken = (token) => {
     const isValid = jwt.verify(token, process.env.JWT_SECRET);
     return isValid;
   } catch (err) {
+    console.error(err)
     return null;
   }
 };
 
 const isExist = function (row) {
-  return !(row === null || Object.keys(row).length === 0);
+  return !(row === null || Object?.keys(row).length === 0);
 };
 
 
