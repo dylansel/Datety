@@ -64,6 +64,13 @@ export default  function APP({auth}) {
     };
 
  
+    const calendarStyle = {
+      width:"100%",
+      margin:"auto",
+      height:"130rem",
+      position:"absolute",
+      boxSizing: "border-box",
+    }
 
     const fetchData= async ()=>{
 
@@ -113,40 +120,43 @@ export default  function APP({auth}) {
           <button onClick={getAllEvents}>Ver todos Los Eventos</button>
           <button onClick={()=>console.log(events)}>EVENTOS</button>
 
+          <div style={calendarStyle}>
+                <FullCalendar
+                
+              timeZone="local"
+            
+              eventChange={function (e){
+                console.log(e.event._def.title)
+                e.title= e.event._def.title
+                console.log("TITTLE: ",e.title)
+              }}
+              
+              dateClick={function(info){
+                console.log('Clicked on: ' + info.dateStr);
+                console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                console.log('Current view: ' + info.view.type);
+              }}
+              locale= 'es'
+              plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
+              initialView="timeGridWeek"
+              headerToolbar= {{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+              }}
+              
+              // eventChange={(e)=>{
+              //   console.log("CAMBIO: ", e._def.title)
+              // }}
+              eventDrop={eventDrop}
+              editable={true}
+              selectable={false}
+              events={events}
+              allDaySlot={false}
 
-          <FullCalendar
-          timeZone="local"
-        
-          eventChange={function (e){
-            console.log(e.event._def.title)
-            e.title= e.event._def.title
-            console.log("TITTLE: ",e.title)
-          }}
+            />
+          </div>
           
-          dateClick={function(info){
-            console.log('Clicked on: ' + info.dateStr);
-            console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            console.log('Current view: ' + info.view.type);
-          }}
-          locale= 'es'
-          plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
-          initialView="timeGridWeek"
-          headerToolbar= {{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          }}
-          
-          // eventChange={(e)=>{
-          //   console.log("CAMBIO: ", e._def.title)
-          // }}
-          eventDrop={eventDrop}
-          editable={true}
-          selectable={false}
-          events={events}
-          allDaySlot={false}
-
-        />
 
 
         </div>
