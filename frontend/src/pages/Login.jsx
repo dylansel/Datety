@@ -137,12 +137,12 @@ export default function Login({auth}) {
 
        <div className="contenedor-principal" style={contenedorPrincipal}>
           <div className="login-style" style={styleLogin}>
-            <img src={SVG} alt="Imagen Login" style={imgStyle}/>
+            <img src={SVG} alt="Imagen Login" style={imgStyle} className="img_login"/>
             <form className="form-login" style={formStyle}  onSubmit={handleSubmit} >
               <Input value={form.user} type="text" onChange={handleChange} placeholder="Ingrese su nombre" name="user" />
               <Input value={form.pass} type={(check) ? "text" : "password" } onChange={handleChange} placeholder="Contraseña" name="pass"/>
               <div>
-                <label htmlFor="">Mostrar contraseña</label> <Input value={form.check} type="checkbox" onChange={handleCheck}/>
+                <label htmlFor="">Mostrar contraseña</label> <input value={form.check} type="checkbox" onChange={handleCheck}></input>
               </div>
               <a href="" style={styleLink}>¿Olvidaste tu contraseña?</a>
               <div style={buttonLogin}>

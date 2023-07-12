@@ -239,12 +239,25 @@ body{
     transition: .5s;
 }
 
-@media screen and (max-width: 1300px) {
+.check-login{
+    width: 50% !important;
+}
+
+@media screen and (max-width: 1000px) {
     .register{
         flex-direction: column !important;
-        justify-content: center;
+        justify-content: center !important;
     }
 
+    .check-login{
+        width: 50% !important;
+    }
+
+    .login-style{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .img_login{
         display: none !important;
     }
@@ -257,6 +270,9 @@ body{
     .show_pass{
         margin: 0 auto;
 
+    }
+    .form-login{
+        min-width: 60% !important;
     }
 }
 
@@ -326,3 +342,7 @@ body{
     text-decoration: none;
     color: #090909;
 }
+
+/* MEDIA QUERYS  ____LOGIN____ */
+/* img_login */
+
