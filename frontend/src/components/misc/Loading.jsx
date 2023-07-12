@@ -15,10 +15,10 @@ const loadingContainerStyle ={
     color:"#FEA920",
   }
 
-export default function Loading() {
+export default function Loading({msg="Cargando..."}) {
   return (
     <div style={loadingContainerStyle}>
-        <h1>Cargando...</h1>
+        <h1>{msg}</h1>
       <FontAwesomeIcon icon={faSpinner} spin size="3x" style={spinnerStyle} />
     </div>
   );

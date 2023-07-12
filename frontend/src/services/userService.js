@@ -94,6 +94,20 @@ export async function login(user) {
   }
 }
 
+export async function confirmEmailByToken(token) {
+  try {
+    const response = await fetch(`${apiUrl}/user/confirmEmail/${token}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    const status = response.status;
+    return {data, status};
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al iniciar sesion");
+  }
+}
 
 
 /*
