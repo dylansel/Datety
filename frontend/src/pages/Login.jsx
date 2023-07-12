@@ -139,15 +139,15 @@ export default function Login({auth}) {
           <div className="login-style" style={styleLogin}>
             <img src={SVG} alt="Imagen Login" style={imgStyle} className="img_login"/>
             <form className="form-login" style={formStyle}  onSubmit={handleSubmit} >
-              <Input value={form.user} type="text" onChange={handleChange} placeholder="Ingrese su nombre" name="user" />
-              <Input value={form.pass} type={(check) ? "text" : "password" } onChange={handleChange} placeholder="Contraseña" name="pass"/>
+              <Input value={form.user} type="text" onChange={handleChange} placeholder="Ingrese su nombre" name="user" classStyle={"input_register"} />
+              <Input value={form.pass} type={(check) ? "text" : "password" } onChange={handleChange} placeholder="Contraseña" name="pass" classStyle={"input_register"}/>
               <div>
                 <label htmlFor="">Mostrar contraseña</label> <input value={form.check} type="checkbox" onChange={handleCheck}></input>
               </div>
               <a href="" style={styleLink}>¿Olvidaste tu contraseña?</a>
               <div style={buttonLogin}>
                 <a href="/register" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
-                <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle="check-login"></Input>
+                <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle={form.pass && form.user ? "check-login_able" : "check-login_desable"}></Input>
               </div>
             </form>
           </div>

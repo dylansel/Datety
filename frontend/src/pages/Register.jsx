@@ -15,7 +15,8 @@ let initialForm= {
   email: "",
   userName: "",
   password: "",
-  photo: null
+  photo: null,
+  passConfirm: ""
 }
 
 const isLoged= false;
@@ -156,7 +157,7 @@ const newUser= {
         <div className="register_container" style={registerContainerStyle}>
           <h2 style={tittleStyle}>Date<span className="violet-text">Ty</span></h2>
           <div className="register" style={registerStyle}>
-            <form className="form-login" action="" style={formStyle} onSubmit={handleSubmit}  >
+            <form className="form-register" action="" style={formStyle} onSubmit={handleSubmit}  >
               <Input placeholder="Nombre" name="name" type="text" value={form.name} onChange={handleChange} classStyle="input_register" />
               <Input placeholder="Apellido" name="surname" type="text" value={form.surname} onChange={handleChange} classStyle="input_register" />
               <Input placeholder="Nombre de usuario" name="userName" type="text" value={form.userName} onChange={handleChange} classStyle="input_register" />
@@ -164,9 +165,12 @@ const newUser= {
               <Input placeholder="Contraseña" name="password" autoComplete="off" type={check ? "text" : "password"}  value={form.password} onChange={handleChange} classStyle={passSecure ? "input_register-pass" : "input_register"} />
               <Input placeholder="Confirmacion" name="passConfirm" autoComplete="off" type={check ? "text" : "password"}  value={form.passConfirm} onChange={handleChange} classStyle="input_register" />
               <div className="show_pass">
-                <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <Input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
+                <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
               </div>
-              <Input widthInput={"40%"} type="submit"value="Registrarme" name="enviar" classStyle="submit_buttom-login input_register"/>
+              <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle={
+                                                                                    form.name && form.email && form.password && form.surname && form.userName && form.passConfirm? 
+                                                                                    "check-register_able" :
+                                                                                     "check-register_desable"}></Input>
             </form>
             <div className="img_background_container" style={imgContainerStyle} >
               <img src={image} alt="img_login" className="img_login" style={imgStyle}/>

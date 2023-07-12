@@ -18,7 +18,7 @@ export default function Input({value="", type="", placeholder="", name="", onCha
   return(
     <>
 
-      <input value={value} type={type} placeholder={placeholder} name={name} onChange={onChange} style={inputStyle} className={classStyle} />
+      <input value={value} type={type} placeholder={placeholder} name={name} onChange={onChange} style={inputStyle} className={classStyle}  />
 
     </>
   )

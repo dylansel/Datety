@@ -218,6 +218,24 @@ body{
           
 /* _________REGISTER__STYLE */
 
+.check-register_desable{
+    background: rgba(69, 38, 206, 0.5) !important;
+    color: #ffffff !important;
+    transition: .5s;
+    width: 40% !important;
+}
+
+.check-register_able:hover{
+    background: rgb(75, 48, 192) !important;
+}
+
+.check-register_able{
+    background: rgb(89, 58, 228) !important;
+    color: #ffffff !important;
+    width: 40% !important;
+    transition: .4s;
+}
+
 .submit_buttom-login{
     background: #958fff !important;
 } 
@@ -239,15 +257,26 @@ body{
     transition: .5s;
 }
 
+
 .check-login{
     width: 50% !important;
 }
 
 @media screen and (max-width: 1000px) {
+
+
     .register{
         flex-direction: column !important;
         justify-content: center !important;
-    }
+        width: 50vw;
+    } 
+}
+
+
+
+/* _____LOGIN______ */
+@media screen and (max-width: 1000px) {
+
 
     .check-login{
         width: 50% !important;
@@ -285,10 +314,24 @@ body{
 }
       
       
-.check-login{
+.check-login_desable{
     background: rgba(69, 38, 206, 0.5) !important;
     color: #ffffff !important;
+    transition: .5s;
+    width: 30% !important;
 }
+
+.check-login_able:hover{
+    background: rgb(75, 48, 192) !important;
+}
+
+.check-login_able{
+    background: rgb(89, 58, 228) !important;
+    color: #ffffff !important;
+    width: 30% !important;
+    transition: .4s;
+}
+
 
 .input_submit_create{
     width: 50% !important;
