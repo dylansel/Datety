@@ -41,7 +41,7 @@ const modalCreacion = {
   flexDirection: "column",
   justifyContent: "space-evenly",
   background: "#415a77",
-  width: "35%",
+  width: "30%",
   height: "60%"
 }
 
