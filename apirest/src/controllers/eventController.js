@@ -7,7 +7,6 @@ const {sendEventInvitation, sendConfirmEmail } = require('../utils/emeilSendUtil
 const getAllEvents = async (req,res) => {
   try {
     const idUser = req.user.idUser;
-    sendConfirmEmail(idUser)
     const respuesta = await eventService.getAllEvents(idUser);
     res.status(200).json(respuesta);
   }catch (error) {
