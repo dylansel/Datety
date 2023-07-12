@@ -71,6 +71,7 @@ const listDateInWeekUntil  = (startDate,endDate,week)=>{
   targetDate.setDate(targetDate.getDate() + 1); // Sumar 1 día a targetDate
 
   while (currentDate <= targetDate) {
+
     const dayOfWeek = ((currentDate.getDay()) % 7) + 1; // Ajuste para que 0 represente el domingo
     if (week[dayOfWeek] === 1) {
       result.push(currentDate.toISOString().split('T')[0]);
@@ -80,6 +81,7 @@ const listDateInWeekUntil  = (startDate,endDate,week)=>{
 
   return result;
 };
+
 const listDateInNumberUntil = (startDate, endDate, numberDay) => {
   const result = [];
   const currentDate = new Date(startDate);
@@ -120,6 +122,7 @@ const listDateInNumberUntil = (startDate, endDate, numberDay) => {
     return result;
   };
   
+
  
 
 
