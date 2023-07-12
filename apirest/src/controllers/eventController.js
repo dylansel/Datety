@@ -57,7 +57,6 @@ const addEvent = async (req, res) => {
 
     if(repeat && !isDinamic){
       //Crear un evento
-      console.log("repeat")
       let respsDates = [startDate];
       if(repeat.rep && !repeat.for){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
