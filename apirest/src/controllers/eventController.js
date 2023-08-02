@@ -228,16 +228,18 @@ const getEventsForYear = async (req, res) => {
 
 const getPossiblesDates = async (users,duration)=>{
   
-  const now = new Date("2023-08-20T16:00:00");
-  console.log("FECHA NOW:",now)
+  const now = new Date("2023-08-23T18:40:00");
+  console.log("FECHA NOW:",utils.formatDateToString(now),utils.formatTime(now))
   let date = utils.operateDateTime(now,10)
   const options =[];
   while (options.length <=5){
-    const isAvailable = await eventService.isAvailableDate(users[0].idUser,utils.formatDateToString(date),date.getHours())
-    console.log(date)
+  console.log(utils.formatTime(date))
+    const isAvailable = await eventService.isAvailableDate(users[0].idUser,utils.formatDateToString(date),utils.formatTime(date))
     console.log(isAvailable)
     if(isAvailable){
-      options.push(date)
+      const dateSTime = utils.formatTime(date);
+      const dateSDate = utils.formatDateToString(date)
+      options.push({StartDate:dateSDate,startTime:dateSTime})
     }
     date = utils.operateDateTime(date,10)
   }
