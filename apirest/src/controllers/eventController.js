@@ -42,13 +42,17 @@ const addEvent = async (req, res) => {
     if (!tittle || !startDate || !endDate || !startTime || !endTime) {
       return res.status(400).json({ message: 'Missing event data' });
     }
+
+
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
+      getPossiblesDates(participants,100)
       return res.status(400).json({ message: 'Todavia no habilitado este endpoint dinamico' });
       if(participants.length>=1 ){
       //agregar el evento y todos los participantes
       
+
       }
 
     }
@@ -56,7 +60,7 @@ const addEvent = async (req, res) => {
     
 
     if(repeat && !isDinamic){
-      //Crear un evento
+      //Crear un evento 
       let respsDates = [startDate];
       if(repeat.rep && !repeat.for){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
@@ -222,6 +226,23 @@ const getEventsForYear = async (req, res) => {
 }
 
 
+const getPossiblesDates = async (users,duration)=>{
+  
+  const now = new Date("2023-08-20T16:00:00");
+  console.log("FECHA NOW:",now)
+  let date = utils.operateDateTime(now,10)
+  const options =[];
+  while (options.length <=5){
+    const isAvailable = await eventService.isAvailableDate(users[0].idUser,utils.formatDateToString(date),date.getHours())
+    console.log(date)
+    console.log(isAvailable)
+    if(isAvailable){
+      options.push(date)
+    }
+    date = utils.operateDateTime(date,10)
+  }
+  console.log(options)
+}
 
 
 module.exports = {

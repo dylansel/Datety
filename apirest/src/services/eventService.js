@@ -49,6 +49,20 @@ const getEventsBetweenDates = async (idUser, dateA, dateB) => {
   return results;
 }
 
+const isAvailableDate = async (idUser, date, time) => {
+  const [results, fields] = await pool.promise().query(`
+    SELECT e.* FROM event e
+    INNER JOIN userEvent ue ON e.idEvent = ue.idEvent
+    WHERE ue.idUser = ? AND e.startDate = ? AND TIME(?) >= e.startTime AND TIME(?) < e.endTime;
+  `, [idUser, date, time, time]);
+  
+  console.log(results);
+  
+  return results.length === 0;
+};
+
+
+
 module.exports = {
   getAllEvents,
   getEventById,
@@ -58,4 +72,5 @@ module.exports = {
   removeEvent,
   getEventsByDay,
   getEventsBetweenDates,
+  isAvailableDate,
 };

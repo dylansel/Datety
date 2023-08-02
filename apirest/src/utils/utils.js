@@ -62,6 +62,10 @@ function formatDateToString(date, format = 'YYYY-MM-DD') {
 function operateDate(date, days){
   return  new Date(date.setDate(date.getDate() + days));
 }
+function operateDateTime(date, minutes) {
+  return new Date(date.getTime() + minutes * 60000); //en milisegundos lo transformamos a minutos multiplicando
+}
+
 
 const listDateInWeekUntil  = (startDate,endDate,week)=>{
 //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
@@ -136,6 +140,7 @@ module.exports = {
   verifyToken,
   formatDateToString,
   operateDate,
+  operateDateTime,
   listDateInWeekUntil,
   listDateInNumberUntil,
   listDateInYearUntil,
