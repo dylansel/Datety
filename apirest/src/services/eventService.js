@@ -1,6 +1,6 @@
 const pool = require('../database/connection');
 const CRUD = require('../services/crud');
-const { operateDateTime, formatTime } = require('../utils/utils');
+const { operateDateTime, formatTime, formatDateToString } = require('../utils/utils');
 
 const getAllEvents = async (idUser) => {
     const [results, fields] = await pool.promise().query(`
@@ -53,22 +53,29 @@ const getEventsBetweenDates = async (idUser, dateA, dateB) => {
 const isAvailableDate = async (idUser, date, time, duration) => {
   const startTime = new Date(`${date}T${time}`)
   const endTime = operateDateTime(startTime,duration) // Suma la duración en minutos al tiempo inicial para obtener la hora de finalización del evento.
+  console.log("\n NUEVOOOOOO ",formatTime(startTime),formatTime(endTime))
   const endTimeString = formatTime(endTime); 
   const [resultsSleep, fieldsSleep] = await pool.promise().query(`
   SELECT s.startSleep ,s.endSleep FROM settings s WHERE s.idUser = ? 
 `, [idUser]);
 
-  let startSleep = new Date (`${date}T${resultsSleep[0].startSleep}`) //SEGUIR DESDE ACA, EN CASO DE QUE STAERT SLEEP SEA MAYOR A 12, ENTONCES SE TIENE QUE PONER DATE COOMO EL DIA ANTERIOR 
-  console.log("startSleepInicial:",startSleep)
-  if(startSleep >= new Date(`${date}T16:00:00`)){
-    startSleep = operateDateTime(startSleep,-1440); //le saco todo un dia (1440 minutos en un dia) para que tome el startSleep como del dia anterior yn 
-  }
-  console.log("startSleepFinal:",startSleep)
-  console.log("startTime",startTime)
-  const endSleep = new Date(`${date}T${resultsSleep[0].endSleep}`)
+  let startSleep = new Date (`${date}T${resultsSleep[0].startSleep}`) 
+  console.log("startSleepInicial:",formatDateToString(startSleep), formatTime(startSleep))
+  // if(startSleep >= new Date(`${date}T16:00:00`)){
+  //   startSleep = operateDateTime(startSleep,-1440); //le saco todo un dia (1440 minutos en un dia) para que tome el startSleep como del dia anterior yn 
+  // }
+  const dateEnd = formatDateToString(operateDateTime(new Date(date),2880))
+  const endSleep = new Date(`${dateEnd}T${resultsSleep[0].endSleep}`)
+  console.log("startSleepFinal:",formatDateToString(startSleep), formatTime(startSleep))
+  console.log("endSleep",formatDateToString(endSleep), formatTime(endSleep))
+  console.log("startEndTime",formatDateToString(startTime), formatTime(startTime)," | ",formatDateToString(endTime), formatTime(endTime))
+
+
   if((startTime > startSleep && startTime < endSleep) || (endTime > startSleep && endTime < endSleep)) {
+    console.log("ES HORA DE DORMIR")
     return false
   }
+
 
   const [results, fields] = await pool.promise().query(`
     SELECT s.startSleep ,s.endSleep FROM event e
