@@ -47,8 +47,7 @@ const addEvent = async (req, res) => {
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
-      const options  = await getPossiblesDates(participants,30,100)
-      console.log(options)
+      const options  = await getPossiblesDates(participants,30,192)
       return res.status(400).json(options);
       if(participants.length>=1 ){
       //agregar el evento y todos los participantes
@@ -252,6 +251,7 @@ const getPossiblesDates = async (users,duration,amount)=>{
   
         if(isOption){
           options.push({StartDate:dateSDate,startTime:dateSTime,endTime:endTime})
+          date = utils.operateDateTime(date,20) //le sumo 20 minutos para que no esten pegados las sugerencias y sea diferentes alternativas
         }
       }
     }
