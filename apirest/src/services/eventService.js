@@ -53,26 +53,28 @@ const getEventsBetweenDates = async (idUser, dateA, dateB) => {
 const isAvailableDate = async (idUser, date, time, duration) => {
   const startTime = new Date(`${date}T${time}`)
   const endTime = operateDateTime(startTime,duration) // Suma la duración en minutos al tiempo inicial para obtener la hora de finalización del evento.
-  console.log("\n NUEVOOOOOO ",formatTime(startTime),formatTime(endTime))
   const endTimeString = formatTime(endTime); 
   const [resultsSleep, fieldsSleep] = await pool.promise().query(`
   SELECT s.startSleep ,s.endSleep FROM settings s WHERE s.idUser = ? 
 `, [idUser]);
 
   let startSleep = new Date (`${date}T${resultsSleep[0].startSleep}`) 
-  console.log("startSleepInicial:",formatDateToString(startSleep), formatTime(startSleep))
-  // if(startSleep >= new Date(`${date}T16:00:00`)){
-  //   startSleep = operateDateTime(startSleep,-1440); //le saco todo un dia (1440 minutos en un dia) para que tome el startSleep como del dia anterior yn 
-  // }
-  const dateEnd = formatDateToString(operateDateTime(new Date(date),2880))
-  const endSleep = new Date(`${dateEnd}T${resultsSleep[0].endSleep}`)
-  console.log("startSleepFinal:",formatDateToString(startSleep), formatTime(startSleep))
-  console.log("endSleep",formatDateToString(endSleep), formatTime(endSleep))
-  console.log("startEndTime",formatDateToString(startTime), formatTime(startTime)," | ",formatDateToString(endTime), formatTime(endTime))
+  let endSleep = new Date(`${date}T${resultsSleep[0].endSleep}`)
+
+  const dateNooN = new Date(`${date}T16:00:00`)
+  if(startSleep >= dateNooN && startTime <=dateNooN){
+    startSleep = operateDateTime(startSleep,-1440); //En caso de que la hora de inicio del evento sea despues del mediodia y la hora de inicio de sueño tambien es pasado del mediodia, significa que empieza a dormir antes de las 00:00, entonces hay que tomar la hora de inicio con la fecha anterior
+  }
+  if(endSleep <= dateNooN && startTime >=dateNooN){
+    endSleep = operateDateTime(endSleep,1440); ////En caso de que la hora de inicio del evento sea antes del mediodia y la hora de fin del sueño tambien es antes del mediodia, hay que sumarle 1 dia, para que tome la fecha correctamente
+  }
+  
+  // console.log("startSleep:",formatDateToString(startSleep), formatTime(startSleep))
+  // console.log("endSleep",formatDateToString(endSleep), formatTime(endSleep))
+  // console.log("startEndTime",formatDateToString(startTime), formatTime(startTime)," | ",formatDateToString(endTime), formatTime(endTime))
 
 
   if((startTime > startSleep && startTime < endSleep) || (endTime > startSleep && endTime < endSleep)) {
-    console.log("ES HORA DE DORMIR")
     return false
   }
 
