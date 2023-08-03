@@ -75,16 +75,18 @@ VALUES
   ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'luciam123', 'photo4.jpg',1);
 INSERT INTO `event` (`tittle`, `description`, `startDate`, `endDate`, `startTime`, `endTime`, `isDinamic`, `isAccepted`)
 VALUES
-  ('Fiesta de cumpleaños', 'Celebración de cumpleaños de Juan', '2023-04-22', '2023-04-22', '19:00:00', '23:00:00', 0, 1),
-  ('Partido de fútbol', 'Encuentro deportivo entre amigos', '2023-04-24', '2023-04-24', '10:00:00', '12:00:00', 0, 1),
-  ('Reunión de trabajo', 'Reunión para discutir avances del proyecto', '2023-04-26', '2023-04-26', '14:00:00', '16:00:00', 0, 1),
-  ('Cena de negocios', 'Cena para cerrar acuerdos comerciales', '2023-04-28', '2023-04-28', '20:00:00', '22:00:00', 0, 1);
+  ('Fiesta de cumpleaños', 'Celebración de cumpleaños de Juan', '2023-08-02', '2023-08-02', '19:00:00', '20:00:00', 0, 1),
+  ('Partido de fútbol', 'Encuentro deportivo entre amigos', '2023-08-02', '2023-08-02', '10:00:00', '12:00:00', 0, 1),
+  ('Reunión de trabajo', 'Reunión para discutir avances del proyecto', '2023-08-02', '2023-08-02', '14:00:00', '16:00:00', 0, 1),
+  ('Cena de negocios', 'Cena para cerrar acuerdos comerciales', '2023-08-02', '2023-08-02', '20:00:00', '22:00:00', 0, 1),
+  ('Joda', 'llevar bebidas', '2023-08-02', '2023-08-02', '20:30:00', '21:30:00', 0, 1);
 
 
 INSERT INTO `userEvent` (`idUser`, `idEvent`)
 VALUES
     (1, 1),
     (1, 2),
+    (2, 5),
     (2, 2),
     (2, 3),
     (3, 3),

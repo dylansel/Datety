@@ -47,8 +47,9 @@ const addEvent = async (req, res) => {
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
-      getPossiblesDates(participants,100)
-      return res.status(400).json({ message: 'Todavia no habilitado este endpoint dinamico' });
+      const options  = await getPossiblesDates(participants,30,100)
+      console.log(options)
+      return res.status(400).json(options);
       if(participants.length>=1 ){
       //agregar el evento y todos los participantes
       
@@ -226,24 +227,38 @@ const getEventsForYear = async (req, res) => {
 }
 
 
-const getPossiblesDates = async (users,duration)=>{
+const getPossiblesDates = async (users,duration,amount)=>{
   
-  const now = new Date("2023-08-23T18:40:00");
-  console.log("FECHA NOW:",utils.formatDateToString(now),utils.formatTime(now))
+  const now = new Date("2023-08-02T18:30");
   let date = utils.operateDateTime(now,10)
   const options =[];
-  while (options.length <=5){
-  console.log(utils.formatTime(date))
-    const isAvailable = await eventService.isAvailableDate(users[0].idUser,utils.formatDateToString(date),utils.formatTime(date))
-    console.log(isAvailable)
-    if(isAvailable){
-      const dateSTime = utils.formatTime(date);
-      const dateSDate = utils.formatDateToString(date)
-      options.push({StartDate:dateSDate,startTime:dateSTime})
+  while (options.length <amount){
+    const dateSDate = utils.formatDateToString(date)
+    const dateSTime = utils.formatTime(date);
+    const endTime = utils.formatTime(utils.operateDateTime(date,duration))
+    if(endTime > dateSTime){
+      const isAvailable = await eventService.isAvailableDate(users[0].idUser,dateSDate,dateSTime,duration)
+      if(isAvailable){
+        let isOption = true
+        for(let i = 1; i < users.length; i++){
+          const isAvailableGuests = await eventService.isAvailableDate(users[i].idUser,dateSDate,dateSTime,duration)
+          if(isAvailableGuests){
+            isOption = true;
+          }else{
+            isOption = false;
+            break;
+          }
+        }
+  
+        if(isOption){
+          options.push({StartDate:dateSDate,startTime:dateSTime,endTime:endTime})
+        }
+      }
     }
     date = utils.operateDateTime(date,10)
   }
-  console.log(options)
+  return(options)
+
 }
 
 
