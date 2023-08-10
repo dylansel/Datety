@@ -49,7 +49,7 @@ const addEvent = async (req, res) => {
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
-      const options  = await getPossiblesDates(participants,30,190)
+      const options  = await getPossiblesDates(participants,30,10)
       console.log(options)
       return res.status(400).json(options);
       if(participants.length>=1 ){
@@ -241,19 +241,17 @@ const getEventsForYear = async (req, res) => {
 
 const getPossiblesDates = async (users,duration,amount)=>{
   
-  const now = new Date("2023-08-02T18:30");
+  const now = new Date();
   let date = utils.operateDateTime(now,10)
   const options =[];
   while (options.length <amount){
-    const dateSDate = utils.formatDateToString(date)
-    const dateSTime = utils.getTime(date);
-    const endTime = utils.getTime(utils.operateDateTime(date,duration))
-    if(endTime > dateSTime){
-      const isAvailable = await eventService.isAvailableDate(users[0].idUser,dateSDate,dateSTime,duration)
+    const endDataTime = utils.operateDateTime(date,duration)
+    if(endDataTime > date){
+      const isAvailable = await eventService.isAvailableDate(users[0].idUser,date,duration)
       if(isAvailable){
         let isOption = true
         for(let i = 1; i < users.length; i++){
-          const isAvailableGuests = await eventService.isAvailableDate(users[i].idUser,dateSDate,dateSTime,duration)
+          const isAvailableGuests = await eventService.isAvailableDate(users[i].idUser,date,duration)
           if(isAvailableGuests){
             isOption = true;
           }else{
@@ -263,7 +261,7 @@ const getPossiblesDates = async (users,duration,amount)=>{
         }
   
         if(isOption){
-          options.push({StartDate:dateSDate,startTime:dateSTime,endTime:endTime})
+          options.push({StartDateTime:date,endTime:endDataTime})
           date = utils.operateDateTime(date,20) //le sumo 20 minutos para que no esten pegados las sugerencias y sea diferentes alternativas
         }
       }

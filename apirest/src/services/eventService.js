@@ -50,8 +50,10 @@ const getEventsBetweenDates = async (idUser, dateA, dateB) => {
   return results;
 }
 
-const isAvailableDate = async (idUser, date, time, duration) => {
-  const startTime = new Date(`${date}T${time}`)
+const isAvailableDate = async (idUser, dateTime, duration) => {
+  const startTime = dateTime
+  const date = formatDateToString(startTime)
+  const time = getTime(startTime)
   const endTime = operateDateTime(startTime,duration) // Suma la duración en minutos al tiempo inicial para obtener la hora de finalización del evento.
   const endTimeString = getTime(endTime); 
   const [resultsSleep, fieldsSleep] = await pool.promise().query(`
@@ -69,10 +71,6 @@ const isAvailableDate = async (idUser, date, time, duration) => {
     endSleep = operateDateTime(endSleep,1440); ////En caso de que la hora de inicio del evento sea antes del mediodia y la hora de fin del sueño tambien es antes del mediodia, hay que sumarle 1 dia, para que tome la fecha correctamente
   }
   
-  // console.log("startSleep:",formatDateToString(startSleep), getTime(startSleep))
-  // console.log("endSleep",formatDateToString(endSleep), getTime(endSleep))
-  // console.log("startEndTime",formatDateToString(startTime), getTime(startTime)," | ",formatDateToString(endTime), getTime(endTime))
-
 
   if((startTime > startSleep && startTime < endSleep) || (endTime > startSleep && endTime < endSleep)) {
     return false
@@ -85,8 +83,8 @@ const isAvailableDate = async (idUser, date, time, duration) => {
     INNER JOIN settings s ON ue.idUser = s.idUser
     WHERE ue.idUser = ? AND e.startDateTime = ? AND 
     (
-      (TIME(?) >= e.startTime AND TIME(?) < e.endTime) OR 
-      (TIME(?) <= e.startTime AND TIME(?) > e.startTime) 
+      (TIME(?) >= TIME(e.startDateTime) AND TIME(?) < TIME(e.endDateTime)) OR 
+      (TIME(?) <= TIME(e.startDateTime) AND TIME(?) > TIME(e.startDateTime)) 
     );
   `, [idUser, date, time, time,time, endTimeString]);
   
