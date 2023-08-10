@@ -2,6 +2,7 @@
 const eventService = require('../services/eventService')
 const usereventService = require('../services/usereventService')
 const utils = require('../utils/utils');
+const {getTime,formatDateToString} = require('../utils/utils');
 const {sendEventInvitation, sendConfirmEmail } = require('../utils/emeilSendUtils');
 
 const getAllEvents = async (req,res) => {
@@ -38,11 +39,12 @@ const addEvent = async (req, res) => {
     if (!idUser || isNaN(idUser)) {
       return res.status(400).json({ message: 'Invalid user ID' });
     }
-    const { tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants } = req.body;
-    if (!tittle || !startDate || !endDate || !startTime || !endTime) {
+    const { tittle, description, startDateTime, endDateTime,repeat, isDinamic, participants } = req.body;
+    if (!tittle || !startDateTime || !endDateTime) {
       return res.status(400).json({ message: 'Missing event data' });
     }
-
+    const startDateTimeDATE = new Date(startDateTime)
+    const endDateTimeDATE = new Date(endDateTime)
 
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
@@ -62,6 +64,12 @@ const addEvent = async (req, res) => {
 
     if(repeat && !isDinamic){
       //Crear un evento 
+      const startDate = formatDateToString(startDateTimeDATE)
+      const startTime = getTime(startDateTimeDATE);
+      const endTime = getTime(endDateTimeDATE);
+      console.log("startDate:",startDate)
+      console.log("startTime:",startTime)
+      console.log("endTime:",endTime)
       let respsDates = [startDate];
       if(repeat.rep && !repeat.for){
         respsDates = utils.listDateInWeekUntil(startDate,repeat.until,repeat.rep)
@@ -73,7 +81,10 @@ const addEvent = async (req, res) => {
       if(respsDates.length ==0)respsDates = [startDate];
       
       respsDates.forEach(async (dateDinamic) => {
-        const data = { tittle, description, startDate:dateDinamic, endDate:dateDinamic, startTime, endTime, isDinamic:0, isAccepted:1 };
+        const startDateTime = new Date(`${dateDinamic} ${startTime}`)
+        const endDateTime = new Date(`${dateDinamic} ${endTime}`)
+        const data = { tittle, description, startDateTime:startDateTime, endDateTime:endDateTime, isDinamic:0, isAccepted:1 };
+        console.log(data)
         const rEvet = await eventService.addEvent(data);
         if (!rEvet) {
           return res.status(500).json({ message: 'Internal server error' });
@@ -83,7 +94,7 @@ const addEvent = async (req, res) => {
           idEvent: rEvet
         });
       }); 
-      const event = {tittle, description, startDate, endDate, startTime, endTime,repeat, isDinamic, participants}
+      const event = {tittle, description, startDateTime, endDateTime,repeat, isDinamic, participants}
       sendEventInvitation(idUser,event);
       return res.status(200).json({});
       
@@ -100,6 +111,7 @@ const editEvent = async (req, res) => {
   try {
     const idUser = req.user.idUser;
     const id = req.params.id;
+
     if (!id || isNaN(id)) {
       return res.status(400).json({ message: 'Invalid event ID' });
     }
@@ -234,8 +246,8 @@ const getPossiblesDates = async (users,duration,amount)=>{
   const options =[];
   while (options.length <amount){
     const dateSDate = utils.formatDateToString(date)
-    const dateSTime = utils.formatTime(date);
-    const endTime = utils.formatTime(utils.operateDateTime(date,duration))
+    const dateSTime = utils.getTime(date);
+    const endTime = utils.getTime(utils.operateDateTime(date,duration))
     if(endTime > dateSTime){
       const isAvailable = await eventService.isAvailableDate(users[0].idUser,dateSDate,dateSTime,duration)
       if(isAvailable){

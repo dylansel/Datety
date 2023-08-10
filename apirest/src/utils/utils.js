@@ -59,7 +59,8 @@ function formatDateToString(date, format = 'YYYY-MM-DD') {
   return formattedDate;
 }
 
-function formatTime(date) {
+
+function getTime(date) {
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
@@ -73,6 +74,20 @@ function operateDateTime(date, minutes) {
   return new Date(date.getTime() + minutes * 60000); //en milisegundos lo transformamos a minutos multiplicando
 }
 
+function convertToArgTime(dateTimeStr) {
+  console.log("HORA A CONVERTIR:",dateTimeStr)
+  const utcDateTime = new Date(dateTimeStr + 'Z'); // Agrega 'Z' para indicar que es UTC
+  
+  // Calcula el desplazamiento en minutos para la zona horaria de Argentina (UTC-3)
+  const offsetMinutes = -180;
+  
+  // Calcula la fecha y hora en la zona horaria de Argentina
+  const argentinaDateTime = new Date(utcDateTime.getTime() + offsetMinutes * 60 * 1000);
+  
+  // Formatea y devuelve la fecha y hora en formato local
+  const formattedDateTime = argentinaDateTime.toISOString().replace('T', ' ').substring(0, 19);
+  return formattedDateTime;
+}
 
 const listDateInWeekUntil  = (startDate,endDate,week)=>{
 //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
@@ -146,11 +161,12 @@ module.exports = {
   createEmailTokenById,
   verifyToken,
   formatDateToString,
-  formatTime,
+  getTime,
   operateDate,
   operateDateTime,
   listDateInWeekUntil,
   listDateInNumberUntil,
   listDateInYearUntil,
+  convertToArgTime,
 
 };
