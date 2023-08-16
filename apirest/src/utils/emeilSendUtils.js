@@ -1,6 +1,6 @@
 const { sendEmail } = require("../services/emailService");
 const { getUserById } = require("../services/userService");
-const { createEmailTokenById } = require("./utils");
+const { createEmailTokenById, formatDateToString, getTime } = require("./utils");
 
 const linkConfirmEmailByIdUser  = (user)=>{
   const token = createEmailTokenById(user?.idUser,user?.email)
@@ -184,8 +184,8 @@ function generateEventReminderEmail(user, event) {
       <div style="${styleBody}">
         <h3>Hola ${user.name}, te recordamos que tienes un evento programado:</h3>
         <p>Evento: ${event.tittle}</p>
-        <p>Fecha: ${event.startDate}</p>
-        <p>Hora: ${event.startTime} - ${event.endTime}</p>
+        <p>Fecha: ${formatDateToString(event.startDateTime)}</p>
+        <p>Hora: ${getTime(event.startDateTime) } - ${getTime(event.endDateTime)}</p>
         <p>No olvides estar presente y disfrutar del evento.</p>
       </div>
       <div style="${styleFooter}">
@@ -232,8 +232,8 @@ function generateEventModificationEmail(user, event) {
       <div style="${styleBody}">
         <h3>Hola ${user.name}, te informamos que ha habido una modificación o cancelación en el evento "${event.tittle}" esta es la actualizacion:</h3>
         <p>Evento: ${event.tittle}</p>
-        <p>Fecha: ${event.startDate}</p>
-        <p>Hora: ${event.startTime} - ${event.endTime}</p>
+        <p>Fecha: ${formatDateToString(event.startDateTime)}</p>
+        <p>Hora: ${getTime(event.startDateTime) } - ${getTime(event.endDateTime)}</p>
         <p>Lamentamos los inconvenientes y te agradecemos tu comprensión.</p>
       </div>
       <div style="${styleFooter}">
@@ -280,8 +280,8 @@ function generateEventInvitationEmail(user, event) {
       <div style="${styleBody}">
         <h3>Hola ${user.name}, tienes una invitación para el siguiente evento:</h3>
         <p>Evento: ${event.tittle}</p>
-        <p>Fecha: ${event.startDate}</p>
-        <p>Hora: ${event.startTime} - ${event.endTime}</p>
+        <p>Fecha: ${formatDateToString(event.startDateTime)}</p>
+        <p>Hora: ${getTime(event.startDateTime) } - ${getTime(event.endDateTime)}</p>
         <p>Esperamos contar con tu presencia en este evento. ¡No te lo pierdas!</p>
       </div>
       <div style="${styleFooter}">

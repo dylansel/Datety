@@ -45,8 +45,9 @@ const isExist = function (row) {
 
 
 function formatDateToString(date, format = 'YYYY-MM-DD') {
-  
- 
+  if(typeof date === 'string'){
+    date = new Date(date)
+  }
   const year = date.getFullYear();
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -61,12 +62,18 @@ function formatDateToString(date, format = 'YYYY-MM-DD') {
 
 
 function getTime(date) {
+  if(typeof date === 'string'){
+    date = new Date(date)
+  }
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
 }
 
+function formatDateTime(date){
+  return `${formatDateToString(date)}T${getTime(date)}`
+}
 function operateDate(date, days){
   return  new Date(date.setDate(date.getDate() + days));
 }
@@ -95,11 +102,14 @@ const listDateInWeekUntil  = (startDate,endDate,week)=>{
   const result = [];
   const currentDate = new Date(startDate);
   const targetDate = new Date(endDate);
-  targetDate.setDate(targetDate.getDate() + 1); // Sumar 1 día a targetDate
+  targetDate.setDate(targetDate.getDate()); 
 
   while (currentDate <= targetDate) {
 
-    const dayOfWeek = ((currentDate.getDay()) % 7) + 1; // Ajuste para que 0 represente el domingo
+    let dayOfWeek = currentDate.getDay() + 1; // Ajuste para que 0 represente el domingo
+    if (dayOfWeek > 6){dayOfWeek = 0}
+    console.log("Date",currentDate)
+    console.log("dayOfWeek",dayOfWeek)
     if (week[dayOfWeek] === 1) {
       result.push(currentDate.toISOString().split('T')[0]);
     }
@@ -161,6 +171,7 @@ module.exports = {
   createEmailTokenById,
   verifyToken,
   formatDateToString,
+  formatDateTime,
   getTime,
   operateDate,
   operateDateTime,

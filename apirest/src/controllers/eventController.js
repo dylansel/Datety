@@ -49,9 +49,19 @@ const addEvent = async (req, res) => {
     if ( isDinamic && !repeat) {
       //codigo para crear dinamicamente, para muchos usuarios 
       //evento dinamico no se repite. 
-      const options  = await getPossiblesDates(participants,30,10)
-      console.log(options)
-      return res.status(400).json(options);
+      const options  = await getPossiblesDates(participants,30,100)
+      
+      const optionsMostrar = options.map(el=>{
+        const dateS = new Date(el.startDateTime)
+        const dateE = new Date(el.endDateTime)
+        const obj= {
+          startDateTime: `${formatDateToString(dateS)}T${getTime(dateS)}`,
+          endDateTime: `${formatDateToString(dateE)}T${getTime(dateE)}`
+        }
+        return obj
+      })
+      console.log(optionsMostrar)
+      return res.status(400).json(optionsMostrar);
       if(participants.length>=1 ){
       //agregar el evento y todos los participantes
       
@@ -81,8 +91,10 @@ const addEvent = async (req, res) => {
       if(respsDates.length ==0)respsDates = [startDate];
       
       respsDates.forEach(async (dateDinamic) => {
-        const startDateTime = new Date(`${dateDinamic} ${startTime}`)
-        const endDateTime = new Date(`${dateDinamic} ${endTime}`)
+        console.log("FECHA INICIO:",`${dateDinamic}T${startTime}`)
+        console.log("FECHA FIN:",`${dateDinamic}T${endTime}`)
+        const startDateTime = new Date(`${dateDinamic}T${startTime}`)
+        const endDateTime = new Date(`${dateDinamic}T${endTime}`)
         const data = { tittle, description, startDateTime:startDateTime, endDateTime:endDateTime, isDinamic:0, isAccepted:1 };
         console.log(data)
         const rEvet = await eventService.addEvent(data);
@@ -261,7 +273,7 @@ const getPossiblesDates = async (users,duration,amount)=>{
         }
   
         if(isOption){
-          options.push({StartDateTime:date,endTime:endDataTime})
+          options.push({startDateTime:date,endDateTime:endDataTime})
           date = utils.operateDateTime(date,20) //le sumo 20 minutos para que no esten pegados las sugerencias y sea diferentes alternativas
         }
       }
