@@ -349,7 +349,7 @@ const getPossiblesDates = async (users, duration, amount) => {
             date,
             duration
           );
-          if (isAvailableGuests) {
+          if (isAvailableGuests===true) {
             isOption = true;
           } else {
             isOption = false;
