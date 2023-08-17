@@ -81,20 +81,6 @@ function operateDateTime(date, minutes) {
   return new Date(date.getTime() + minutes * 60000); //en milisegundos lo transformamos a minutos multiplicando
 }
 
-function convertToArgTime(dateTimeStr) {
-  console.log("HORA A CONVERTIR:",dateTimeStr)
-  const utcDateTime = new Date(dateTimeStr + 'Z'); // Agrega 'Z' para indicar que es UTC
-  
-  // Calcula el desplazamiento en minutos para la zona horaria de Argentina (UTC-3)
-  const offsetMinutes = -180;
-  
-  // Calcula la fecha y hora en la zona horaria de Argentina
-  const argentinaDateTime = new Date(utcDateTime.getTime() + offsetMinutes * 60 * 1000);
-  
-  // Formatea y devuelve la fecha y hora en formato local
-  const formattedDateTime = argentinaDateTime.toISOString().replace('T', ' ').substring(0, 19);
-  return formattedDateTime;
-}
 
 const listDateInWeekUntil  = (startDate,endDate,week)=>{
 //esta funcion va a recibir una fecha de inicio y otra de fin y va a retornar todas las fechas que estan entre esas 2 fechas y que caen el dia de semana especificado
@@ -159,6 +145,23 @@ const listDateInNumberUntil = (startDate, endDate, numberDay) => {
     return result;
   };
   
+  function roundToNextHour(date) {
+    const roundedDate = new Date(date);
+    const minutes = roundedDate.getMinutes();
+    const minutesToAdd = (10 - (minutes % 10)) % 10;
+  
+    if (minutesToAdd === 0) {
+      const currentHour = roundedDate.getHours();
+      const nextHour = currentHour === 23 ? 0 : currentHour + 1;
+      roundedDate.setHours(nextHour);
+      roundedDate.setMinutes(0);
+    } else {
+      roundedDate.setMinutes(minutes + minutesToAdd);
+    }
+  
+    roundedDate.setSeconds(0);
+    return roundedDate;
+  }
 
  
 
@@ -178,6 +181,6 @@ module.exports = {
   listDateInWeekUntil,
   listDateInNumberUntil,
   listDateInYearUntil,
-  convertToArgTime,
+  roundToNextHour,
 
 };

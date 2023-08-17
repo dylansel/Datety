@@ -307,7 +307,9 @@ const getEventsForYear = async (req, res) => {
 };
 
 const getPossiblesDates = async (users, duration, amount) => {
-  const now = new Date("2023-08-14T12:00:00");
+  const now = utils.roundToNextHour(new Date("2023-08-14T10:15:00"));
+
+
   let date = utils.operateDateTime(now, 10);
   const options = [];
   while (options.length < amount) {

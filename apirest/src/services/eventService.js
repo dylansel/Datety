@@ -1,6 +1,6 @@
 const pool = require('../database/connection');
 const CRUD = require('../services/crud');
-const { operateDateTime, getTime, formatDateToString, convertToArgTime, formatDateTime } = require('../utils/utils');
+const { operateDateTime, getTime, formatDateToString, formatDateTime } = require('../utils/utils');
 
 const getAllEvents = async (idUser) => {
     const [results, fields] = await pool.promise().query(`
