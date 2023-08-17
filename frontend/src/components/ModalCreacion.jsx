@@ -134,13 +134,11 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
   let initialForm= {
     tittle: "",
     description: "",
-    startDate: "",
-    endDate: "", 
+    startDateTime: "",
+    endDateTime: "", 
     repeat: {
       until: ""
     },
-    startTime: "",
-    endTime: "",
     participants: "",
     isDinamic
   }
@@ -153,8 +151,11 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
 
   
   const handleSubmit= ( )=>{
-    if(form.tittle && form.startDate && form.startDate && form.endTime){
-      const event = {...form,endDate:form.startDate}
+    if(form.tittle && form.startDate && form.startTime && form.endTime){
+      const event = {...form,startDateTime: `${form.startDate}T${form.startTime}`,endDateTime:`${form.startDate}T${form.endTime}`}
+      event.startDate = null
+      event.startTime = null
+      event.endTime = null
       addEvent(event)
     }
     setForm({...initialForm})

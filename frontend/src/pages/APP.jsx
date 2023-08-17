@@ -79,7 +79,7 @@ export default  function APP({auth}) {
       const results= req[0];
 
       results.forEach(event =>{
-        const e = {id: event.idEvent, title:event.tittle,  start: `${event.startDate.split("T")[0]}T${event.startTime}`, end: `${event.endDate.split("T")[0]}T${event.endTime}`}
+        const e = {id: event.idEvent, title:event.tittle,  start: event.startDateTime , end: event.endDateTime}
         arr.push(e)
       } )
       setEvents(arr)
