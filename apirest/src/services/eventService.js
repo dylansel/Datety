@@ -51,6 +51,7 @@ const getEventsBetweenDates = async (idUser, dateA, dateB) => {
 }
 
 const isAvailableDate = async (idUser, startDateTime, duration) => {
+  //Esta funcion devuelve un true si esta disponible o devuelve la fecha de finalisacion del evento ocuopado, osea devuelve uan posible fecha disponible
   const date = formatDateToString(startDateTime)
   const time = getTime(startDateTime)
   const endDateTime = operateDateTime(startDateTime,duration) // Suma la duración en minutos al tiempo inicial para obtener la hora de finalización del evento.
@@ -75,7 +76,7 @@ const isAvailableDate = async (idUser, startDateTime, duration) => {
   
 
   if((startDateTime > startSleep && startDateTime < endSleep) || (endDateTime > startSleep && endDateTime < endSleep)) {
-    return false
+    return endSleep
   }
 
 
@@ -91,7 +92,20 @@ const isAvailableDate = async (idUser, startDateTime, duration) => {
     );
   `, [idUser, startDateTime, endDateTime,startDateTime, endDateTime,startDateTime,endDateTime]);
 
-  return results.length === 0;
+  let latestEndDate = null;
+
+  if (results.length > 0) {
+    for (const event of results) {
+      if (!latestEndDate || event.endDateTime > latestEndDate ) {
+        latestEndDate = event.endDateTime;
+      }
+    }
+    return  latestEndDate;
+  }else{
+    return true
+  }
+  
+  
 };
 
 

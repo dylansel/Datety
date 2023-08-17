@@ -2,6 +2,8 @@ const eventService = require("../services/eventService");
 const usereventService = require("../services/usereventService");
 const utils = require("../utils/utils");
 const { getTime, formatDateToString } = require("../utils/utils");
+const seedrandom = require('seedrandom'); // Importa la biblioteca seedrandom
+
 const {
   sendEventInvitation,
   sendConfirmEmail,
@@ -35,12 +37,32 @@ const getEventById = async (req, res) => {
   }
 };
 
+
 const getPossibleAvailableDates = async (req, res) => {
   try {
-    const { participants, duration } = req.body;
-    const options = await getPossiblesDates(participants, duration, 100);
+    const MAX_OPTIONS_TO_RETURN = 10; // Define la cantidad máxima de opciones a devolver
+    const { participants, duration,randomnessSeed } = req.body;
+    const options = await getPossiblesDates(participants, duration, 150);
 
-    const optionsMostrar = options.map((el) => {
+    // Ordena las opciones por fecha de inicio
+    const minIntervalMinutes = 60; // Intervalo mínimo en minutos entre las fechas seleccionadas
+    const selectedOptions = [options[0]]; // Empieza con la primera opción
+
+    for (let i = 1; i < options.length; i++) {
+      if (selectedOptions.length >= MAX_OPTIONS_TO_RETURN) {
+        break; // Detener si ya hemos seleccionado suficientes opciones
+      }
+
+      const prevEndDateTime = new Date(selectedOptions[selectedOptions.length - 1].endDateTime);
+      const currentStartDateTime = new Date(options[i].startDateTime);
+
+      // Si la diferencia en minutos es mayor que el intervalo mínimo, agrega la opción
+      if ((currentStartDateTime - prevEndDateTime) / (1000 * 60) >= minIntervalMinutes) {
+        selectedOptions.push(options[i]);
+      }
+    }
+
+    const optionsToShow = selectedOptions.map((el) => {
       const dateS = new Date(el.startDateTime);
       const dateE = new Date(el.endDateTime);
       const obj = {
@@ -50,12 +72,13 @@ const getPossibleAvailableDates = async (req, res) => {
       return obj;
     });
 
-    res.status(200).json(optionsMostrar);
+    res.status(200).json(optionsToShow);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const addEvent = async (req, res) => {
   try {
     const idUser = req.user.idUser;
@@ -261,7 +284,6 @@ const getEventsForMonth = async (req, res) => {
     const dateparam = req.params.date;
     const date =
       new Date(dateparam) != "Invalid Date" ? new Date(dateparam) : new Date();
-    console.log(date);
 
     const curr = utils.operateDate(date, +1);
     const year = curr.getFullYear();
@@ -307,8 +329,7 @@ const getEventsForYear = async (req, res) => {
 };
 
 const getPossiblesDates = async (users, duration, amount) => {
-  const now = utils.roundToNextHour(new Date("2023-08-14T10:15:00"));
-
+  const now = utils.roundToNextHour(new Date());
 
   let date = utils.operateDateTime(now, 10);
   const options = [];
@@ -320,7 +341,7 @@ const getPossiblesDates = async (users, duration, amount) => {
         date,
         duration
       );
-      if (isAvailable) {
+      if (typeof isAvailable === 'boolean' && isAvailable===true) { //si isAviable no retorna una fecha, significa que retorno un true, osea que esta disponible
         let isOption = true;
         for (let i = 1; i < users.length; i++) {
           const isAvailableGuests = await eventService.isAvailableDate(
@@ -340,9 +361,14 @@ const getPossiblesDates = async (users, duration, amount) => {
           options.push({ startDateTime: date, endDateTime: endDataTime });
           date = utils.operateDateTime(date, 20); //le sumo 20 minutos para que no esten pegados las sugerencias y sea diferentes alternativas
         }
+      }else{
+        //en caso contrario, osea que no este disponible, va a setear la fecha date como la fecha que devuelva, ya que seria la fecha de finalizacion del evento que esta ocupando la agenda
+        date = isAvailable;
+        
       }
     }
     date = utils.operateDateTime(date, 10);
+    
   }
   return options;
 };
