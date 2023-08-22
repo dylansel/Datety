@@ -27,4 +27,7 @@ router.patch('/editEvent/:id', eventController.editEvent);
 // Eliminar un evento existente
 router.delete('/deleteEvent/:id', eventController.deleteEvent);
 
+//rutas mas especificas
+router.get('/getPossibleAvailableDates', eventController.getPossibleAvailableDates);
+
 module.exports = router

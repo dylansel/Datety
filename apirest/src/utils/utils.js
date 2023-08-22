@@ -45,8 +45,9 @@ const isExist = function (row) {
 
 
 function formatDateToString(date, format = 'YYYY-MM-DD') {
-  
- 
+  if(typeof date === 'string'){
+    date = new Date(date)
+  }
   const year = date.getFullYear();
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -59,13 +60,20 @@ function formatDateToString(date, format = 'YYYY-MM-DD') {
   return formattedDate;
 }
 
-function formatTime(date) {
+
+function getTime(date) {
+  if(typeof date === 'string'){
+    date = new Date(date)
+  }
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
 }
 
+function formatDateTime(date){
+  return `${formatDateToString(date)}T${getTime(date)}`
+}
 function operateDate(date, days){
   return  new Date(date.setDate(date.getDate() + days));
 }
@@ -80,11 +88,14 @@ const listDateInWeekUntil  = (startDate,endDate,week)=>{
   const result = [];
   const currentDate = new Date(startDate);
   const targetDate = new Date(endDate);
-  targetDate.setDate(targetDate.getDate() + 1); // Sumar 1 día a targetDate
+  targetDate.setDate(targetDate.getDate()); 
 
   while (currentDate <= targetDate) {
 
-    const dayOfWeek = ((currentDate.getDay()) % 7) + 1; // Ajuste para que 0 represente el domingo
+    let dayOfWeek = currentDate.getDay() + 1; // Ajuste para que 0 represente el domingo
+    if (dayOfWeek > 6){dayOfWeek = 0}
+    console.log("Date",currentDate)
+    console.log("dayOfWeek",dayOfWeek)
     if (week[dayOfWeek] === 1) {
       result.push(currentDate.toISOString().split('T')[0]);
     }
@@ -134,6 +145,23 @@ const listDateInNumberUntil = (startDate, endDate, numberDay) => {
     return result;
   };
   
+  function roundToNextHour(date) {
+    const roundedDate = new Date(date);
+    const minutes = roundedDate.getMinutes();
+    const minutesToAdd = (10 - (minutes % 10)) % 10;
+  
+    if (minutesToAdd === 0) {
+      const currentHour = roundedDate.getHours();
+      const nextHour = currentHour === 23 ? 0 : currentHour + 1;
+      roundedDate.setHours(nextHour);
+      roundedDate.setMinutes(0);
+    } else {
+      roundedDate.setMinutes(minutes + minutesToAdd);
+    }
+  
+    roundedDate.setSeconds(0);
+    return roundedDate;
+  }
 
  
 
@@ -146,11 +174,13 @@ module.exports = {
   createEmailTokenById,
   verifyToken,
   formatDateToString,
-  formatTime,
+  formatDateTime,
+  getTime,
   operateDate,
   operateDateTime,
   listDateInWeekUntil,
   listDateInNumberUntil,
   listDateInYearUntil,
+  roundToNextHour,
 
 };

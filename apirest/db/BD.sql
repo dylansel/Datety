@@ -29,18 +29,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
     REFERENCES `user` (`idUser`)
     );
  
- CREATE TABLE IF NOT EXISTS `event` (
+CREATE TABLE IF NOT EXISTS `event` (
   `idEvent` INT NOT NULL AUTO_INCREMENT,
   `tittle` VARCHAR(50) NOT NULL,
   `description` VARCHAR(250) NULL,
-  `startDate` DATE NOT NULL,
-  `endDate` DATE NOT NULL,
-  `startTime` TIME NOT NULL,
-  `endTime` TIME NOT NULL,
+  `startDateTime` DATETIME NOT NULL,
+  `endDateTime` DATETIME NOT NULL,
   `isDinamic` TINYINT(8) NOT NULL,
   `isAccepted` TINYINT(8) NOT NULL,
   PRIMARY KEY (`idEvent`)
-  );
+);
 
 CREATE TABLE IF NOT EXISTS `userEvent` (
   `idUserEvent` INT NOT NULL AUTO_INCREMENT,
@@ -73,13 +71,14 @@ VALUES
   ('María', 'González', 'maria.gonzalez@example.com', 'mariag', '$2b$10$BIRWhu7j4lb2oLljtVufLOzQD3hg5XBSPXYsJsfk/KYMLA11oni.W', 'https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png',1),
   ('Pedro', 'Sánchez', 'pedro.sanchez@example.com', 'pedros', 'pedros123', 'photo3.jpg',1),
   ('Lucía', 'Martínez', 'lucia.martinez@example.com', 'luciam', 'luciam123', 'photo4.jpg',1);
-INSERT INTO `event` (`tittle`, `description`, `startDate`, `endDate`, `startTime`, `endTime`, `isDinamic`, `isAccepted`)
+INSERT INTO `event` (`tittle`, `description`, `startDateTime`, `endDateTime`, `isDinamic`, `isAccepted`)
 VALUES
-  ('Fiesta de cumpleaños', 'Celebración de cumpleaños de Juan', '2023-08-02', '2023-08-02', '19:00:00', '20:00:00', 0, 1),
-  ('Partido de fútbol', 'Encuentro deportivo entre amigos', '2023-08-02', '2023-08-02', '10:00:00', '12:00:00', 0, 1),
-  ('Reunión de trabajo', 'Reunión para discutir avances del proyecto', '2023-08-02', '2023-08-02', '14:00:00', '16:00:00', 0, 1),
-  ('Cena de negocios', 'Cena para cerrar acuerdos comerciales', '2023-08-02', '2023-08-02', '20:00:00', '22:00:00', 0, 1),
-  ('Joda', 'llevar bebidas', '2023-08-02', '2023-08-02', '20:30:00', '21:30:00', 0, 1);
+  ('Fiesta de cumpleaños', 'Celebración de cumpleaños de Juan', '2023-08-02 19:00:00', '2023-08-02 20:00:00', 0, 1),
+  ('Partido de fútbol', 'Encuentro deportivo entre amigos', '2023-08-02 10:00:00', '2023-08-02 12:00:00', 0, 1),
+  ('Reunión de trabajo', 'Reunión para discutir avances del proyecto', '2023-08-02 14:00:00', '2023-08-02 16:00:00', 0, 1),
+  ('Cena de negocios', 'Cena para cerrar acuerdos comerciales', '2023-08-02 20:00:00', '2023-08-02 22:00:00', 0, 1),
+  ('Joda', 'llevar bebidas', '2023-08-02 20:30:00', '2023-08-02 21:30:00', 0, 1);
+
 
 
 INSERT INTO `userEvent` (`idUser`, `idEvent`)

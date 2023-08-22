@@ -10,25 +10,6 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "getAllUsers",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/user/getAllUsers",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"user",
-								"getAllUsers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "getUserById",
 					"request": {
 						"method": "GET",
@@ -187,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\":\"mariag\",\r\n    \"password\":\"mariag123\"\r\n}",
+							"raw": "{\r\n    \"user\":\"dylansel\",\r\n    \"password\":\"Dylansel32\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,6 +223,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user/getAllUsers",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -262,6 +262,37 @@
 							"path": [
 								"event",
 								"getAllEvents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPossibleAvailableDates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"duration\":30,\r\n    \"participants\":[\r\n        {\"idUser\":2,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/event/getPossibleAvailableDates",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getPossibleAvailableDates"
 							]
 						}
 					},
@@ -300,7 +331,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tittle\": \"Reunion PRUEBA 2\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDate\": \"2023-07-07\",\r\n    \"endDate\": \"2023-07-07\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":{\r\n        \"rep\":[0,0,0,0,0,1,0],\r\n        \"until\": \"2023-07-28\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"raw": "{\r\n    \"tittle\": \"Escuela\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-12T06:30:00\",\r\n    \"endDateTime\": \"2023-08-12T23:30:00\",\r\n    \"repeat\":{\r\n        \"rep\":[1,1,1,1,1,1,0],\r\n        \"until\": \"2023-09-01\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -329,7 +360,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tittle\": \"Reunion PRUEBA\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDate\": \"2023-05-1\",\r\n    \"endDate\": \"2023-05-1\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"month\",\r\n        \"until\": \"2023-07-30\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"raw": "{\r\n    \"tittle\": \"Reunion PRUEBA\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-11T14:00:00\",\r\n    \"endDateTime\": \"2023-08-11T16:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"month\",\r\n        \"until\": \"2023-07-30\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -358,7 +389,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tittle\": \"Cumple 3\",\r\n    \"description\": \"llevar regalo\",\r\n    \"startDate\": \"2023-01-26\",\r\n    \"endDate\": \"2023-01-26\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"year\",\r\n        \"until\": \"2030-03-17\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"raw": "{\r\n    \"tittle\": \"Cumple 3\",\r\n    \"description\": \"llevar regalo\",\r\n    \"startDateTime\": \"2023-08-14T16:00:00\",\r\n    \"endDateTime\": \"2023-08-14T18:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"year\",\r\n        \"until\": \"2030-03-17\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -387,7 +418,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"tittle\": \"Reunion agregada Todos los años\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDate\": \"2023-04-15\",\r\n    \"endDate\": \"2023-04-15\",\r\n    \"startTime\": \"16:00:00\",\r\n    \"endTime\": \"18:00:00\",\r\n    \"repeat\":null,\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 1,\r\n    \"participants\":[\r\n        {\"idUser\":1,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
+							"raw": "{\r\n    \"tittle\": \"Reunion agregada Todos los años\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-11T20:00:00\",\r\n    \"endDateTime\": \"2023-08-12T20:30:00\",\r\n    \"repeat\":null,\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 1,\r\n    \"participants\":[\r\n        {\"idUser\":2,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -480,7 +511,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjUsImlhdCI6MTY4OTEwNTQ3NiwiZXhwIjoxNjkxNjk3NDc2fQ.8wK6zKlTykuulpv3KvgIbImBI8gXBZrr1d1aXQzhvZQ",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY5MTYzMTM0NCwiZXhwIjoxNjk0MjIzMzQ0fQ.Q72_lJ_z5XCyIYqUxy0UkQFz6YcAt3djdwqd553A6Ko",
 				"type": "string"
 			}
 		]
