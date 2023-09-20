@@ -17,9 +17,11 @@
     "@fullcalendar/interaction": "^6.1.8",
     "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
+    "bootstrap": "^5.3.2",
     "dotenv": "^16.0.3",
     "npm": "^9.7.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1",
     "scrollreveal": "^4.0.9"

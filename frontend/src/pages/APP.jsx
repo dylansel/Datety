@@ -11,7 +11,7 @@ import useHandleModalCreacion from "../hooks/handleModalCreacion";
 import ModalCreacion from "../components/ModalCreacion";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/misc/Loading";
-
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 const isLoged = true;
 
 export default  function APP({auth}) { 
@@ -72,6 +72,11 @@ export default  function APP({auth}) {
       boxSizing: "border-box",
     }
 
+    const styleItemDropdown = {
+      width:"200px",
+      textAlign:"center"
+    }
+
     const fetchData= async ()=>{
 
       let arr= []
@@ -112,7 +117,10 @@ export default  function APP({auth}) {
       {alert && <AlertModal msg={msg} handleModal={handleModal}/>}
 
         <div>
-        <button onClick={openModalCreacion}>Crear Evento</button>
+        <DropdownButton id="dropdown-basic-button" title="Crear Nuevo Evento" size="lg"  style={{ width: '300px' }}> 
+          <Dropdown.Item  style={styleItemDropdown} onClick={openModalCreacion}>Evento Fijo</Dropdown.Item>
+          <Dropdown.Item   style={styleItemDropdown} >Evento Dinamico</Dropdown.Item>
+        </DropdownButton>
         {creacion && <ModalCreacion handleModalCreacion={handleModalCreacion} isDinamic={false}/>}
           <h2>APP</h2>
 
