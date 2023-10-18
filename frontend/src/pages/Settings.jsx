@@ -83,7 +83,7 @@ export default function Setting({auth}){
           <form style={formSectionTwo}>
             <label>Comienzo de semana</label>
             <Input/>
-            <label>Sleep time <input/> <span>to</span> <input/></label>
+            <label>Sleep time <input type="time"/> <span>to</span> <input type="time"/></label>
           </form>
         </div>
       </div>
