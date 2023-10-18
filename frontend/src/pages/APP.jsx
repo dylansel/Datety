@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/misc/Loading";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import "../stylesheets/calendar.css"
+import ModalDinamic from "../components/ModalDinamic";
 
 const isLoged = true;
 
@@ -38,6 +39,7 @@ export default  function APP({auth}) {
   const [events, setEvents] = useState([])
   const [loading, setLoading]= useState(false);
   const [modalCreacionOpen, setModalCreacionOpen]= useState(false);
+  const [modalDinamicOpen ,setModalDinamicOpen] = useState(false)
 
  
 
@@ -112,9 +114,11 @@ export default  function APP({auth}) {
         <div>
         <DropdownButton id="dropdown-basic-button" title="Crear Nuevo Evento" size="lg"  style={{ width: '300px' }}> 
           <Dropdown.Item  style={styleItemDropdown} onClick={()=>{setModalCreacionOpen(true)}}>Evento Fijo</Dropdown.Item>
-          <Dropdown.Item   style={styleItemDropdown} >Evento Dinamico</Dropdown.Item>
+          <Dropdown.Item   style={styleItemDropdown} onClick={()=>{setModalDinamicOpen(true)}}>Evento Dinamico</Dropdown.Item>
         </DropdownButton>
         {<ModalCreacion refresh={fetchData} show={modalCreacionOpen} setShow={setModalCreacionOpen} isDinamic={false} />}
+        {<ModalDinamic refresh={fetchData} show={modalDinamicOpen} setShow={setModalDinamicOpen} isDinamic={false} />}
+
         <h2>APP</h2>
 
 

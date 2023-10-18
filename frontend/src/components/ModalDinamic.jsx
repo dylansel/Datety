@@ -3,7 +3,6 @@ import { Modal, Button, Row } from 'react-bootstrap';
 import { addEvent } from '../services/eventServices';
 import { useAlert } from '../contexts/AlertContext';
 
-
 const formSection = {
   display: "flex",
   flexDirection: "column",
@@ -56,11 +55,7 @@ const buttonStyle= {
   fontWeight: "500"
 }
 
-
-
-
-
-export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
+export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
 
   const handleClose = () =>{
     setShow(false)
@@ -211,7 +206,7 @@ export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
     <>
       <Modal show={show} onHide={handleClose} centered data-bs-theme="dark" >
         <Modal.Header  closeButton  className='bg-dark text-white'>
-          <Modal.Title>Crea evento Fijo</Modal.Title>
+          <Modal.Title>Crea evento Dinámico</Modal.Title>
         </Modal.Header>
         <Modal.Body className='bg-dark text-white p-4'>
           {errorMsg && (
@@ -233,16 +228,16 @@ export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
                 </div>
               </div>
             </div>
-            <label>Repeticion del Evento</label>
+            {/* <label>Repeticion del Evento</label>
             <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
               <option value="1">No se repite</option>
               <option value="2">Todos los días</option>
               <option value="3">Cada semana</option>
               <option value="4">Cada mes</option>
               <option value="5">Anualmente</option>
-            </select>
+            </select> */}
 
-            {repDay && <div style={daysContainer}>
+            {/* {repDay && <div style={daysContainer}>
               <div className={activeDays[0] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>D</div>
               <div className={activeDays[1] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>L</div>
               <div className={activeDays[2] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>M</div>
@@ -250,7 +245,7 @@ export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
               <div className={activeDays[4] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>J</div>
               <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>V</div>
               <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>S</div>
-            </div>}
+            </div>} */}
 
             {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
 
