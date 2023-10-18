@@ -41,9 +41,9 @@ const formSectionOne = {
 const formSectionTwo = {
   display: "flex",
   flexDirection: "column",
-  marginTop: "10px",
+  marginTop: "px",
   // background: "yellow",
-  height: "20%",
+  height: "15%",
   justifyContent: "space-evenly"
 }
 
