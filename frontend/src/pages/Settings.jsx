@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react"
 import Header from "../components/utils/Header"
+import "../stylesheets/settings.css"
 import { useNavigate } from "react-router-dom";
 import Input from "../components/utils/Input";
 
@@ -44,7 +45,6 @@ const formSectionTwo = {
   // background: "yellow",
   height: "20%",
   justifyContent: "space-evenly"
-
 }
 
 export default function Setting({auth}){
@@ -73,8 +73,8 @@ export default function Setting({auth}){
             <Input/>
             <label>Cambiar contraseña</label>
             <Input/>
-            <input type="submit" value="Guardar cambios"/>
-            <input type="submit" value="Eliminar cuenta"/>
+            <input className="inputSubmit" type="submit" value="Guardar cambios"/>
+            <input className="inputDanger" type="submit" value="Eliminar cuenta"/>
 
           </form>
         </div>
