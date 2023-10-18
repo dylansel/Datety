@@ -1,0 +1,45 @@
+.app{
+    /* background: red; */
+    padding: 2rem;
+}
+
+/* PARA MOBILE */
+/* .fc-toolbar {
+    font-size: 0.8rem ;
+  } */
+
+
+
+
+  .fc-day{
+    background: rgb(231, 231, 231);
+    border-radius: 5px !important;
+    /* border: 1px solid rgb(177, 177, 177) !important; */
+    transition: all .3s;
+  }
+
+
+  .fc-day a{
+    color: rgb(113, 94, 199);
+    text-decoration: none;
+  }
+  /* Cambiar el color de fondo de los eventos */
+  .fc-event {
+    background-color: rgb(45, 48, 88);
+    color: white;
+    font-size: 0.7rem;
+    border-radius: 5px;
+    border: none;
+  }
+  .fc-daygrid-day-top{
+    /* font-size: 0.8rem; */
+  }
+
+  .fc-scrollgrid-section-header{
+    background: #fafafa !important;
+
+  }
+
+  .fc-scrollgrid{
+    border: none !important;  
+}
