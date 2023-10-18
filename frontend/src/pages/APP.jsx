@@ -35,7 +35,7 @@ export default  function APP({auth}) {
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
   const [events, setEvents] = useState([])
   const [loading, setLoading]= useState(false);
-  const [modalCreacionResponse, handleModalCreacion, creacion, openModalCreacion] = useHandleModalCreacion();
+  const [modalCreacionOpen, setModalCreacionOpen]= useState(false);
 
  
 
@@ -95,11 +95,6 @@ export default  function APP({auth}) {
       
     },[auth.loaded])
 
-
-  const handleCreateEvent= ()=>{
-    openModal();
-  }
-
   useEffect(()=>{
     if(modalResponse){
       enviarEvento();
@@ -118,10 +113,10 @@ export default  function APP({auth}) {
 
         <div>
         <DropdownButton id="dropdown-basic-button" title="Crear Nuevo Evento" size="lg"  style={{ width: '300px' }}> 
-          <Dropdown.Item  style={styleItemDropdown} onClick={openModalCreacion}>Evento Fijo</Dropdown.Item>
+          <Dropdown.Item  style={styleItemDropdown} onClick={()=>{setModalCreacionOpen(true)}}>Evento Fijo</Dropdown.Item>
           <Dropdown.Item   style={styleItemDropdown} >Evento Dinamico</Dropdown.Item>
         </DropdownButton>
-        {creacion && <ModalCreacion handleModalCreacion={handleModalCreacion} isDinamic={false}/>}
+        {<ModalCreacion refresh={fetchData} show={modalCreacionOpen} setShow={setModalCreacionOpen} isDinamic={false} />}
           <h2>APP</h2>
 
           {/* <button onClick={openModal}>Crear</button> */}

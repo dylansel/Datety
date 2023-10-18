@@ -15,7 +15,7 @@ import ConfirmEmail from './pages/ConfirmEmail';
 import { useParams } from 'react-router-dom';
 import { AlertProvider } from './contexts/AlertContext';
 import ModalAlert from './components/ModalAlert';
-
+import './App.css'
 function App() {
 
   const auth = useAuth();

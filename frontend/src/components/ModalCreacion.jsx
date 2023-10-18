@@ -1,78 +1,8 @@
-import { React, useEffect, useState } from "react";
-import Input from "./utils/Input";
-import "../stylesheets/animations.css"
-import logo from "../assets/imgs/exit_logo.png"
-import { addEvent } from "../services/eventService";
+import React, { useEffect, useState } from 'react';
+import { Modal, Button, Row } from 'react-bootstrap';
+import { addEvent } from '../services/eventServices';
+import { useAlert } from '../contexts/AlertContext';
 
-/*
-INPUTS:
-- Titulo X
-- Descripcion input area X
-- Fecha de Inicio date X
-- Fecha de Fin date X
-- Hora de inicio time X
-- Hora de Fin time X
-- Repeticion del Evento multi check 
-    Repeat:{
-        rep: [1,1,1,1,1,0,0,1] | [16]
-        evenWhen: "16/10/2023" (input type date)
-    }
-- Recordatorio Input(tiempo (number)) Input(Medida de tiempo (select) )
-- Invitar participantes input con options dinamicos
-*/ 
-
-const backgroundModalCreacion = {
-  background: "#444444cc",
-  height: "100vh",
-  position: "absolute",
-  width: "100vw",
-  top: "0",
-  bottom: "0",
-  display: "flex",
-  zIndex: "500",
-  justifyContent: "center",
-  alignItems: "center"
-}
-
-const modalCreacion = {
-  display: "flex",
-  borderRadius: "20px",
-  alignItems: "center",
-  flexDirection: "column",
-  justifyContent: "space-evenly",
-  background: "#415a77",
-  width: "30%",
-  height: "60%"
-}
-
-const cornerSectionStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  color: "#fafafa",
-  height: "5rem",
-  width: "90%",
-  position: "relative"
-}
-
-const buttonClose= {
-  border: "none",
-  width: "30px",
-  height: "30px",
-  background: "transparent",
-  position: "absolute",
-  right: "-20px",
-  top: "-20px",
-  zIndex: "100"
-}
-
-const imgClose= {
-  width: "100%",
-  zIndex: "5"
-}
-const mainSection = {
-
-}
 
 const formSection = {
   display: "flex",
@@ -84,9 +14,6 @@ const formSection = {
 
 const textArea = {
   borderRadius: "0.6rem",
-  border: "1.6px solid #ccc",
-  color: "#222",
-  background: "#eee",
   outline: "none",
   overflow: "hidden"
 }
@@ -129,8 +56,17 @@ const buttonStyle= {
   fontWeight: "500"
 }
 
-export default function ModalCreacion({handleModalCreacion, isDinamic}) {
-  
+
+
+
+
+export default function ModalSeeVacationDetails({ refresh, show, setShow, isDinamic }) {
+
+  const handleClose = () =>{
+    setShow(false)
+    setForm({...initialForm})
+    setErrorMsg("")
+  } ;
   let initialForm= {
     tittle: "",
     description: "",
@@ -145,23 +81,64 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
 
   const [form, setForm]= useState(initialForm);
   const [repDay, setRepDay]= useState(false)
+  const [errorMsg, setErrorMsg]= useState(false)
   const [frecuency, setFrecuency]= useState(0)
   const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
-  const [modalOpen, setModalOpen]= useState(true)
+  const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
 
+  const handleSubmit= async( )=>{
+
+    try {
+      if(!form.tittle && !form.startDate && !form.startTime && !form.endTime){
+        setErrorMsg("Completa todos los campos")
+        return
+      }
+      
+      const startDateTime = new Date(`${form.startDate}T${form.startTime}`);
+      const endDateTime = new Date(`${form.startDate}T${form.endTime}`);
+    
+      if (startDateTime >= endDateTime) {
+        setErrorMsg("La hora de fin debe ser posterior a la hora de inicio");
+        return;
+      }
   
-  const handleSubmit= ( )=>{
-    if(form.tittle && form.startDate && form.startTime && form.endTime){
-      const event = {...form,startDateTime: `${form.startDate}T${form.startTime}`,endDateTime:`${form.startDate}T${form.endTime}`}
-      event.startDate = null
-      event.startTime = null
-      event.endTime = null
-      addEvent(event)
+      
+      if(form.tittle && form.startDate && form.startTime && form.endTime){
+        const event = {...form,startDateTime: `${form.startDate}T${form.startTime}`,endDateTime:`${form.startDate}T${form.endTime}`}
+        event.startDate = null
+        event.startTime = null
+        event.endTime = null
+        const res = await addEvent(event)
+        
+        if(res.status == 200){
+          setAlertConfig({
+            show: true,
+            status: 'success',
+            title: 'Creado',
+            message: 'Se creo el evento exitosamente',
+            timeOff:3000
+          })
+        }else{
+          setAlertConfig({
+            show: true,
+            status: 'danger',
+            title: 'Error',
+            message: 'Error al crear el evento',
+            timeOff:3000
+          })
+        }
+      }
+      refresh()
+      handleClose()
+      
+    } catch (error) {
+      setErrorMsg(`Error! ${error.message}`)
     }
-    setForm({...initialForm})
+    
   }
 
     const handleChange= (e)=>{
+        setErrorMsg("")
         setForm({
           ...form,
           [e.target.name] : e.target.value
@@ -223,7 +200,6 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
         setActiveDays([0,0,0,0,0,0,0])
       }
     
-      console.log(activeDays)
     }, [frecuency])
     
     useEffect(()=>{
@@ -231,63 +207,72 @@ export default function ModalCreacion({handleModalCreacion, isDinamic}) {
       setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
     }}, [activeDays])
 
-
-    return(
-        <>{modalOpen &&
-            <div style={backgroundModalCreacion}>
-                <div style={modalCreacion} className="modal_creacion">
-                    <div style={cornerSectionStyle} className="corner_section">
-                        <h2>Crea tu Evento</h2>
-                        <button onClick={handleModalCreacion} style={buttonClose} value="X"><img className="buttonClosed" style={imgClose} src={logo}></img></button>
-                    </div>
-                    <div className="main_section_creation" style={mainSection}>
-                        <form style={formSection} onSubmit={handleSubmit}>
-                            <input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" style={inputStyle} className="input_modal_creacion"></input>
-                            <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
-                            <div style={timeStyle}>
-                            <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion"></input>
-                            <input style={inputStyle} type="time" name="startTime" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label>_</label> 
-                            <input style={inputStyle} type="time" name="endTime" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
-                            </div>
-                            <label>Repeticion del Evento</label>
-                            <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
-                              <option value="1">No se repite</option>
-                              <option value="2">Todos los días</option>
-                              <option value="3">Cada semana</option>
-                              <option value="4">Cada mes</option>
-                              <option value="5">Anualmente</option>
-                            </select>
-
-                            {repDay && <div style={daysContainer}>
-                              <div className={activeDays[0] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>D</p></div>
-                              <div className={activeDays[1] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>L</p></div>
-                              <div className={activeDays[2] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>M</p></div>
-                              <div className={activeDays[3] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>Mi</p></div>
-                              <div className={activeDays[4] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>J</p></div>
-                              <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>V</p></div>
-                              <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}><p>S</p></div>
-                            </div>}
-
-                            {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
-
-                            <label>Recordatorio</label>
-                            <select style={selectStyle}>
-                              <option value="1">5 minutos antes</option>
-                              <option value="2">10 minutos antes</option>
-                              <option value="3">30 minutos antes</option>
-                              <option value="4">1 hora antes</option>
-                              <option value="5">1 día antes</option>
-                            </select>
-                            <input type="text" name="participants" value={form.participants} onChange={handleChange} placeholder="Añadir participantes" style={inputStyle} className="input_modal_creacion"></input>
-                            <div style={confirmStyle}>
-                            <input type="submit" value="Confirmar" name="confirm" style={buttonStyle} className="button_modal_creation" ></input>
-                            </div>
-                            
-                        </form>
-                    </div>
-                </div>
+  return (
+    <>
+      <Modal show={show} onHide={handleClose} centered data-bs-theme="dark" >
+        <Modal.Header  closeButton  className='bg-dark text-white'>
+          <Modal.Title>Crea evento Fijo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='bg-dark text-white'>
+          {errorMsg && (
+            <div className="alert alert-danger" role="alert">
+              <span className="fw-bold"></span>
+              {errorMsg}
             </div>
-        }
-        </>
-    )
-} 
+          )}
+          <form style={formSection}> 
+            <input type="text" name="tittle" value={form.tittle} onChange={handleChange} placeholder="Añade un título" style={inputStyle} className="input_modal_creacion"></input>
+            <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
+            <div style={timeStyle}>
+              <div className='d-flex justify-content-between col-12'>
+                <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion col-6"/>
+                
+                <div className='d-flex justify-content-end align-items-center col-6'>
+                  <input style={inputStyle} type="time" name="startTime" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label className='mx-2'>-</label> 
+                  <input style={inputStyle} type="time" name="endTime" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
+                </div>
+              </div>
+            </div>
+            <label>Repeticion del Evento</label>
+            <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
+              <option value="1">No se repite</option>
+              <option value="2">Todos los días</option>
+              <option value="3">Cada semana</option>
+              <option value="4">Cada mes</option>
+              <option value="5">Anualmente</option>
+            </select>
+
+            {repDay && <div style={daysContainer}>
+              <div className={activeDays[0] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>D</div>
+              <div className={activeDays[1] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>L</div>
+              <div className={activeDays[2] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>M</div>
+              <div className={activeDays[3] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>Mi</div>
+              <div className={activeDays[4] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>J</div>
+              <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>V</div>
+              <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>S</div>
+            </div>}
+
+            {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
+
+            <label>Recordatorio</label>
+            <select style={selectStyle}>
+              <option value="1">5 minutos antes</option>
+              <option value="2">10 minutos antes</option>
+              <option value="3">30 minutos antes</option>
+              <option value="4">1 hora antes</option>
+              <option value="5">1 día antes</option>
+            </select>
+        </form>
+        </Modal.Body>
+        <Modal.Footer className='bg-dark'>
+          <Button variant="secondary" className='fs-4 px-4' onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Button variant="success" className='fs-4 px-4' onClick={handleSubmit}>
+            Crear
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
