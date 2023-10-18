@@ -7,6 +7,8 @@ import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
 import { login } from "../services/userService"
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from "../contexts/AlertContext";
+
 let initialForm= {
   user: "",
   pass: ""
@@ -64,6 +66,8 @@ export default function Login({auth}) {
   const [mensaje, setMensaje]= useState("")
   const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
   const navigate = useNavigate();
+  const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+
 
   const handleChange = (e) => {
     setForm({
@@ -98,20 +102,34 @@ export default function Login({auth}) {
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if(!form.user || !form.pass){
-      openModalAviso();
-      setMensaje("Complete los datos...")
+      setAlertConfig({
+        show: true,
+        status: 'warning',
+        title: '',
+        message: 'Complete los datos',
+        timeOff:3000
+      })
       return
     }
     const [data, status]= await login(logUser)
     if(status == 401){
-      openModalAviso();
-      setMensaje("Contraseña Incorrecta")
+      setAlertConfig({
+        show: true,
+        status: 'warning',
+        title: '',
+        message: 'Contraseña Incorrecta',
+        timeOff:3000
+      })
+
     }else if(status == 404){
-      openModalAviso();
-      setMensaje("Usuario incorrecto")
-    }else if(status == 400){
-      openModalAviso();
-      setMensaje("Nombre de usuario en uso")
+      setAlertConfig({
+        show: true,
+        status: 'warning',
+        title: '',
+        message: 'Usuario incorrecto',
+        timeOff:3000
+      })
+
     }else if(status ==200){
       redirec()
       auth.reloaded()

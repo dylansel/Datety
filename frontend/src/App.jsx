@@ -13,6 +13,8 @@ import useAuth from './hooks/useAuth';
 import Loading from './components/misc/Loading';
 import ConfirmEmail from './pages/ConfirmEmail';
 import { useParams } from 'react-router-dom';
+import { AlertProvider } from './contexts/AlertContext';
+import ModalAlert from './components/ModalAlert';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
   return (
     <>
      <BrowserRouter>
+     <AlertProvider >
+     <ModalAlert/>
      {auth.loaded && <Header  auth={auth} />}
      {auth.loaded?
       <Routes> 
@@ -33,6 +37,7 @@ function App() {
         <Route path="*" element={<NotFound/>} />
       </Routes>   
       :<Loading/>}
+      </AlertProvider>
      </BrowserRouter>
     </>
   );
