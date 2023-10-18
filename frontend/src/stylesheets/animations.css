@@ -191,11 +191,11 @@ body{
     overflow: hidden !important;
 }
 
-.app{
+/* .app{
     height: 100vh !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
-} 
+}  */
 
 @keyframes modalAlert {
     0%{
