@@ -3,6 +3,7 @@
   border: none;
   border-radius: 8px;
   width: 30%;
+  height: 35px;
 }
 
 .inputSubmit:hover{
@@ -14,8 +15,13 @@
   border: none;
   border-radius: 8px;
   width: 30%;
+  height: 35px;
 }
 
 .inputDanger:hover{
     background-color: #dc3545 !important;
+}
+
+form label {
+  padding-top: 5%;
 }
