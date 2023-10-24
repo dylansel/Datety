@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
 import { addEvent } from '../services/eventServices';
 import { useAlert } from '../contexts/AlertContext';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const formSection = {
   display: "flex",
@@ -202,6 +204,55 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
       setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
     }}, [activeDays])
 
+
+    const options = [
+      { value: 'dylan', label: 'Dylan', color: '#FF0822', isFixed: true },
+      { value: 'gonza', label: 'Gonzalo', color: '#FF0822' },
+      { value: 'dimitrije', label: 'Dimitrije', color: '#FF0822' }
+    ]
+
+    const animatedComponents = makeAnimated();
+
+    const darkTheme = (theme) => ({
+      ...theme,
+      colors: {
+        ...theme.colors,
+        primary: '#f2f2f2', // selected option
+        primary75: 'white', //no se
+        primary50: '#787777', // al hacer click
+        primary25: '#3943B7', //selected option default
+        danger: 'red',
+        dangerLight: 'white',
+        neutral0: '#150578', //background
+        neutral5: 'white',
+        neutral10: '#284B63',
+        neutral20: 'white', //flecha select control
+        neutral30: 'gray', // hover del input controler
+        neutral40: 'white', //text not option 
+        neutral50: 'white', //texto placeholder
+        neutral60: 'white', // flecha selected contrtol
+        neutral70: '#212020',
+        neutral80: 'white', //texto select control
+        neutral90: 'red',
+      },
+    });
+    const styleSelect = {
+      control: (provided, state) => ({
+        ...provided,
+        backgroundColor: 'transparent',
+        border: '1px solid #ccc',
+        color: 'white', 
+        cursor:"pointer"
+
+      }),
+      option: (provided, state) => ({
+          ...provided,
+          cursor:"pointer"
+
+        })
+    };
+
+
   return (
     <>
       <Modal show={show} onHide={handleClose} centered data-bs-theme="dark" >
@@ -220,43 +271,31 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
             <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
             <div style={timeStyle}>
               <div className='d-flex justify-content-between col-12'>
-                <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion col-6"/>
+                {/* <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion col-6"/> */}
                 
-                <div className='d-flex justify-content-end align-items-center col-6'>
+                {/* <div className='d-flex justify-content-end align-items-center col-6'>
                   <input style={inputStyle} type="time" name="startTime" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label className='mx-2'>-</label> 
                   <input style={inputStyle} type="time" name="endTime" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
-                </div>
+                </div> */}
               </div>
             </div>
-            {/* <label>Repeticion del Evento</label>
-            <select style={selectStyle} name="selectOptions" onChange={handleFrecuency}>
-              <option value="1">No se repite</option>
-              <option value="2">Todos los días</option>
-              <option value="3">Cada semana</option>
-              <option value="4">Cada mes</option>
-              <option value="5">Anualmente</option>
-            </select> */}
-
-            {/* {repDay && <div style={daysContainer}>
-              <div className={activeDays[0] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>D</div>
-              <div className={activeDays[1] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>L</div>
-              <div className={activeDays[2] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>M</div>
-              <div className={activeDays[3] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>Mi</div>
-              <div className={activeDays[4] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>J</div>
-              <div className={activeDays[5] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>V</div>
-              <div className={activeDays[6] ? "day_election_modal_active" : "day_election_modal"} onClick={handleDayModal}>S</div>
-            </div>} */}
+            <div>
+              <p>¿Quieres invitar a alguien?</p>
+              <Select
+                theme={darkTheme}
+                styles={styleSelect}
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                options={options}
+              />
+            </div>
+          
+        
 
             {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
 
-            <label>Recordatorio</label>
-            <select style={selectStyle}>
-              <option value="1">5 minutos antes</option>
-              <option value="2">10 minutos antes</option>
-              <option value="3">30 minutos antes</option>
-              <option value="4">1 hora antes</option>
-              <option value="5">1 día antes</option>
-            </select>
+          
         </form>
         </Modal.Body>
         <Modal.Footer className='bg-dark'>
