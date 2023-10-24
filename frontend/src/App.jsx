@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -16,8 +16,13 @@ import { useParams } from 'react-router-dom';
 import { AlertProvider } from './contexts/AlertContext';
 import ModalAlert from './components/ModalAlert';
 import './App.css'
-function App() {
 
+import GoogleLogin from "react-google-login"
+import {gapi} from "gapi-script" 
+
+
+
+function App() {
   const auth = useAuth();
   return (
     <>

@@ -8,6 +8,7 @@ import useHandleModalAviso from "../hooks/handleModalAviso";
 import { login } from "../services/userService"
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from "../contexts/AlertContext";
+import GoogleLogin from "react-google-login"
 
 let initialForm= {
   user: "",
@@ -168,6 +169,13 @@ export default function Login({auth}) {
                 <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle={form.pass && form.user ? "check-login_able" : "check-login_desable"}></Input>
               </div>
             </form>
+            <GoogleLogin
+              clientId={auth.clientID}
+              onSuccess={auth.onSuccess}
+              onFailure={auth.onFailure}
+              buttonText="Continuar con Google"
+              cookiePolicy={"single_host_origin"}
+            />
           </div>
        </div>
        {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso} modalStyle={aviso ? modalAvisoCalled : "aviso-hidden"}/>}
