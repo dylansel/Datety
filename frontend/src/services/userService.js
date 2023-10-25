@@ -1,4 +1,4 @@
-import { setAuthToken, getAuthToken } from "../services/authService";
+import { setAuthToken, getAuthToken } from "./AuthService";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function addUser(user) {
@@ -56,6 +56,24 @@ export async function getUser() {
   } catch (error) {
     console.error(error);
     throw new Error("Error al solicitar usuario");
+  }
+}
+
+export async function getAllUsers() {
+  try {
+    const response = await fetch(`${apiUrl}/user/getAllUsers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+    const data = await response.json();
+    const status = response.status;
+    return {data:data, status};
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al solicitar los usuarios");
   }
 }
 

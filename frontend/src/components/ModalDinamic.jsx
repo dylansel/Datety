@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
-import { addEvent } from '../services/eventServices';
+import { addEvent, getPossibleAvailableDates } from '../services/eventServices';
 import { useAlert } from '../contexts/AlertContext';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { getAllUsers, getUser } from '../services/userService';
+import "../stylesheets/modals.css"
 
 const formSection = {
   display: "flex",
@@ -64,6 +66,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
     setForm({...initialForm})
     setErrorMsg("")
   } ;
+
   let initialForm= {
     tittle: "",
     description: "",
@@ -76,12 +79,45 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
     isDinamic
   }
 
+  let initalFormAvailableDates = {
+    participants: [],
+    duration: ""
+  }
+
   const [form, setForm]= useState(initialForm);
-  const [repDay, setRepDay]= useState(false)
   const [errorMsg, setErrorMsg]= useState(false)
-  const [frecuency, setFrecuency]= useState(0)
-  const [activeDays, setActiveDays]= useState([0,0,0,0,0,0,0])
-  const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+  const { alertConfig, setAlertConfig } = useAlert(); // Usa el contexto alert
+  const [usersFilter, setUsersFilter] = useState([]);
+  const [hours, setHours] = useState("")
+  const [minutes, setMinutes] = useState("")
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [id, setId] = useState(0);
+
+  // const [askForAvailableDates, setAskForAvailableDates] = useState(initalFormAvailableDates);
+
+  useEffect(()=>{
+    const fetchUsers = async ()=>{
+      const usersFetched = await getAllUsers();
+      const users = await usersFetched.data
+      const myId = await getUser()
+      setId(myId.data.idUser)
+      let temporalUsers = [];
+
+      for (let i = 0; i < users.length; i++) {
+        const temporalUser = {
+          value: users[i].idUser,
+          label: `${users[i].name} ${users[i].surname }`
+        }     
+        
+        temporalUsers.push(temporalUser) 
+      }
+
+      const filteredUsers = temporalUsers.filter(u => u.value != myId.data.idUser)
+      setUsersFilter(filteredUsers)
+    }
+
+    fetchUsers()
+  }, [])
 
   const handleSubmit= async( )=>{
 
@@ -152,64 +188,6 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
         }
       }
 
-    const handleFrecuency= (e)=>{
-      console.log(e.target.value)
-        if(e.target.value == 2){
-          setRepDay(false)
-          setFrecuency(2)
-          setForm({...form, repeat: { ...form.repeat, rep: activeDays }})
-        }else if(e.target.value == 3){
-          setRepDay(true)
-          setFrecuency(3)
-          setForm({...form, repeat: { ...form.repeat, rep: activeDays }})
-        }else if(e.target.value == 4){
-          setRepDay(false)
-          setFrecuency(4)
-          setForm({...form, repeat: { ...form.repeat, for: "month" }})
-        }else if(e.target.value == 5){
-          setRepDay(false)
-          setFrecuency(5)
-          setForm({...form, repeat: { ...form.repeat, for: "year"  }})
-        }else if(e.target.value == 1){
-          setRepDay(false)
-          setFrecuency(1)
-        }
-    }
-
-    const handleDayModal= (e)=>{
-      let daysCounter = [...activeDays];
-      let daySelected= e.target.textContent;
-      if(daySelected == "D") daysCounter[0] = daysCounter[0] ? 0 : 1
-      else if(daySelected == "L") daysCounter[1] = daysCounter[1] ? 0 : 1
-      else if(daySelected == "M") daysCounter[2] = daysCounter[2] ? 0 : 1
-      else if(daySelected == "Mi") daysCounter[3] = daysCounter[3] ? 0 : 1
-      else if(daySelected == "J") daysCounter[4] = daysCounter[4] ? 0 : 1
-      else if(daySelected == "V") daysCounter[5] = daysCounter[5] ? 0 : 1
-      else if(daySelected == "S") daysCounter[6] = daysCounter[6] ? 0 : 1
-      setActiveDays(daysCounter)
-      
-    } 
-
-    useEffect(()=>{
-      if(frecuency == 2){
-        setActiveDays([1,1,1,1,1,1,1])
-      }else if(frecuency != 2){
-        setActiveDays([0,0,0,0,0,0,0])
-      }
-    
-    }, [frecuency])
-    
-    useEffect(()=>{
-    if(frecuency >= 2){
-      setForm({...form, repeat: { ...form.repeat, rep: activeDays }})  
-    }}, [activeDays])
-
-
-    const options = [
-      { value: 'dylan', label: 'Dylan', color: '#FF0822', isFixed: true },
-      { value: 'gonza', label: 'Gonzalo', color: '#FF0822' },
-      { value: 'dimitrije', label: 'Dimitrije', color: '#FF0822' }
-    ]
 
     const animatedComponents = makeAnimated();
 
@@ -252,6 +230,50 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
         })
     };
 
+    const calculateTotalMinutes = (hours, minutes) => {
+      const temporalHours = parseInt(hours, 10);
+      const temporalMinutes = parseInt(minutes, 10);
+  
+      const total = temporalHours * 60 + temporalMinutes;
+  
+      return total;
+    };
+
+    const handleHours = (e)=>{
+      setHours( e.target.value)
+    }
+
+    const handleMinutes = (e)=>{
+      setMinutes( e.target.value)
+    }
+
+
+  const handleSelectChange = (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+  };
+
+  const handleAvailableDatesForm = async (e)=>{
+    let temporalParticipants = [{idUser: id}]
+
+    for (let i = 0; i < selectedOptions.length; i++) {
+      const temporalParticipant = {
+        idUser: selectedOptions[i].value
+      }
+     
+      temporalParticipants.push(temporalParticipant)
+    }
+    const formToSend = {
+      participants: temporalParticipants,
+      duration: calculateTotalMinutes(hours, minutes)
+    }
+
+    console.log("Lo que se envía: ", formToSend)
+    const fetchPossibleDates = await getPossibleAvailableDates(formToSend)
+    console.log("RESULT: ", fetchPossibleDates.status)
+
+    
+    // console.log("Enviado: ")
+  }
 
   return (
     <>
@@ -271,30 +293,27 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
             <textarea style={textArea} name="description" value={form.description} onChange={handleChange} placeholder="Descripción"/>
             <div style={timeStyle}>
               <div className='d-flex justify-content-between col-12'>
-                {/* <input type="date" name="startDate" value={form.date} onChange={handleChange} style={{...inputStyle, margin: "0 .5rem 0 0"}} className="input_modal_creacion col-6"/> */}
-                
-                {/* <div className='d-flex justify-content-end align-items-center col-6'>
-                  <input style={inputStyle} type="time" name="startTime" value={form.timeIni} onChange={handleChange} className="input_modal_creacion"/> <label className='mx-2'>-</label> 
-                  <input style={inputStyle} type="time" name="endTime" value={form.timeFin} onChange={handleChange} className="input_modal_creacion"></input>
-                </div> */}
               </div>
             </div>
             <div>
+                <p>Duración: </p>
+                <div className='inputs_time_container'>
+                <label className='mx-2'>Horas:</label><input type="number" name="hours" value={hours} className="input_time"  onChange={handleHours}/> 
+                <label className='mx-2'>Minutos:</label><input  type="number" name="minutes" value={minutes} className="input_time"  onChange={handleMinutes}></input>
+                </div> 
+              </div>
+            <div>
               <p>¿Quieres invitar a alguien?</p>
               <Select
+                onChange={handleSelectChange}
                 theme={darkTheme}
                 styles={styleSelect}
                 closeMenuOnSelect={false}
                 components={animatedComponents}
                 isMulti
-                options={options}
+                options={usersFilter}
               />
             </div>
-          
-        
-
-            {frecuency >= 2 && <input type="date" style={inputStyle} name="until" onChange={handleChange} value={form.repeat.until}/>}
-
           
         </form>
         </Modal.Body>
@@ -304,6 +323,9 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
           </Button>
           <Button variant="success" className='fs-4 px-4' onClick={handleSubmit}>
             Crear
+          </Button>
+          <Button variant="success" className='fs-4 px-4' onClick={handleAvailableDatesForm}>
+            Solicitar Disponibilidad
           </Button>
         </Modal.Footer>
       </Modal>

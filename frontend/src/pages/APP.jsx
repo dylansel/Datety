@@ -121,12 +121,6 @@ export default  function APP({auth}) {
 
         <h2>APP</h2>
 
-
-
-          {/* <button onClick={openModal}>Crear</button> */}
-          {/* <button onClick={getAllEvents}>Ver todos Los Eventos</button>
-          <button onClick={()=>console.log(events)}>EVENTOS</button> */}
-
           <div style={calendarStyle}>
             <FullCalendar
                 
