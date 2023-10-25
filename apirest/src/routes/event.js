@@ -28,6 +28,6 @@ router.patch('/editEvent/:id', eventController.editEvent);
 router.delete('/deleteEvent/:id', eventController.deleteEvent);
 
 //rutas mas especificas
-router.get('/getPossibleAvailableDates', eventController.getPossibleAvailableDates);
+router.post('/getPossibleAvailableDates', eventController.getPossibleAvailableDates);
 
 module.exports = router

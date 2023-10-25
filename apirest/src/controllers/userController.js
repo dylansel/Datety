@@ -67,7 +67,9 @@ const addUser = async (req, res) => {
     if(!id) throw new Error('Error al agregar usuario');
     const token = utils.createToken({idUser:id}); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta
-    sendConfirmEmail(id);
+    if(!dataE.is_active){
+      sendConfirmEmail(id);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
