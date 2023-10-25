@@ -5,10 +5,11 @@ import SVG from "../assets/imgs/img_welcome.svg"
 import "../stylesheets/animations.css"
 import ModalAviso from "../components/ModalAviso";
 import useHandleModalAviso from "../hooks/handleModalAviso";
-import { login } from "../services/userService"
+import { addUser, login, loginByGoogleId } from "../services/userService"
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from "../contexts/AlertContext";
 import GoogleLogin from "react-google-login"
+import { useAuth } from "../contexts/authContext"
 
 let initialForm= {
   user: "",
@@ -60,7 +61,7 @@ const styleLink = {
   color: "rgba(20, 20, 20, 0.827)"
 }
 
-export default function Login({auth}) {
+export default function Login() {
   
   const [form, setForm] = useState(initialForm);
   const [check, setCheck] = useState(false);
@@ -68,7 +69,15 @@ export default function Login({auth}) {
   const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
   const navigate = useNavigate();
   const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+  const auth = useAuth();
 
+   //-----------------AUTHENTHICATION------------
+   useEffect(()=>{
+     if(auth.user){ //redireciono al home si ya esta logueado
+      navigate('/');
+     }
+   },[])
+   //-----------------FIN AUTHENTHICATION------------
 
   const handleChange = (e) => {
     setForm({
@@ -77,8 +86,6 @@ export default function Login({auth}) {
     })
   }
   
-
-
   
   const handleCheck = ()=>{
     setCheck(!check)
@@ -100,59 +107,116 @@ export default function Login({auth}) {
     }
 }
 
-  const handleSubmit= async (e)=>{
+  const handleSubmit= async (e)=>{ 
     e.preventDefault();
-    if(!form.user || !form.pass){
-      setAlertConfig({
-        show: true,
-        status: 'warning',
-        title: '',
-        message: 'Complete los datos',
-        timeOff:3000
-      })
-      return
+    try {
+      if(!form.user || !form.pass){
+        setAlertConfig({
+          show: true,
+          status: 'warning',
+          title: '',
+          message: 'Complete los datos',
+          timeOff:3000
+        })
+        return
+      }
+      const {data, status}= await login(logUser)
+      if(status == 401){
+        setAlertConfig({
+          show: true,
+          status: 'warning',
+          title: '',
+          message: 'Contraseña Incorrecta',
+          timeOff:3000
+        })
+  
+      }else if(status == 404){
+        setAlertConfig({
+          show: true,
+          status: 'warning',
+          title: '',
+          message: 'Usuario incorrecto',
+          timeOff:3000
+        })
+  
+      }else if(status ==200){
+        console.log("DATA:",data)
+        auth.login(data?.token)
+        redirec()
+      }
+    } catch (error) {
+      console.error(error)
     }
-    const [data, status]= await login(logUser)
-    if(status == 401){
-      setAlertConfig({
-        show: true,
-        status: 'warning',
-        title: '',
-        message: 'Contraseña Incorrecta',
-        timeOff:3000
-      })
-
-    }else if(status == 404){
-      setAlertConfig({
-        show: true,
-        status: 'warning',
-        title: '',
-        message: 'Usuario incorrecto',
-        timeOff:3000
-      })
-
-    }else if(status ==200){
-      redirec()
-      auth.reloaded()
-    }
+   
+   
     
   }
   
-  const reloaded = async () =>{
-    const authe = await auth.reloaded();
-    if(authe){
-      redirec();
-    }
-  }
-  useEffect(()=>{
-    reloaded()
-  },[])
+  // const reloaded = async () =>{
+  //   const authe = await auth.reloaded();
+  //   if(authe){
+  //     redirec();
+  //   }
+  // }
+  // useEffect(()=>{
+  //   reloaded()
+  // },[])
 
+    const clientID =  import.meta.env.VITE_Auth2ClienteId;
+
+    const onSuccess = async (response) => {
+      console.log(response)
+      const userG = response.profileObj
+
+      
+      const newUser= {
+        name: userG.givenName,
+        surname: userG.familyName,
+        email: userG.email,
+        userName: userG.name,
+        password: userG.googleId,
+        photo: userG.imageUrl,
+        googleId:userG.googleId,
+        is_active:1
+      }
+
+      const google = await loginByGoogleId(newUser.googleId)
+      console.log("TOKEN GOOGE:",google)
+      if(google.status == 200){
+        auth.login(google.data?.token)
+        redirec()
+      }else if(google.status == 404){
+        const token = await addUser(newUser)
+        auth.login(token)
+        redirec()
+      }else{
+        setAlertConfig({
+          show: true,
+          status: 'danger',
+          title: '',
+          message: 'Error al iniciar sesion con Google',
+          timeOff:3000
+        })
+      }
+      
+    }
+    const onFailure = (response) => {
+      console.error("Error al Iniciar sesion con google");
+    }
+    
+    useEffect(() => {
+      function start() {
+        gapi.client.init({
+          clientId: clientID,
+        });
+      }
+      gapi.load("client:auth2", start);
+    });
 
 
   return (
     <>
-        <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
+      <h2 style={styleTittle}>Date<span className="violet-text">Ty</span></h2>
 
        <div className="contenedor-principal" style={contenedorPrincipal}>
           <div className="login-style" style={styleLogin}>
@@ -168,14 +232,13 @@ export default function Login({auth}) {
                 <a href="/register" style={{...styleLink, color: "rgba(69, 38, 206, 1)"}}>Registrarme</a>
                 <Input type="submit" value="Iniciar Sesión" name="confirm" classStyle={form.pass && form.user ? "check-login_able" : "check-login_desable"}></Input>
               </div>
-            </form>
             <GoogleLogin
-              clientId={auth.clientID}
-              onSuccess={auth.onSuccess}
-              onFailure={auth.onFailure}
+              clientId={clientID}
+              onSuccess={onSuccess}
+              onFailure={onFailure}
               buttonText="Continuar con Google"
-              cookiePolicy={"single_host_origin"}
             />
+            </form>
           </div>
        </div>
        {aviso && <ModalAviso msg={mensaje} handleModalAviso={handleModalAviso} modalStyle={aviso ? modalAvisoCalled : "aviso-hidden"}/>}

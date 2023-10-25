@@ -59,13 +59,13 @@ export async function getUser() {
   }
 }
 
+
 export async function deleteUser() {
   try {
     const response = await fetch(`${apiUrl}/user/deleteUser`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getAuthToken()}`,
       },
     });
     const data = await response.json();
@@ -86,11 +86,30 @@ export async function login(user) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status === 200 && data.token) setAuthToken(data.token);
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al iniciar sesion");
+  }
+}
+
+export async function loginByGoogleId(id) {
+  try {
+    const response = await fetch(`${apiUrl}/user/loginByGoogleId`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        body: JSON.stringify({
+          googleId:id
+        }),
+      },
+    });
+    const data = await response.json();
+    const status = response.status;
+    return {data:data, status};
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al solicitar usuario");
   }
 }
 

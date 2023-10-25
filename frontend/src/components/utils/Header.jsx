@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { BrowserRouter, Link } from "react-router-dom";
 import '../../stylesheets/animations.css';
 import defaultProfilePicture from '../../assets/imgs/defaultProfilePicture.png'
+import { useAuth } from "../../contexts/authContext";
 
 const styleNav = {
     fontFamily: "'Comfortaa', cursive",
@@ -50,7 +51,8 @@ const iconLogOutStyle = {
 }
 
 export default function Header({auth}) {
-  const user = auth.user
+  const { user, login, logout } = useAuth();
+
   const [userPhoto, setUserPhoto] = useState(user?.photo || defaultProfilePicture);
 
     
@@ -67,7 +69,7 @@ export default function Header({auth}) {
                   
                   <li className="" style={linkItem}><Link style={item} className="item" >{`${user?.name} ${user?.surname}`}</Link></li>
                   <img src={userPhoto} style={imgStyle} alt="icono de perfil" onError={()=>setUserPhoto(defaultProfilePicture)}/>
-                  <i className="fa-solid fa-right-from-bracket link_pointed" style={iconLogOutStyle} onClick={auth.logOut}></i>
+                  <i className="fa-solid fa-right-from-bracket link_pointed" style={iconLogOutStyle} onClick={logout}></i>
                    
                 </div>
                   :

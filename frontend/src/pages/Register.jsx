@@ -8,6 +8,7 @@ import useHandleModalAviso from "../hooks/handleModalAviso";
 import { errorMessageConverter } from "../components/utils/errorHandling";
 import "../stylesheets/animations.css"
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authContext";
 
 let initialForm= {
   name: "",
@@ -75,13 +76,24 @@ const  imgStyle={
 
 
 
-export default function Register({auth}){
+export default function Register(){
 
 const [form, setForm]= useState(initialForm);
 const [check, setCheck]= useState(false)
 const [mensaje, setMensaje]= useState("")
 const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-const navigate = useNavigate();
+
+ //-----------------AUTHENTHICATION------------
+ const { user, login, logout } = useAuth()
+ const navigate = useNavigate();
+ useEffect(()=>{
+   if(!user){
+     navigate('/login');
+   }
+ },[user])
+ //-----------------FIN AUTHENTHICATION------------
+
+
 const handleChange= (e)=>{
   setForm({
     ...form,
@@ -119,9 +131,7 @@ const añadir = async (user) =>{
   try {
     const [result,status] = await addUser(user)
     if(status == 200){
-        
         navigate('/app'); 
-        auth.reloaded()
       return;
     }else if(result.message){
       console.warn(`API CODE Warn: "${result.message}"`)

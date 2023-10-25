@@ -9,7 +9,7 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import Header from "./components/utils/Header"
 import Input from './components/utils/Input';
-import useAuth from './hooks/useAuth';
+
 import Loading from './components/misc/Loading';
 import ConfirmEmail from './pages/ConfirmEmail';
 import { useParams } from 'react-router-dom';
@@ -19,30 +19,31 @@ import './App.css'
 
 import GoogleLogin from "react-google-login"
 import {gapi} from "gapi-script" 
+import { AuthProvider, useAuth } from './contexts/authContext';
 
 
 
 function App() {
-  const auth = useAuth();
+  const { user, login, logout,loading } = useAuth();
+
+
   return (
     <>
      <BrowserRouter>
-     <AlertProvider >
      <ModalAlert/>
-     {auth.loaded && <Header  auth={auth} />}
-     {auth.loaded?
+     <Header/>
+     {!loading?
       <Routes> 
-        <Route path="/" element={auth.user?<APP auth={auth}/>:<About auth={auth}/>} />
-        <Route path="/login" element={<Login auth={auth}/>} />
-        <Route path="/register" element={<Register auth={auth}/>} />
-        <Route path="/settings" element={<Settings auth={auth}/>} />
-        <Route path="/app" element={<APP auth={auth}/>} />
-        <Route path="/about" element={<About auth={auth}/>} />
-        <Route path="/confirmEmail/:emailToken" element={<ConfirmEmail auth={auth}/>} />
+        <Route path="/" element={user?<APP/>:<About/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/app" element={<APP />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/confirmEmail/:emailToken" element={<ConfirmEmail/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>   
       :<Loading/>}
-      </AlertProvider>
      </BrowserRouter>
     </>
   );
