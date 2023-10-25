@@ -12,6 +12,8 @@ router.get('/getAllUsers',authMiddleware ,userController.getAllUsers);
 
 // Get a user by ID
 router.get('/getUserById/:id',authMiddleware, userController.getUserById);
+
+
 // Get a current user
 router.get('/getUser',authMiddleware, userController.getUser);
 
@@ -29,6 +31,8 @@ router.delete('/deleteUser',authMiddleware, userController.deleteUser); //Esta p
 
 //Login
 router.post('/login', userController.login); //no necesita estar logueado 
+router.post('/loginByGoogleId', userController.loginByGoogleId); //no necesita estar logueado 
+
 router.post('/confirmEmail/:token', userController.confirmEmail);
 module.exports = router;
 

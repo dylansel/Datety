@@ -27,6 +27,7 @@ const getUserById = async (req,res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
 const getUser = async (req,res) => {
   try {
     const id = req.user.idUser; // Obtener el ID del usuario desde el auth
@@ -173,6 +174,24 @@ const login = async (req, res) => {
   }
 }
 
+const loginByGoogleId = async (req, res) => {
+  try {
+    const googleId = req.body.googleId
+    
+    const userDB = await userService.getUserByColumn("googleId", googleId,null,["idUser","name","surname","email","userName","password","photo"]);
+    
+    if (!(utils.isExist(userDB))) { res.status(404).json({ message: 'user not exist' }); return; };
+
+   
+    const token = utils.createToken(userDB[0]); // Crear el token JWT
+    res.status(200).json({ token }); // Devolver el token en la respuesta
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+
 const confirmEmail = async (req,res) => {
   try {
     const emailToken = req.params.token.replaceAll("*",".");
@@ -200,6 +219,7 @@ module.exports = {
   disableUser,
   deleteUser,
   login,
+  loginByGoogleId,
   confirmEmail
 }
 
