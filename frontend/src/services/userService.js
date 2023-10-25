@@ -34,7 +34,7 @@ export async function editUser(user) {
     });
     const data = await response.json();
     const status = response.status;
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al editar usuario");
