@@ -92,6 +92,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
   const [minutes, setMinutes] = useState("")
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [id, setId] = useState(0);
+  const [availableDates, setAvailableDates] = useState([]);
 
   // const [askForAvailableDates, setAskForAvailableDates] = useState(initalFormAvailableDates);
 
@@ -252,6 +253,31 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
     setSelectedOptions(selectedOptions);
   };
 
+
+  function formatDateTime(dateTimeString) {
+    const dateTime = new Date(dateTimeString);
+  
+    // Extract the date in the "YYYY-MM-DD" format
+    const date = dateTime.toISOString().slice(0, 10);
+  
+    // Extract the initial hour and minutes in "HH:MM" format
+    const initialTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+    // Clone the dateTime object to get the final hour and minutes
+    const finalDateTime = new Date(dateTimeString);
+  
+    // Simulate a time difference to get the final hour and minutes
+    finalDateTime.setMinutes(finalDateTime.getMinutes() + 30); // For example, add 30 minutes
+  
+    // Extract the final hour and minutes in "HH:MM" format
+    const finalTime = finalDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+    // Format the complete string
+    const formattedString = `${date} ${initialTime} / ${finalTime}`;
+  
+    return formattedString;
+  }
+
   const handleAvailableDatesForm = async (e)=>{
     let temporalParticipants = [{idUser: id}]
 
@@ -269,11 +295,13 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
 
     console.log("Lo que se envía: ", formToSend)
     const fetchPossibleDates = await getPossibleAvailableDates(formToSend)
-    console.log("RESULT: ", fetchPossibleDates.status)
+    console.log("RESULT: ", fetchPossibleDates.data)
 
-    
-    // console.log("Enviado: ")
+    setAvailableDates(fetchPossibleDates.data)
   }
+
+
+  
 
   return (
     <>
@@ -314,7 +342,16 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
                 options={usersFilter}
               />
             </div>
-          
+            {availableDates.length > 1 && 
+               <Select
+                theme={darkTheme}
+                styles={styleSelect}
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                options={availableDates}
+             />
+            }
+
         </form>
         </Modal.Body>
         <Modal.Footer className='bg-dark'>
