@@ -187,7 +187,9 @@ export default function Login() {
         redirec()
       }else if(google.status == 404){
         const token = await addUser(newUser)
-        auth.login(token)
+        if(token.status == 200){
+          auth.login(token.data)
+        }
         redirec()
       }else{
         setAlertConfig({

@@ -15,7 +15,7 @@ export async function addUser(user) {
     if (status === 200 && data.token) {
       setAuthToken(data.token);
     }
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al agregar usuario");
@@ -95,14 +95,14 @@ export async function login(user) {
 
 export async function loginByGoogleId(id) {
   try {
+    const obj = {
+      googleId:id
+    }
+    console.log(obj)
     const response = await fetch(`${apiUrl}/user/loginByGoogleId`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        body: JSON.stringify({
-          googleId:id
-        }),
-      },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
     });
     const data = await response.json();
     const status = response.status;
