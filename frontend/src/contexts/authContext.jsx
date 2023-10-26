@@ -11,9 +11,8 @@ const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     try {
       setLoading(true)
-    setAuthToken(userData)
-    const u = await getUser()
-    setUser(u.data);
+      setAuthToken(userData)
+      reloaded()
     } catch (error) {
       console.error(error)
     }finally{
@@ -26,12 +25,6 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     deleteAuthToken()
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    if (auth2) {
-      auth2.signOut().then(() => {
-        console.log('Se cerro sesion de google');
-      });
-    }
   }
 
   const reloaded = async ()=>{
@@ -40,6 +33,7 @@ const AuthProvider = ({ children }) => {
       setLoading(true)
       if(getAuthToken()){
           const u = await getUser()
+          console.log(u)
           if(u.status != 200){
             return false
           }

@@ -54,8 +54,8 @@ export default function Header({auth}) {
   const { user, login, logout } = useAuth();
 
   const [userPhoto, setUserPhoto] = useState(user?.photo || defaultProfilePicture);
-
-    
+  useEffect(()=>{setUserPhoto(user?.photo)},[user?.photo])
+  
     return (
         <>
           <header >

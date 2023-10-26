@@ -99,9 +99,8 @@ export default function Login() {
 
   const redirec = ()=>{
     const previousUrl = document.referrer;
-    console.log(window.location.origin)
     if (previousUrl === window.location.href || !previousUrl || previousUrl == `${window.location.origin}/register`) {
-      navigate('/app');
+      navigate('/');
     } else {
       navigate(-1);
     }
@@ -167,18 +166,18 @@ export default function Login() {
     const onSuccess = async (response) => {
       console.log(response)
       const userG = response.profileObj
-
-      
+    
       const newUser= {
         name: userG.givenName,
         surname: userG.familyName,
         email: userG.email,
-        userName: userG.name,
+        userName:`${userG.name}-${userG.googleId}`,
         password: userG.googleId,
         photo: userG.imageUrl,
         googleId:userG.googleId,
         is_active:1
       }
+      console.log(newUser.googleId)
 
       const google = await loginByGoogleId(newUser.googleId)
       console.log("TOKEN GOOGE:",google)
@@ -188,9 +187,10 @@ export default function Login() {
       }else if(google.status == 404){
         const token = await addUser(newUser)
         if(token.status == 200){
-          auth.login(token.data)
+          auth.login(token.data.token)
+          redirec()
         }
-        redirec()
+        
       }else{
         setAlertConfig({
           show: true,

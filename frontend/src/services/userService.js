@@ -98,7 +98,6 @@ export async function loginByGoogleId(id) {
     const obj = {
       googleId:id
     }
-    console.log(obj)
     const response = await fetch(`${apiUrl}/user/loginByGoogleId`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
