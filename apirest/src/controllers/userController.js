@@ -3,6 +3,7 @@ const userService = require('../services/userService');
 const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 const utils = require('../utils/utils')
 const bcrypt = require('bcryptjs');
+const { editSetting } = require('../services/settingsService');
 
 const getAllUsers = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
@@ -28,10 +29,23 @@ const getUserById = async (req,res) => {
   }
 }
 
+const getCompleteUserById = async (req,res) => {
+  //esta funcion solo podria ser ejecutada por un admin
+  try {
+    const id = req.params.id; // Obtener el ID del usuario desde la ruta
+    const user = await userService.getCompleteUserById(id); 
+    if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
+    res.status(200).json(user); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 const getUser = async (req,res) => {
   try {
     const id = req.user.idUser; // Obtener el ID del usuario desde el auth
-    const user = await userService.getUserById(id); 
+    const user = await userService.getCompleteUserById(id); 
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
   } catch (error) {
@@ -86,22 +100,46 @@ const editUser = async (req,res) => {
     if (!utils.isExist(user)) {
       return res.status(404).json({ message: 'User not found' });
     }
-
+    console.log(req.body)
+    const fieldsUser = ["name","surname","password","email","userName","photo"]
+    const fieldsSettings = ["darkTheme","startSleep","endSleep"]
     // Crea un objeto que contiene solo los campos que se proporcionaron para actualizar
-    let data = {};
+    let dataUser = {};
+    let dataSettings = {}
     for (const prop in req.body) {
-      if(prop != "is_active"){
-        data[prop] = req.body[prop];
+      if(fieldsSettings.includes(prop)){
+        dataSettings[prop] = req.body[prop];
+      }else if(fieldsUser.includes(prop)){
+        dataUser[prop] = req.body[prop];
       }
     }
-    if(data.password!=undefined) {
-      data.password = await utils.encryptText(data.password);
+    console.log(dataUser)
+    console.log(dataSettings)
+    if(dataUser.password!=undefined) {
+      dataUser.password = await utils.encryptText(dataUser.password);
     }
-    const result = await userService.editUser(data, id); // Editar el usuario utilizando la función edit de CRUD
-    if (result === 0) { // Si el usuario no existe
-      res.status(404).json({ message: 'User not edit' });
+    if(Object.keys(dataUser).length == 0 && Object.keys(dataSettings).length == 0){
+      res.status(400).json({ message: 'fields not provided' });
       return;
     }
+    if(Object.keys(dataUser).length > 0 ){
+      const resultUser = await userService.editUser(dataUser, id); // Editar el usuario utilizando la función edit de CRUD
+      
+      if (resultUser === 0) { // Si el usuario no existe
+        res.status(404).json({ message: 'User not edit' });
+        return;
+      }
+    }
+
+    if(Object.keys(dataSettings).length > 0){
+      const resultSettings = await editSetting(dataSettings, id); // Editar el usuario utilizando la función edit de CRUD
+      
+      if (resultSettings === 0) { // Si el usuario no existe
+        res.status(404).json({ message: 'Error to edited settings' });
+        return;
+      }
+    }
+    
     res.status(200).json({});
   }catch (error) {
     console.error(error);
@@ -216,6 +254,7 @@ module.exports = {
   getAllUsers,
   getUserById,
   getUser,
+  getCompleteUserById,
   addUser,
   editUser,
   disableUser,

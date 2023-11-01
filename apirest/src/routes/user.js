@@ -12,6 +12,7 @@ router.get('/getAllUsers',authMiddleware ,userController.getAllUsers);
 
 // Get a user by ID
 router.get('/getUserById/:id',authMiddleware, userController.getUserById);
+router.get('/getCompleteUserById/:id',authMiddleware, userController.getCompleteUserById);
 
 
 // Get a current user
@@ -36,6 +37,5 @@ router.post('/loginByGoogleId', userController.loginByGoogleId); //no necesita e
 router.post('/confirmEmail/:token', userController.confirmEmail);
 module.exports = router;
 
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9*eyJpZFVzZXIiOjksImVtYWlsIjoibWFsZXRlbDUyMEBtc2JhY2suY29tIiwiZGF0YSI6bnVsbCwiaWF0IjoxNjg5MTMxODQ4LCJleHAiOjE2ODkyMTgyNDh9*4Nq5zJcUBm6hD7sbIRG__K-VlSywmOJZ7-JdoDSYzXk
 
 

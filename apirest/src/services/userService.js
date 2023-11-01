@@ -13,6 +13,15 @@ const removeUser = async (id) => await CRUD.remove('user', id);
 
 const getUserByColumn = async (column, value,extraClauses = "WHERE is_active = 1",fields = ["idUser","name","surname","email","userName","photo"]) => await CRUD.getByColumn('user', column, value, fields, extraClauses);
 
+const getCompleteUserById = async (id)=>{
+  let sql = `SELECT u.idUser, u.name,u.surname,u.email,u.userName,u.photo, s.darkTheme, s.startSleep, s.endSleep FROM user as u INNER JOIN settings as s ON s.idUser = u.idUser WHERE u.idUser = ?`;
+  let params = [id];
+  const [results, fields] = await pool.promise().query(sql, params);
+  return results[0];
+}
+
+
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -20,4 +29,5 @@ module.exports = {
   addUser,
   editUser,
   removeUser,
+  getCompleteUserById,
 };
