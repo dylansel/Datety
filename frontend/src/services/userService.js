@@ -109,6 +109,24 @@ export async function confirmEmailByToken(token) {
   }
 }
 
+export async function disableUser() {
+  try {
+    const response = await fetch(`${apiUrl}/user/disableUser`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    const status = response.status;
+    return [data, status];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al deshabilitar usuario");
+  }
+}
 
 /*
 
