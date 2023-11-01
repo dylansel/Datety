@@ -4,55 +4,24 @@ import "../stylesheets/settings.css"
 import { useAlert } from "../contexts/AlertContext"
 import { useNavigate } from "react-router-dom";
 import Input from "../components/utils/Input";
-import { editUser, getUser, deleteUser } from "../services/userService";
-import { getSettingsById, editSetting } from "../services/settingService";
+import { editUser, getUser, deleteUser, disableUser } from "../services/userService";
 import { compareObjects } from "../helpers/misc/objectsUtils";
 
 const isLoged = true;
 
-const mainContainerStyle = {
-  display: "flex",
-  justifyContent: "space-evenly",
-  height: "100vh",
-  // background: "blue"
+const formSection = {
+  padding:"5rem"
 }
 
-const userSection = {
-  margin: "5rem",
+const doubleInput = {
   display: "flex",
-  flexDirection: "column",
-  width: "35%",
-  // background: "red"
-}
-
-const accountSection = {
-  margin: "5rem",
-  flexDirection: "column",
-  width: "35%",
-  // background: "red"
-  
-}
-
-const formSectionOne = {
-  display: "flex",
-  flexDirection: "column",
-  marginTop: "10px",
-  // background: "green",
-  justifyContent: "space-between"
-}
-
-const formSectionTwo = {
-  display: "flex",
-  flexDirection: "column",
-  marginTop: "10px",
-  // background: "yellow",
-  justifyContent: "space-evenly"
+  gap: "18px"
 }
 
 const buttonsStyle = {
   display: 'flex',
-  justifyContent: 'space-between',
-  paddingTop: '5%'
+  justifyContent: 'end',
+  paddingTop: '5%',
 }
 
 export default function Setting({auth}){
@@ -72,11 +41,15 @@ export default function Setting({auth}){
   //-----------------FIN AUTHENTHICATION------------
 
   const initialFilds = {
+    name: '',
+    surname: '',
     userName: '',
     password: '',
+    // photo: '',
     startSleep: '',
     endSleep: '',
     darkTheme: null,
+    is_active: null,
   }
 
   const [errorMsg, setErrorMsg] = useState();
@@ -105,30 +78,13 @@ export default function Setting({auth}){
     try {
       setLoaded(false);
       const profile = await getUser();
+      profile.data.password = "";
       if (profile.status != 200) {
         throw new Error(profile.data.message || profile.data.error)
       }
       setFetchData({ profile:profile.data })
       setUserToEdit(profile.data);
       setLoaded(true)
-    } catch (error) {
-      console.error(error);
-      setAlertConfig({
-        show: true,
-        status: 'danger',
-        title: 'Error',
-        message: `Hubo un error al traer los datos: ${error.message}`
-      });
-    }
-    try {
-      setLoaded(false);
-      const settings = await getSettingsById(id );
-      if (settings.status !== 200) {
-        throw new Error(settings.data.message || settings.data.error)
-      }
-      setFetchData({ settings:settings.data })
-      setSettingsToEdit(settings.data);
-      setLoaded(true);
     } catch (error) {
       console.error(error);
       setAlertConfig({
@@ -147,9 +103,18 @@ export default function Setting({auth}){
   }
 
   const handleChange = (e) => {
+    console.log(e.target.value)
     setUserToEdit({
       ...userToEdit,
       [e.target.name] : e.target.value
+    })
+  }
+
+  const handleChangeCheck = (e) => {
+    console.log(e.target.checked)
+    setUserToEdit({
+      ...userToEdit,
+      [e.target.name] : e.target.checked
     })
   }
 
@@ -162,7 +127,9 @@ export default function Setting({auth}){
     setIsSaving(true);
     try {
       const userEdited = compareObjects(fetchData?.profile, userToEdit);
-      console.log(userEdited)
+      if(userEdited.darkTheme){
+        userEdited.darkTheme = (userEdited.darkTheme == 1)
+      }
       if (isChanged()) {
         const save = await editUser(userEdited, fetchData.profile.id);
         if (save.status == 200) {
@@ -181,6 +148,34 @@ export default function Setting({auth}){
     } catch (error) {
       console.error(error);
       setErrorMsg(`Error al guardar, ${error.message}`)
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  const handleDisable = async (e) => {
+    e.preventDefault();
+    setIsSaving(true);
+    try {
+      const userDisable = compareObjects(fetchData?.profile, userToEdit)
+      if (isChanged()) {
+        const disable = await disableUser(userDisable, fetchData.profile.id);
+        if (disable.status == 200) {
+          setAlertConfig({
+            show: true,
+            status: 'success',
+            title: 'Deshabilitado',
+            message: 'Se ha deshabilitado el usuario'
+          });
+          refresh();
+          handleClose();
+        } else {
+          throw new Error('ErrBackend', disable.data?.error || disable.data?.message);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMsg(`Error, ${error.message}`)
     } finally {
       setIsSaving(false);
     }
@@ -190,33 +185,6 @@ export default function Setting({auth}){
     setCheck(!check);
   }
 
-  const handleAccountPreferencesSubmit = async () => {
-    e.preventDefault();
-    setIsSaving(true);
-    try {
-      const userEdited = compareObjects(fetchData?.profile, userToEdit);
-      if (isChanged()) {
-        const save = await editUser(userEdited, fetchData.profile.id);
-        if (save.status == 200) {
-          setAlertConfig({
-            show: true,
-            status: 'success',
-            title: 'Guardado',
-            message: `Se han guardado los cambios`
-          });
-          refresh();
-          handleClose();
-        } else {
-          throw new Error('ErrBackend', save.data?.error || save.data?.message);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMsg(`Error al guardar, ${error.message}`)
-    } finally {
-      setIsSaving(false);
-    }
-  }
 
   useEffect(() => {
     fetch();
@@ -224,30 +192,47 @@ export default function Setting({auth}){
 
   return(
     <>
-      <div style={mainContainerStyle}>
-        <div style={userSection}>
+      <div className="row ">
+        <div  style={formSection}>
           <h2>User Settings</h2>
-          <form style={formSectionOne} >
-            <label>Cambiar nombre de usuario</label>
-            <Input name='userName' type="text" value={userToEdit.userName} onChange={handleChange}/>
-            <label>Cambiar contraseña</label>
-            <Input placeholder="Ingrese una nueva contraseña" name='password' value={userToEdit.password} type={check ? "text" : "password"} onChange={handleChange}/>
-            <div>
-                <label htmlFor="mostrar_pass">Mostrar Contraseña</label> <input name="mostrar_pass" type="checkbox" onChange={handleCheck}/>
+          <form  className="row ">
+            <div class="form-group col-md-6 col-12">
+              <label>Cambiar nombre y apellido</label>
+              <div style={doubleInput}>
+                <Input name='name' type="text" value={userToEdit.name} onChange={handleChange}/>
+                <Input name='surname' type="text" value={userToEdit.surname} onChange={handleChange}/>
               </div>
-            <div style={buttonsStyle}>
-              <input className="inputSubmit" type="submit" value="Guardar cambios"  onClick={handleSubmit} />
-              <input className="inputDanger" type="button" value="Eliminar cuenta"/>
+            </div>
+
+            <div className="form-group col-md-6 col-12">
+              <label>Cambiar nombre de usuario</label>
+              <Input name='userName' type="text" value={userToEdit.userName} onChange={handleChange}/>
+            </div>  
+
+            <div className="form-group col-md-6 col-12">
+              <label>Cambiar contraseña</label>
+              <Input placeholder="Ingrese una nueva contraseña" name='password' value={userToEdit.password} type={check ? "text" : "password"} onChange={handleChange}/>
+              <div style={{marginTop:"-10px"}}><label htmlFor="mostrar_pass">Mostrar Contraseña</label> <input name="mostrar_pass" type="checkbox" onChange={handleCheck}/></div>
+            </div>    
+            
+            <div className="form-group col-md-6 col-12 row">
+              <div className="col-md-6 col-12"><label>Hora de inicio de sueño</label> <Input name="startSleep" className="form-control" type="time" value={userToEdit.startSleep} onChange={handleChange} /> </div>
+              <div className="col-md-6 col-12"><label>Hora de fin de sueño</label><Input className="form-control" name="endSleep" type="time" value={userToEdit.endSleep} onChange={handleChange} /></div>
+            </div>
+            
+            <div className="">
+              <label htmlFor="">Dark Mode</label>
+              <input className="m-2" type="checkbox" name="darkTheme" checked={userToEdit.darkTheme} onChange={handleChangeCheck}/>
+            </div>
+
+            <div style={buttonsStyle} >
+              <input className="btn btn-success p-3 m-2 fs-5" type="submit" value="Guardar cambios"  onClick={handleSubmit} />
+              <button className="btn btn-danger p-3 m-2 fs-5" type="button" name="is_active" onClick={handleDisable}>Eliminar cuenta</button>
             </div>
 
           </form>
         </div>
-        <div style={accountSection}>
-          <h2>Account Preferences Setting</h2>
-          <form style={formSectionTwo} onSubmit={handleAccountPreferencesSubmit}>
-            <label>Hora de inicio de sueño <input name="startSleep" type="time" value={userToEdit.startSleep} onChange={handleChange} /> <span>a</span> <input name="endSleep" type="time" value={userToEdit.endSleep} onChange={handleChange} /></label>
-          </form>
-        </div>
+        
       </div>
     </>
   )
