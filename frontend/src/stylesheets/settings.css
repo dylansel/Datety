@@ -1,0 +1,27 @@
+.inputSubmit{
+  background-color: #16bb84a3;
+  border: none;
+  border-radius: 8px;
+  width: 30%;
+  height: 35px;
+}
+
+.inputSubmit:hover{
+    background: #16bb84 !important;
+}
+
+.inputDanger{
+  background-color: #dc3545c4;
+  border: none;
+  border-radius: 8px;
+  width: 30%;
+  height: 35px;
+}
+
+.inputDanger:hover{
+    background-color: #dc3545 !important;
+}
+
+form label {
+  padding-top: 5%;
+}
