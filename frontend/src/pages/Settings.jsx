@@ -72,7 +72,7 @@ export default function Setting(){
   }
 
   const fetch = async () => {
-    if (!auth?.user) {
+    if (!user) {
       return;
     }
     try {
