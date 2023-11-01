@@ -3,7 +3,7 @@ const userService = require('../services/userService');
 const { sendConfirmEmail } = require('../utils/emeilSendUtils');
 const utils = require('../utils/utils')
 const bcrypt = require('bcryptjs');
-const { editSetting } = require('../services/settingsService');
+const { editSetting, addSetting } = require('../services/settingsService');
 
 const getAllUsers = async (req,res) => {
   //esta funcion solo podria ser ejecutada por un admin
@@ -46,6 +46,7 @@ const getUser = async (req,res) => {
   try {
     const id = req.user.idUser; // Obtener el ID del usuario desde el auth
     const user = await userService.getCompleteUserById(id); 
+    console.log(user)
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
   } catch (error) {
@@ -84,6 +85,14 @@ const addUser = async (req, res) => {
     if(!dataE.is_active){
       sendConfirmEmail(id);
     }
+    const objSetings = {
+      idUser:id,
+      darkTheme:0,
+      startSleep:"00:00:00",
+      endSleep:"6:00:00"
+    }
+    const respuestaS = await addSetting(objSetings);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
