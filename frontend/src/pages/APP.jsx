@@ -12,22 +12,22 @@ import ModalCreacion from "../components/ModalCreacion";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/misc/Loading";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import "../stylesheets/calendar.css"
+import { useAuth } from "../contexts/authContext";
+
 const isLoged = true;
 
-export default  function APP({auth}) { 
+export default  function APP() { 
+
+  
   //-----------------AUTHENTHICATION------------
+  const { user, login, logout } = useAuth()
   const navigate = useNavigate();
-  const reloaded = async () =>{
-    const authe = await auth.reloaded();
-    if(!authe){
-        navigate('/login'); //redireciona al login en caso de no estar authenticado
-    }
-  }
   useEffect(()=>{
-    if(!auth.user){
-      reloaded()
+    if(!user){
+      navigate('/login');
     }
-  },[auth.user])
+  },[user])
   //-----------------FIN AUTHENTHICATION------------
 
 
@@ -35,7 +35,7 @@ export default  function APP({auth}) {
   const [modalResponse, handleModal, alert, openModal]= useHandleModalAlert();
   const [events, setEvents] = useState([])
   const [loading, setLoading]= useState(false);
-  const [modalCreacionResponse, handleModalCreacion, creacion, openModalCreacion] = useHandleModalCreacion();
+  const [modalCreacionOpen, setModalCreacionOpen]= useState(false);
 
  
 
@@ -66,10 +66,8 @@ export default  function APP({auth}) {
  
     const calendarStyle = {
       width:"100%",
-      margin:"auto",
-      height:"130rem",
-      position:"absolute",
       boxSizing: "border-box",
+      // background: "red"
     }
 
     const styleItemDropdown = {
@@ -91,14 +89,8 @@ export default  function APP({auth}) {
     }
    
     useEffect(()=>{
-      if(auth.loaded)fetchData();
-      
-    },[auth.loaded])
-
-
-  const handleCreateEvent= ()=>{
-    openModal();
-  }
+      if(user)fetchData();
+    },[])
 
   useEffect(()=>{
     if(modalResponse){
@@ -108,8 +100,6 @@ export default  function APP({auth}) {
   
 
 
- 
-
   return (
     <>
     <div className={"app"}>
@@ -118,21 +108,29 @@ export default  function APP({auth}) {
 
         <div>
         <DropdownButton id="dropdown-basic-button" title="Crear Nuevo Evento" size="lg"  style={{ width: '300px' }}> 
-          <Dropdown.Item  style={styleItemDropdown} onClick={openModalCreacion}>Evento Fijo</Dropdown.Item>
+          <Dropdown.Item  style={styleItemDropdown} onClick={()=>{setModalCreacionOpen(true)}}>Evento Fijo</Dropdown.Item>
           <Dropdown.Item   style={styleItemDropdown} >Evento Dinamico</Dropdown.Item>
         </DropdownButton>
-        {creacion && <ModalCreacion handleModalCreacion={handleModalCreacion} isDinamic={false}/>}
-          <h2>APP</h2>
+        {<ModalCreacion refresh={fetchData} show={modalCreacionOpen} setShow={setModalCreacionOpen} isDinamic={false} />}
+        <h2>APP</h2>
+
+
 
           {/* <button onClick={openModal}>Crear</button> */}
-          <button onClick={getAllEvents}>Ver todos Los Eventos</button>
-          <button onClick={()=>console.log(events)}>EVENTOS</button>
+          {/* <button onClick={getAllEvents}>Ver todos Los Eventos</button>
+          <button onClick={()=>console.log(events)}>EVENTOS</button> */}
 
           <div style={calendarStyle}>
-                <FullCalendar
+            <FullCalendar
                 
               timeZone="local"
             
+              height={"75vh"}
+              views= {{
+                timeGridMonth: {
+                dayMaxEventRows: 2 // ajustar a 6 solo para timeGridWeek/timeGridDay
+                }
+            }}
               eventChange={function (e){
                 console.log(e.event._def.title)
                 e.title= e.event._def.title
@@ -141,9 +139,10 @@ export default  function APP({auth}) {
               
               dateClick={function(info){
                 console.log('Clicked on: ' + info.dateStr);
-                console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                // console.log('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
                 console.log('Current view: ' + info.view.type);
               }}
+
               locale= 'es'
               plugins={[dayGridPlugin, timeGridPlugin,interactionPlugin]}
               initialView="timeGridWeek"
@@ -153,9 +152,6 @@ export default  function APP({auth}) {
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
               }}
               
-              // eventChange={(e)=>{
-              //   console.log("CAMBIO: ", e._def.title)
-              // }}
               eventDrop={eventDrop}
               editable={true}
               selectable={false}
@@ -163,10 +159,8 @@ export default  function APP({auth}) {
               allDaySlot={false}
 
             />
+
           </div>
-          
-
-
         </div>
     </div>
 </>    

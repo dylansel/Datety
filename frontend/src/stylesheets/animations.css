@@ -191,11 +191,11 @@ body{
     overflow: hidden !important;
 }
 
-.app{
+/* .app{
     height: 100vh !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
-} 
+}  */
 
 @keyframes modalAlert {
     0%{
@@ -351,15 +351,23 @@ body{
     position: relative;
     cursor: pointer;
     transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .day_election_modal{
-    background: #dedede;
-    color: #222;
+    background: #414141;
+    color: #fff;
+}
+
+.day_election_modal:hover{
+    background: #555555;
+    color: #fff;
 }
 
 .day_election_modal_active{
-    background: #459cff ;
-    color: #e7e7e7;
+    background: #dad9d9;
+    color: #161616;
 }
 
 .day_election_modal p, .day_election_modal_active p{

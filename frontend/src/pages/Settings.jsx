@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../components/utils/Input";
 import { editUser, getUser, deleteUser, disableUser } from "../services/userService";
 import { compareObjects } from "../helpers/misc/objectsUtils";
-
-const isLoged = true;
+import { useAuth } from "../contexts/authContext";
 
 const formSection = {
   padding:"5rem"
@@ -24,21 +23,22 @@ const buttonsStyle = {
   paddingTop: '5%',
 }
 
-export default function Setting({auth}){
-  //-----------------AUTHENTHICATION------------
-  const navigate = useNavigate();
-  const reloaded = async () =>{
-    const authe = await auth.reloaded();
-    if(!authe){
-        navigate('/login'); //redireciona al login en caso de no estar authenticado
-    }
-  }
-  useEffect(()=>{
-    if(!auth.user){
-      reloaded()
-    }
-  },[auth.user])
-  //-----------------FIN AUTHENTHICATION------------
+
+
+
+const isLoged = true;
+
+export default function Setting(){
+ //-----------------AUTHENTHICATION------------
+ const { user, login, logout } = useAuth()
+ const navigate = useNavigate();
+ useEffect(()=>{
+   if(!user){
+     navigate('/login');
+   }
+ },[user])
+ //-----------------FIN AUTHENTHICATION------------
+
 
   const initialFilds = {
     name: '',

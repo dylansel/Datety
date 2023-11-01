@@ -15,7 +15,7 @@ export async function addEvent(event) {
 
         console.log(data)
 
-        return[data, status]
+        return{data, status}
     } catch (error) {
         throw new Error("Error al agregar evento")
     }
