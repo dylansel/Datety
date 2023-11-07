@@ -46,7 +46,6 @@ const getUser = async (req,res) => {
   try {
     const id = req.user.idUser; // Obtener el ID del usuario desde el auth
     const user = await userService.getCompleteUserById(id); 
-    console.log(user)
     if (!(utils.isExist(user))){res.status(404).json({ message: 'User not found' });return;};
     res.status(200).json(user); 
   } catch (error) {
@@ -214,6 +213,11 @@ const login = async (req, res) => {
     if (!isMatch) {
       res.status(401).json({ message: "Invalid credentials" });
       return;
+    }
+    if(userDB[0].is_active == 0){
+      res.status(403).json({ message: "inactive user"}); // Devolver codigo de warning
+      return;
+
     }
     const token = utils.createToken(userDB[0]); // Crear el token JWT
     res.status(200).json({ token }); // Devolver el token en la respuesta

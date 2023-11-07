@@ -138,8 +138,6 @@ const addEvent = async (req, res) => {
       if (respsDates.length == 0) respsDates = [startDate];
 
       respsDates.forEach(async (dateDinamic) => {
-        console.log("FECHA INICIO:", `${dateDinamic}T${startTime}`);
-        console.log("FECHA FIN:", `${dateDinamic}T${endTime}`);
         const startDateTime = new Date(`${dateDinamic}T${startTime}`);
         const endDateTime = new Date(`${dateDinamic}T${endTime}`);
         const data = {
@@ -160,6 +158,41 @@ const addEvent = async (req, res) => {
           idEvent: rEvet,
         });
       });
+      const event = {
+        tittle,
+        description,
+        startDateTime,
+        endDateTime,
+        repeat,
+        isDinamic,
+        participants,
+      };
+      sendEventInvitation(idUser, event);
+      return res.status(200).json({});
+    }
+
+
+    if (isDinamic) {
+        const data = {
+          tittle,
+          description,
+          startDateTime,
+          endDateTime,
+          isDinamic,
+          isAccepted: 1,
+        };
+        console.log(data);
+        const rEvet = await eventService.addEvent(data);
+
+        if (!rEvet) {
+          return res.status(500).json({ message: "Internal server error" });
+        }
+        await usereventService.addUserEvent({
+          idUser: idUser,
+          idEvent: rEvet,
+        });
+      
+      
       const event = {
         tittle,
         description,
