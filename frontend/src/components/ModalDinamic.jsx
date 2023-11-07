@@ -93,6 +93,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [id, setId] = useState(0);
   const [availableDates, setAvailableDates] = useState([]);
+  const [chosenDate, setChosenDate] = useState({})
 
   // const [askForAvailableDates, setAskForAvailableDates] = useState(initalFormAvailableDates);
 
@@ -114,6 +115,8 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
       }
 
       const filteredUsers = temporalUsers.filter(u => u.value != myId.data.idUser)
+
+      console.log("USERS::::", filteredUsers)
       setUsersFilter(filteredUsers)
     }
 
@@ -123,26 +126,28 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
   const handleSubmit= async( )=>{
 
     try {
-      if(!form.tittle && !form.startDate && !form.startTime && !form.endTime){
+      if(!form.tittle && !chosenDate.startDateTime && !chosenDate.endDateTime ){
         setErrorMsg("Completa todos los campos")
         return
       }
-      
-      const startDateTime = new Date(`${form.startDate}T${form.startTime}`);
-      const endDateTime = new Date(`${form.startDate}T${form.endTime}`);
-    
-      if (startDateTime >= endDateTime) {
-        setErrorMsg("La hora de fin debe ser posterior a la hora de inicio");
-        return;
+      console.log("CHOSEN DATA: ", chosenDate)
+      // const dates = chosenDate.split(" ")
+
+      const formToSend = {
+        tittle: form.tittle,
+        description: form.description,
+        startDateTime: chosenDate.startDateTime,
+        endDateTime: chosenDate.endDateTime, 
+        repeat: {
+          until: ""
+        },
+        participants: selectedOptions,
+        isDinamic: true
       }
-  
-      
-      if(form.tittle && form.startDate && form.startTime && form.endTime){
-        const event = {...form,startDateTime: `${form.startDate}T${form.startTime}`,endDateTime:`${form.startDate}T${form.endTime}`}
-        event.startDate = null
-        event.startTime = null
-        event.endTime = null
-        const res = await addEvent(event)
+
+      console.log("EVENTO QUE SE ENVÍA: ", formToSend)
+
+      const res = await addEvent(formToSend)
         
         if(res.status == 200){
           setAlertConfig({
@@ -161,9 +166,14 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
             timeOff:3000
           })
         }
-      }
+      
+
       refresh()
       handleClose()
+
+
+      
+
       
     } catch (error) {
       setErrorMsg(`Error! ${error.message}`)
@@ -273,7 +283,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
     const finalTime = finalDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   
     // Format the complete string
-    const formattedString = `${date} ${initialTime} / ${finalTime}`;
+    const formattedString = `${date} ${initialTime} : ${finalTime}`;
   
     return formattedString;
   }
@@ -293,15 +303,39 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
       duration: calculateTotalMinutes(hours, minutes)
     }
 
-    console.log("Lo que se envía: ", formToSend)
+    // console.log("Lo que se envía: ", formToSend)
     const fetchPossibleDates = await getPossibleAvailableDates(formToSend)
-    console.log("RESULT: ", fetchPossibleDates.data)
+    // console.log("RESULT: ", fetchPossibleDates.data)
 
-    setAvailableDates(fetchPossibleDates.data)
+    let temporalAvailableDates = [];
+
+
+    fetchPossibleDates.data.forEach((date, index) => {
+      const temporalAvailableDate = {
+        
+        value: date.startDateTime,
+        label: `${formatDateTime(date.startDateTime)} - ${formatDateTime(date.endDateTime)}`,
+        start: date.startDateTime,
+        end: date.endDateTime,
+      }
+
+      // console.log(`$Fecha ${index}`, formatDateTime( date.startDateTime))
+      temporalAvailableDates.push(temporalAvailableDate)
+    })
+
+
+    setAvailableDates(temporalAvailableDates)
   }
 
 
-  
+
+  const handleSelectDateChange = (selectedOptions) => {
+    const dates = {
+      startDateTime : selectedOptions.start,
+      endDateTime: selectedOptions.end
+    }
+    setChosenDate(dates);
+  };
 
   return (
     <>
@@ -344,6 +378,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
             </div>
             {availableDates.length > 1 && 
                <Select
+               onChange={handleSelectDateChange}
                 theme={darkTheme}
                 styles={styleSelect}
                 closeMenuOnSelect={false}
