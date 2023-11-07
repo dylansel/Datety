@@ -15,7 +15,7 @@ export async function addUser(user) {
     if (status === 200 && data.token) {
       setAuthToken(data.token);
     }
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al agregar usuario");
@@ -34,7 +34,7 @@ export async function editUser(user) {
     });
     const data = await response.json();
     const status = response.status;
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al editar usuario");
@@ -83,7 +83,6 @@ export async function deleteUser() {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getAuthToken()}`,
       },
     });
     const data = await response.json();
@@ -104,11 +103,29 @@ export async function login(user) {
     });
     const data = await response.json();
     const status = response.status;
-    if (status === 200 && data.token) setAuthToken(data.token);
-    return [data, status];
+    return {data, status};
   } catch (error) {
     console.error(error);
     throw new Error("Error al iniciar sesion");
+  }
+}
+
+export async function loginByGoogleId(id) {
+  try {
+    const obj = {
+      googleId:id
+    }
+    const response = await fetch(`${apiUrl}/user/loginByGoogleId`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    });
+    const data = await response.json();
+    const status = response.status;
+    return {data:data, status};
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al solicitar usuario");
   }
 }
 
@@ -127,6 +144,24 @@ export async function confirmEmailByToken(token) {
   }
 }
 
+export async function disableUser() {
+  try {
+    const response = await fetch(`${apiUrl}/user/disableUser`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    const status = response.status;
+    return [data, status];
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al deshabilitar usuario");
+  }
+}
 
 /*
 

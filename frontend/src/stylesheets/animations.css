@@ -411,6 +411,10 @@ body{
     color: #090909;
 }
 
+.button_register:hover{
+    background-color: rgba(89, 58, 228, 0.486);
+}
+
 /* MEDIA QUERYS  ____LOGIN____ */
 /* img_login */
 

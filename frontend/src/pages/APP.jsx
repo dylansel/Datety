@@ -14,23 +14,21 @@ import Loading from "../components/misc/Loading";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import "../stylesheets/calendar.css"
 import ModalDinamic from "../components/ModalDinamic";
+import { useAuth } from "../contexts/authContext";
 
 const isLoged = true;
 
-export default  function APP({auth}) { 
+export default  function APP() { 
+
+  
   //-----------------AUTHENTHICATION------------
+  const { user, login, logout } = useAuth()
   const navigate = useNavigate();
-  const reloaded = async () =>{
-    const authe = await auth.reloaded();
-    if(!authe){
-        navigate('/login'); //redireciona al login en caso de no estar authenticado
-    }
-  }
   useEffect(()=>{
-    if(!auth.user){
-      reloaded()
+    if(!user){
+      navigate('/login');
     }
-  },[auth.user])
+  },[user])
   //-----------------FIN AUTHENTHICATION------------
 
 
@@ -93,9 +91,8 @@ export default  function APP({auth}) {
     }
    
     useEffect(()=>{
-      if(auth.loaded)fetchData();
-      
-    },[auth.loaded])
+      if(user)fetchData();
+    },[])
 
   useEffect(()=>{
     if(modalResponse){

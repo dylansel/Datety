@@ -8,9 +8,13 @@
     font-size: 0.8rem ;
   } */
 
+  .fc-v-event .fc-event-main{
+    font-size: 1.2rem;
+  }
 
-
-
+  .fc-day-today {
+    background: rgb(224, 216, 250) !important;
+  }
   .fc-day{
     background: rgb(231, 231, 231);
     border-radius: 5px !important;
@@ -18,18 +22,22 @@
     transition: all .3s;
   }
 
-
+  
   .fc-day a{
-    color: rgb(113, 94, 199);
+    color: rgb(159, 138, 253);
     text-decoration: none;
   }
   /* Cambiar el color de fondo de los eventos */
   .fc-event {
-    background-color: rgb(45, 48, 88);
+    background-color: rgb(43, 45, 82);
     color: white;
-    font-size: 0.7rem;
+    font-size: 1rem;
     border-radius: 5px;
     border: none;
+  }
+  .fc-event:hover {
+    background-color: rgb(47, 50, 95);
+  
   }
   .fc-daygrid-day-top{
     /* font-size: 0.8rem; */
