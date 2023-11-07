@@ -4,7 +4,7 @@ import "../stylesheets/settings.css"
 import { useAlert } from "../contexts/AlertContext"
 import { useNavigate } from "react-router-dom";
 import Input from "../components/utils/Input";
-import { editUser, getUser, deleteUser, disableUser } from "../services/userService";
+import { editUser, getUser, disableUser } from "../services/userService";
 import { compareObjects } from "../helpers/misc/objectsUtils";
 import { useAuth } from "../contexts/authContext";
 
@@ -22,9 +22,6 @@ const buttonsStyle = {
   justifyContent: 'end',
   paddingTop: '5%',
 }
-
-
-
 
 const isLoged = true;
 
@@ -103,7 +100,6 @@ export default function Setting(){
   }
 
   const handleChange = (e) => {
-    console.log(e.target.value)
     setUserToEdit({
       ...userToEdit,
       [e.target.name] : e.target.value
