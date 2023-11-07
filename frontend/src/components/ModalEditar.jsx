@@ -60,7 +60,7 @@ const buttonStyle= {
 
 
 
-export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
+export default function ModalSeeVacationDetails({ refresh, show, setShow, isDinamic }) {
 
   const handleClose = () =>{
     setShow(false)
@@ -211,9 +211,9 @@ export default function ModalCreacion({ refresh, show, setShow, isDinamic }) {
     <>
       <Modal show={show} onHide={handleClose} centered data-bs-theme="dark" >
         <Modal.Header  closeButton  className='bg-dark text-white'>
-          <Modal.Title>Crea evento Fijo</Modal.Title>
+          <Modal.Title>Editar evento Fijo</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='bg-dark text-white p-4'>
+        <Modal.Body className='bg-dark text-white'>
           {errorMsg && (
             <div className="alert alert-danger" role="alert">
               <span className="fw-bold"></span>

@@ -156,7 +156,7 @@ export default function About() {
               Al crear una cuenta en Datety, podrás acceder a todas las funciones disponibles en nuestra aplicación, como la creación de eventos dinamicos según tus horarios disponibles y preferencias, la creación de eventos fijos, poder compartirl tanto los dinamicos con los fijos en caso de sea una salida grupal,
               una cita, o una reunión, y puedas invitar a tantos amigos como quieras.
             </p>
-            <button style={buttonGetStarter}><a href="/register" className="link_decoration">Registrarse</a></button>
+            <button style={buttonGetStarter} className="button_register"><a href="/register" className="link_decoration">Registrarse</a></button>
           </div>
         </div>
       </div>

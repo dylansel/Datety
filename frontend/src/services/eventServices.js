@@ -60,3 +60,27 @@ export async function getEventForWeek(date) {
       throw new Error("Error al solicitar usuario");
     }
   }
+
+  export async function getPossibleAvailableDates(formToSend) {
+
+    try {
+     
+        const response = await fetch(`${apiUrl}/event/getPossibleAvailableDates`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json",
+                       "Authorization" : `Bearer ${getAuthToken()}` },
+            body: JSON.stringify(formToSend)
+        })
+
+               
+        const data = await response.json();
+        const status = response.status;
+
+        console.log("DATA FROM BACK: ", data)
+
+        return {data, status}
+    } catch (error) {
+        console.log("E", error)
+        throw new Error("Error al pedir las disponibilidades")
+    }
+}
