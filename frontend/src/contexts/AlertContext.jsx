@@ -26,7 +26,7 @@ export const AlertProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (alertConfig.show) {
+    if (alertConfig.show && alertConfig.timeOff) {
       const timeout = setTimeout(() => {
         setAlertInternalConfig(defaultValues);
       }, alertConfig.timeOff);

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import Header from "../components/utils/Header"
 import Input from "../components/utils/Input";
 import image from "../assets/imgs/login_img.svg";
@@ -9,6 +9,7 @@ import { errorMessageConverter } from "../components/utils/errorHandling";
 import "../stylesheets/animations.css"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
+import { useAlert } from "../contexts/AlertContext";
 
 let initialForm= {
   name: "",
@@ -82,16 +83,8 @@ const [form, setForm]= useState(initialForm);
 const [check, setCheck]= useState(false)
 const [mensaje, setMensaje]= useState("")
 const [modalAvisoResponse, handleModalAviso, aviso, openModalAviso, modalAvisoCalled]= useHandleModalAviso();
-
- //-----------------AUTHENTHICATION------------
- const { user, login, logout } = useAuth()
- const navigate = useNavigate();
- useEffect(()=>{
-   if(!user){
-     navigate('/login');
-   }
- },[user])
- //-----------------FIN AUTHENTHICATION------------
+const { alertConfig,setAlertConfig } = useAlert(); // Usa el contexto alert
+const navigate = useNavigate();
 
 
 const handleChange= (e)=>{
@@ -106,20 +99,40 @@ let passSecure= false;
 const handleSubmit= (e)=>{
   e.preventDefault();
   if(!form.name || !form.surname || !form.email || !form.userName || !form.password || !form.passConfirm ){
-    setMensaje("Rellena todos los campos")
-    openModalAviso();
+    setAlertConfig({
+      show: true,
+      status: 'warning',
+      title: '',
+      message: 'Rellena todos los campos',
+      timeOff:3000
+    })
     return ;
   }else if(form.password != form.passConfirm){
-    setMensaje("Las contraseñas no coinciden...")
-    openModalAviso();
+    setAlertConfig({
+      show: true,
+      status: 'warning',
+      title: '',
+      message: 'Las contraseñas no coinciden',
+      timeOff:3000
+    })
     return ;
   }else if(!emailRegex.test(form.email)){
-    setMensaje("Correo invalido...")
-    openModalAviso();
+    setAlertConfig({
+      show: true,
+      status: 'warning',
+      title: '',
+      message: 'Correo invalido',
+      timeOff:3000
+    })
     return ;
   }else  if(form.password.length < 8){
-    setMensaje("La contraseña debe tener un minimo de 8 caracteres")
-    openModalAviso();
+    setAlertConfig({
+      show: true,
+      status: 'warning',
+      title: '',
+      message: 'La contraseña debe tener un minimo de 8 caracteres',
+      timeOff:3000
+    })
     return ;
   }else if(form.password.length >= 8){
     passSecure= true
@@ -129,19 +142,30 @@ const handleSubmit= (e)=>{
 
 const añadir = async (user) =>{
   try {
-    const [result,status] = await addUser(user)
+    const {data,status} = await addUser(user)
+    console.log(data)
     if(status == 200){
         navigate('/app'); 
       return;
-    }else if(result.message){
-      console.warn(`API CODE Warn: "${result.message}"`)
-      setMensaje(errorMessageConverter(result.message))
-      openModalAviso();
+    }else if(data.message){
+      console.warn(`API CODE Warn: "${data.message}"`)
+      setAlertConfig({
+        show: true,
+        status: 'warning',
+        title: '',
+        message: errorMessageConverter(data.message),
+        timeOff:3000
+      })
       return;
     }else{
-      console.error(`API CODE Error: "${result.error}"`)
-      setMensaje(errorMessageConverter(result.error))
-      openModalAviso();
+      console.error(`API CODE Error: "${data.error}"`)
+      setAlertConfig({
+        show: true,
+        status: 'danger',
+        title: 'Error al crear',
+        message: errorMessageConverter(data.error),
+        timeOff:3000
+      })
       return;
     }
   } catch (error) {

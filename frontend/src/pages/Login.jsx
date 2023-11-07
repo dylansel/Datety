@@ -134,8 +134,17 @@ export default function Login() {
           show: true,
           status: 'warning',
           title: '',
+          message: 'El usuario se encuentra INACTIVO, revise su casilla de correo para activar la cuenta',
+          timeOff:5000
+        })
+  
+      }else if(status == 403){
+        setAlertConfig({
+          show: true,
+          status: 'warning',
+          title: '',
           message: 'Usuario incorrecto',
-          timeOff:3000
+          timeOff:5000,
         })
   
       }else if(status ==200){
