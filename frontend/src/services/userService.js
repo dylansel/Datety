@@ -1,4 +1,4 @@
-import { setAuthToken, getAuthToken } from "./AuthService";
+import { setAuthToken, getAuthToken } from "../services/authService";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export async function addUser(user) {
@@ -11,10 +11,12 @@ export async function addUser(user) {
       body: JSON.stringify(user),
     });
     const data = await response.json();
+    console.log("data:",data)
     const status = response.status;
     if (status === 200 && data.token) {
       setAuthToken(data.token);
     }
+    
     return {data, status};
   } catch (error) {
     console.error(error);
