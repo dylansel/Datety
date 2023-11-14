@@ -6,6 +6,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { getAllUsers, getUser } from '../services/userService';
 import "../stylesheets/modals.css"
+import { formatDateToString } from './utils/dateUtils';
 
 const formSection = {
   display: "flex",
@@ -314,7 +315,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
       const temporalAvailableDate = {
         
         value: date.startDateTime,
-        label: `${formatDateTime(date.startDateTime)} - ${formatDateTime(date.endDateTime)}`,
+        label: `${formatDateToString(new Date(date.startDateTime),"DD/MM/YYYY hh:mm:ss")}  -  ${formatDateToString(new Date(date.endDateTime),"DD/MM/YYYY hh:mm:ss")}`,
         start: date.startDateTime,
         end: date.endDateTime,
       }
@@ -323,6 +324,7 @@ export default function ModalDinamic({ refresh, show, setShow, isDinamic }) {
       temporalAvailableDates.push(temporalAvailableDate)
     })
 
+    
 
     setAvailableDates(temporalAvailableDates)
   }
