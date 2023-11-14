@@ -92,7 +92,7 @@ export default function About() {
      fontSize: "1.2rem", 
      margin: "2.5rem 0 0 0",
      fontWeight: "600",
-     textAlign: "justify"
+     textAlign: "justify",
   }
 
   const sectionTwoContainer= {
@@ -137,7 +137,7 @@ export default function About() {
         <div className="section section_1" style={sectionOne}>
           <img className="img-about" src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>
 
-          {isTranslated ? <AboutParagraphOne sectionOneText={sectionOne} sectionOneTextContainer={sectionOneTextContainer} /> :
+          {isTranslated ? <AboutParagraphOne sectionOneText={sectionOneText} /> :
           <div className="text-section_container text_section-one_container" style={sectionOneTextContainer}>
             <h1  className="section_tittle" style={{fontSize: "4.375rem"}}>¿Quíenes Somos<span className="violet-text">?</span></h1>
             <p className="section_text" style={sectionOneText}>
