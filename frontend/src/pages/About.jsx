@@ -4,7 +4,10 @@ import SvgOne from "../assets/imgs/about_us-img1.svg"
 import SvgTwo from "../assets/imgs/about_us-img2.svg"
 import SvgThree from "../assets/imgs/about_us-img3.svg"
 import ScrollReveal from "scrollreveal"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import AboutParagraphOne from "../components/AboutParagraph"
+import AboutParagraphTwo from "../components/AboutParagraphTwo"
+import AboutParagraphThree from "../components/AboutParagraphThree"
 
 
 
@@ -89,7 +92,7 @@ export default function About() {
      fontSize: "1.2rem", 
      margin: "2.5rem 0 0 0",
      fontWeight: "600",
-     textAlign: "justify"
+     textAlign: "justify",
   }
 
   const sectionTwoContainer= {
@@ -117,12 +120,24 @@ export default function About() {
 
   const isLoged = false;
 
+  const [isTranslated, setIsTranslated] = useState(false)
+
+  const changeLenguage = ()=>{
+    setIsTranslated(!isTranslated)
+  }
+
   return (
     <>
-
+      <div className="switch_container">
+        <div className={isTranslated ? 'switch_on' : 'switch'} onClick={changeLenguage}></div>
+        <label>{isTranslated ? "Change Lenguage ": "Cambiar Idioma"}</label>
+      </div>
+      
       <div className="about_container" style={aboutContainer}>
         <div className="section section_1" style={sectionOne}>
           <img className="img-about" src={SvgOne} alt="img-1-aboutUs" style={imgOne}/>
+
+          {isTranslated ? <AboutParagraphOne sectionOneText={sectionOneText} /> :
           <div className="text-section_container text_section-one_container" style={sectionOneTextContainer}>
             <h1  className="section_tittle" style={{fontSize: "4.375rem"}}>¿Quíenes Somos<span className="violet-text">?</span></h1>
             <p className="section_text" style={sectionOneText}>
@@ -131,10 +146,13 @@ export default function About() {
               Nuestro equipo está compuesto por expertos en una amplia variedad de tecnologías y lenguajes de programación, lo que nos permite ofrecer soluciones que se adapten a cualquier entorno tecnológico.
               Pero nuestro compromiso con la calidad va más allá de la tecnología. También nos aseguramos de que nuestras soluciones sean fáciles de usar, escalables y seguras, y de que se entreguen en el plazo y presupuesto acordados.       
             </p>
-          </div>
+          </div>}
+
         </div>
         <div className="section section_2" style={sectionTwoContainer}>
           <img className="img-about img-about_2" src={SvgTwo} alt="img-2-aboutUs" style={imgOne} />
+
+         {isTranslated ? <AboutParagraphTwo sectionOneText={sectionOneText}/> :
           <div className="text-section_container text_section-one_container" style={sectionOneTextContainer}>
             <h2 className="section_tittle" style={{ fontSize: "84px" }}>Date<span className="violet-text">Ty</span></h2>
             <h3 className="section_subtittle" style={{ fontSize: "44px" }}>La agenda smart</h3>
@@ -144,10 +162,11 @@ export default function About() {
                Además, Datety es una aplicación inteligente que te sugiere los mejores momentos para programar tus eventos, de acuerdo a tu agenda y preferencias. Así, podrás encontrar el momento ideal para hacer esa cena con amigos o para programar tu próxima reunión de trabajo.
              ¡Descárgala hoy mismo y descubre cómo organizarte nunca fue tan sencillo!
             </p>
-          </div>
+          </div>}
         </div>
         <div className="section section_3" style={{...sectionTwoContainer, flexDirection: "row"}}>
           <img className="img-about" src={SvgThree} alt="img-1-aboutUs" style={imgOne} />
+          {isTranslated ? <AboutParagraphThree sectionOneText={sectionOneText} buttonGetStarter={buttonGetStarter} /> :
           <div className="text-section_container text_section-one_container" style={sectionOneTextContainer}>
             <h1 className="section_tittle" style={{ fontSize: "84px" }}>Comencemos!</h1>
             <p className="section_text" style={sectionOneText}>
@@ -157,7 +176,7 @@ export default function About() {
               una cita, o una reunión, y puedas invitar a tantos amigos como quieras.
             </p>
             <button style={buttonGetStarter} className="button_register"><a href="/register" className="link_decoration">Registrarse</a></button>
-          </div>
+          </div>}
         </div>
       </div>
     </>
