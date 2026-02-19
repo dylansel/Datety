@@ -1,0 +1,16 @@
+
+
+@media screen and (max-width: 1920px) {
+    html{
+        font-size: 70%;
+    }
+}
+@media screen and (min-width: 1420px) {
+    html{
+        font-size: 70%;
+    }
+}
+
+.b-red{
+    background-color: red;
+}

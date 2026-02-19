@@ -9,19 +9,83 @@
 }
 
 
+
+
+.switch_container{
+    margin: 1rem ;
+    display: flex;
+}
+
+.switch{
+    width: 60px;
+    height: 30px;
+    border: 1px solid #555;
+    border-radius: 20px;
+    position: relative;
+    background: #333;
+    box-shadow: inset 2px 2px 10px #000000;
+    transition: .3s;
+    margin: 0 5px 0 0;
+}
+
+.switch_on{
+    width: 60px;
+    height: 30px;
+    border: 1px solid #555;
+    border-radius: 20px;
+    position: relative;
+    background: #3206f380;
+    box-shadow: inset 2px 2px 10px #3207f080;
+    transition: .3s;
+    margin: 0 5px 0 0;
+
+}
+
+.switch::after{
+    content: "";
+    position: absolute;
+    width: 30px;
+    top: 0;
+    transform: translateX(0px);
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #222;
+    background: #222;
+    box-shadow: inset 2px 2px 10px #000000;
+    transition: .3s;
+
+}
+
+.switch_on::after{
+    content: "";
+    position: absolute;
+    width: 30px;
+    top: 0;
+    transform: translateX(28px);
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #222;
+    background: #0e014980;
+    box-shadow: inset 2px 2px 10px #12044e80;
+    transition: .3s;
+
+}
+
 .link-item::before{
     content: "";
     position: absolute;
     width: 100%;
     background: #ffd;
     height: 2.5px;
-    top: 1.67rem;
+    top: 2.67rem;
     transform: scale(0);
     border-radius: 1px;
     transition: .4s;
     cursor: pointer;
 }
-
+.link_pointed:hover{
+    cursor: pointer;
+}
 .link-item:hover::before{
     transform: scale(1.2);
 }
@@ -116,3 +180,303 @@ body{
         max-width: 90% !important;
     }
 }
+
+.aviso-hidden{
+    display: none;
+}
+
+/* _____MODAL AVISO_____ */
+
+.modal_aviso{
+    transition: .5s;
+    z-index: 10;
+    animation-name: modalAviso;
+    animation-duration: 4s;
+    animation-timing-function:ease;
+    animation-iteration-count: 1;
+}
+
+@keyframes modalAviso {
+    0%{
+        transform: translateY(0);
+        opacity: 0;
+    }50%{
+        transform: translateY(-5rem);
+        opacity: 1;
+    }100%{
+        transform: translateY(0);
+        opacity: 0;
+    }
+} 
+
+/* _____MODAL ALERTA_____ */
+
+.modal_button{
+    transition: .4s;
+    width: 40% !important;
+}
+
+.accept_button{
+    background: #17955e;
+    color: #fafafa !important;
+}
+.accept_button:hover{
+    background: #3ddc97;
+}
+
+.cancel_button{
+    background: #e92535;
+    color: #fafafa !important;
+}
+.cancel_button:hover{
+    background: #F54654;
+}
+
+.modal_alert{
+    transition: .5s;
+    z-index: 10;
+    transform: translateY(-3rem);
+    animation-name: modalAlert;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+}
+
+.app_alerted{
+    animation: modalOpacity 0.5s ease-out forwards;
+    height: 100vh;
+}
+
+.app_aviso{
+    height: 100vh !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* .app{
+    height: 100vh !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}  */
+
+@keyframes modalAlert {
+    0%{
+        transform: translateY(-15rem);
+        opacity: 0;
+    }100%{
+        transform: translateY(-3rem);
+        opacity: 1;
+    }
+}
+
+@keyframes modalOpacity {
+
+    0%{
+        background: #fafafa,
+    }100%{
+        background: rgba(0, 0, 0, 0.5)
+    }
+}       
+          
+/* _________REGISTER__STYLE */
+
+.check-register_desable{
+    background: #4526ce80 !important;
+    color: #ffffff !important;
+    transition: .5s;
+    width: 40% !important;
+}
+
+.check-register_able:hover{
+    background: rgb(75, 48, 192) !important;
+}
+
+.check-register_able{
+    background: rgb(89, 58, 228) !important;
+    color: #ffffff !important;
+    width: 40% !important;
+    transition: .4s;
+}
+
+.submit_buttom-login{
+    background: #958fff !important;
+} 
+
+.submit_buttom-login:hover{
+    background: #6C63FF !important;
+    transition: .5s;
+    color: #fff !important;
+}
+
+.input_register:hover{
+    border: 1.6px solid #6C63FF !important;
+    transition: .5s;
+}
+
+
+.input_register-pass{
+    border: 1.6px solid #52cf42 !important;
+    transition: .5s;
+}
+
+
+.check-login{
+    width: 50% !important;
+}
+
+@media screen and (max-width: 1000px) {
+
+
+    .register{
+        flex-direction: column !important;
+        justify-content: center !important;
+        width: 50vw;
+    } 
+}
+
+
+
+/* _____LOGIN______ */
+@media screen and (max-width: 1000px) {
+
+
+    .check-login{
+        width: 50% !important;
+    }
+
+    .login-style{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .img_login{
+        display: none !important;
+    }
+
+    .input_register{
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .show_pass{
+        margin: 0 auto;
+
+    }
+    .form-login{
+        min-width: 60% !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .input_register{
+        width: 90%;
+        margin: 0 auto;
+
+    }
+}
+      
+      
+.check-login_desable{
+    background: rgba(69, 38, 206, 0.5) !important;
+    color: #ffffff !important;
+    transition: .5s;
+    width: 30% !important;
+}
+
+.check-login_able:hover{
+    background: rgb(75, 48, 192) !important;
+}
+
+.check-login_able{
+    background: rgb(89, 58, 228) !important;
+    color: #ffffff !important;
+    width: 30% !important;
+    transition: .4s;
+}
+
+
+.input_submit_create{
+    width: 50% !important;
+    color: white !important;
+    background: rgba(69, 38, 206, 0.5) !important;
+}
+
+/* CREATION_MODAL___________ */
+
+.day_election_modal, .day_election_modal_active{
+    width: 7%;
+    height: 3rem;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    position: relative;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.day_election_modal{
+    background: #414141;
+    color: #fff;
+}
+
+.day_election_modal:hover{
+    background: #555555;
+    color: #fff;
+}
+
+.day_election_modal_active{
+    background: #dad9d9;
+    color: #161616;
+}
+
+.day_election_modal p, .day_election_modal_active p{
+    position: absolute;
+    top: 2px;
+}
+
+/* ________MODAL DE CREACION________ */
+
+.button_modal_creation:hover{
+    background: #f2f2f2 !important;
+    color: #2E4052 !important;
+    transition: .5s;
+}
+/* .input_modal_creacion:hover{
+    border: 1.5px solid #7854da !important;
+    transition: .2s;
+} */
+
+@media screen and (max-width: 1278px) {
+    .modal_creacion{
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+    .form_creation{
+        width: 100% !important;
+    }
+}
+    
+@media screen and (max-width: 1015px) {
+    .modal_creacion{
+        width: 60% !important
+    }
+
+}
+
+/*_________DECORATION NONE_________ */
+
+.link_decoration{
+    text-decoration: none;
+    color: #090909;
+}
+
+.button_register:hover{
+    background-color: rgba(89, 58, 228, 0.486);
+}
+
+/* MEDIA QUERYS  ____LOGIN____ */
+/* img_login */
+
