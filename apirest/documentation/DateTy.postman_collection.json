@@ -1,32 +1,14 @@
 {
 	"info": {
-		"_postman_id": "0830e29f-ad0d-43c2-884a-73e3377f58e0",
+		"_postman_id": "fae07cf9-1e51-46c0-bee2-b25894e0fa90",
 		"name": "DateTy",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27614966"
 	},
 	"item": [
 		{
 			"name": "user",
 			"item": [
-				{
-					"name": "getAllUsers",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/user/getAllUsers",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"user",
-								"getAllUsers"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "getUserById",
 					"request": {
@@ -54,13 +36,32 @@
 					"response": []
 				},
 				{
+					"name": "getUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user/getUser",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"getUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "addUser",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Dylan\",\r\n    \"surname\": \"Seltzer\",\r\n    \"email\": \"dylan.seltzer.et32@gmail.com\",\r\n    \"userName\": \"dylansel32\",\r\n    \"password\": \"dylan32\",\r\n    \"photo\": \"dylan32.jpg\"\r\n    \r\n}",
+							"raw": "{\r\n    \"name\": \"Dylan\",\r\n    \"surname\": \"Seltzer\",\r\n    \"email\": \"dylana.seltzer.et32@gmail.com\",\r\n    \"userName\": \"dylansela32\",\r\n    \"password\": \"dylan32\",\r\n    \"photo\": \"dylan32.jpg\"\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -89,7 +90,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n     \"surname\": \"Seltzer\"\r\n}",
+							"raw": "{\r\n     \"password\": \"mariag123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -97,7 +98,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/user/editUser/:id",
+							"raw": "http://localhost:3000/user/editUser",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -105,14 +106,36 @@
 							"port": "3000",
 							"path": [
 								"user",
-								"editUser",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6"
+								"editUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disableUser",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/disableUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"disableUser"
 							]
 						}
 					},
@@ -124,7 +147,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/user/deleteUser/:id",
+							"raw": "http://localhost:3000/user/deleteUser",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -132,14 +155,7 @@
 							"port": "3000",
 							"path": [
 								"user",
-								"deleteUser",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "7"
-								}
+								"deleteUser"
 							]
 						}
 					},
@@ -152,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\":\"mariag\",\r\n    \"password\":\"mariag123\"\r\n}",
+							"raw": "{\r\n    \"user\":\"dylansel\",\r\n    \"password\":\"Dylansel32\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -172,6 +188,60 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "confirmEmail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\":\"mariag\",\r\n    \"password\":\"mariag123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/user/confirmEmail/:emailToken",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"confirmEmail",
+								":emailToken"
+							],
+							"variable": [
+								{
+									"key": "emailToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9*eyJpZFVzZXIiOjksImVtYWlsIjoibWFsZXRlbDUyMEBtc2JhY2suY29tIiwiZGF0YSI6bnVsbCwiaWF0IjoxNjg5MTMxODQ4LCJleHAiOjE2ODkyMTgyNDh9*4Nq5zJcUBm6hD7sbIRG__K-VlSywmOJZ7-JdoDSYzXk"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user/getAllUsers",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -184,65 +254,30 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/event/:idUser/getAllEvents",
+							"raw": "localhost:3000/event/getAllEvents",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"event",
-								":idUser",
 								"getAllEvents"
-							],
-							"variable": [
-								{
-									"key": "idUser",
-									"value": "1"
-								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getUserById",
+					"name": "getPossibleAvailableDates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "localhost:3000/event/:idUser/getEventById/:id",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"event",
-								":idUser",
-								"getEventById",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "idUser",
-									"value": "1"
-								},
-								{
-									"key": "id",
-									"value": "4"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "addUser",
-					"request": {
-						"method": "POST",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"tittle\": \"Reunion iona\",\r\n        \"description\": \"llevar una caja\",\r\n        \"startDate\": \"2023-04-18T03:00:00.000Z\",\r\n        \"endDate\": \"2023-04-18T03:00:00.000Z\",\r\n        \"startTime\": \"16:00:00\",\r\n        \"endTime\": \"18:00:00\",\r\n        \"isDinamic\": 1,\r\n        \"isAccepted\": 1\r\n}",
+							"raw": "{\r\n    \"duration\":30,\r\n    \"participants\":[\r\n        {\"idUser\":2,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,7 +285,61 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/event/:idUser/addEvent",
+							"raw": "localhost:3000/event/getPossibleAvailableDates",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getPossibleAvailableDates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEventById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/event/getEventById/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"getEventById",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEvent-1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tittle\": \"Escuela\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-12T06:30:00\",\r\n    \"endDateTime\": \"2023-08-12T23:30:00\",\r\n    \"repeat\":{\r\n        \"rep\":[1,1,1,1,1,1,0],\r\n        \"until\": \"2023-09-01\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/event/addEvent",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -258,14 +347,94 @@
 							"port": "3000",
 							"path": [
 								"event",
-								":idUser",
 								"addEvent"
-							],
-							"variable": [
-								{
-									"key": "idUser",
-									"value": "1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEvent-2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tittle\": \"Reunion PRUEBA\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-11T14:00:00\",\r\n    \"endDateTime\": \"2023-08-11T16:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"month\",\r\n        \"until\": \"2023-07-30\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/event/addEvent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"addEvent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEvent-3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tittle\": \"Cumple 3\",\r\n    \"description\": \"llevar regalo\",\r\n    \"startDateTime\": \"2023-08-14T16:00:00\",\r\n    \"endDateTime\": \"2023-08-14T18:00:00\",\r\n    \"repeat\":{\r\n        \"for\":\"year\",\r\n        \"until\": \"2030-03-17\"\r\n    },\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/event/addEvent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"addEvent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addEvent-4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tittle\": \"Reunion agregada Todos los años\",\r\n    \"description\": \"llevar una caja\",\r\n    \"startDateTime\": \"2023-08-11T20:00:00\",\r\n    \"endDateTime\": \"2023-08-12T20:30:00\",\r\n    \"repeat\":null,\r\n    \"reminder\":\"2023-04-09T16:00:00\",\r\n    \"isDinamic\": 1,\r\n    \"participants\":[\r\n        {\"idUser\":2,\"isAccepted\":1},\r\n        {\"idUser\":3,\"isAccepted\":0},\r\n        {\"idUser\":4,\"isAccepted\":1}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/event/addEvent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"event",
+								"addEvent"
 							]
 						}
 					},
@@ -278,7 +447,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"llevar una caja y un lapiz\"\r\n}",
+							"raw": "{\r\n    \"description\": \"descripconn cambiada por maria\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -286,7 +455,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/event/:idUser/editEvent/:id",
+							"raw": "http://localhost:3000/event/editEvent/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -294,18 +463,13 @@
 							"port": "3000",
 							"path": [
 								"event",
-								":idUser",
 								"editEvent",
 								":id"
 							],
 							"variable": [
 								{
-									"key": "idUser",
-									"value": "1"
-								},
-								{
 									"key": "id",
-									"value": "11"
+									"value": "3"
 								}
 							]
 						}
@@ -313,12 +477,12 @@
 					"response": []
 				},
 				{
-					"name": "deleteUser",
+					"name": "deleteEvent",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/event/:idUser/deleteEvent/:id",
+							"raw": "http://localhost:3000/event/deleteEvent/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -326,15 +490,10 @@
 							"port": "3000",
 							"path": [
 								"event",
-								":idUser",
 								"deleteEvent",
 								":id"
 							],
 							"variable": [
-								{
-									"key": "idUser",
-									"value": "1"
-								},
 								{
 									"key": "id",
 									"value": "11"
@@ -345,6 +504,36 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOjIsImlhdCI6MTY5MTYzMTM0NCwiZXhwIjoxNjk0MjIzMzQ0fQ.Q72_lJ_z5XCyIYqUxy0UkQFz6YcAt3djdwqd553A6Ko",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

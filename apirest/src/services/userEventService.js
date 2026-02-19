@@ -9,9 +9,9 @@ const addUserEvent = async (data) => await CRUD.add("userevent", data);
 
 const editUserEvent = async (data, id) => await CRUD.edit("userevent", data, id);
 
-const removeUserEvent = async (id) => await CRUD.remove("userevent", id);
+const removeUserEvent = async (idEvent,idUser) => await CRUD.remove("userevent",null, {idEvent,idUser});
 
-const getUserEventByColumn = async (column, value) => await CRUD.getByColumn("userevent", column, value);
+const getUserEventByColumn = async (column, value,extraClauses) => await CRUD.getByColumn("userevent", column, value,["*"],extraClauses);
 
 module.exports = {
   getAllUserEvents,
